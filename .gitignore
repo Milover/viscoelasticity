@@ -1,0 +1,35 @@
+# latex output files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.log
+*.out
+*.pdf
+*.run.xml
+*.toc
+
+# macOS indexing
+.DS_Store
+
+# compilation files
+*.dep
+lnInclude
+
+# binaries
+**/Make/*
+!**/Make/files
+!**/Make/options
+
+# temporaries
+*.swp
+*~
+
+# random resources
+reference
+notes.*
+
+# case stuff
+**/processor[0-9]*
+**/[0-9]*
+**/polyMesh
