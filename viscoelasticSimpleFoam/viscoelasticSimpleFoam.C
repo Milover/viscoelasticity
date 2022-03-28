@@ -69,6 +69,7 @@ Description
 #include "simpleControl.H"
 #include "fvOptions.H"
 
+#include "uncollatedFileOperation.H"
 #include "viscoelasticModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

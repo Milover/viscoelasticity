@@ -34,15 +34,15 @@ scalar pRefValue = 0.0;
 setRefCell(p, simple.dict(), pRefCell, pRefValue);
 mesh.setFluxRequired(p.name());
 
-autoPtr<viscoelasticModel> visco();
+autoPtr<viscoelasticModel> visco;
 
-autoPtr<singlePhaseTransportModel> laminarTransport();
-autoPtr<incompressible::turbulenceModel> turbulence();
+autoPtr<singlePhaseTransportModel> laminarTransport;
+autoPtr<incompressible::turbulenceModel> turbulence;
 
 bool viscoelastic;
 {
-	Foam::masterUncollatedFileOperation op(false);
-	viscoelastic = op.exists(runtime.constantPath() / "viscoelasticProperties");
+	Foam::fileOperations::uncollatedFileOperation op(false);
+	viscoelastic = op.exists(runTime.constantPath() / "viscoelasticProperties");
 }
 
 // check solver mode

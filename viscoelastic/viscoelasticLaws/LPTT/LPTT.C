@@ -57,12 +57,12 @@ Foam::LPTT::LPTT
         ),
         U.mesh()
     ),
-    rho_(dict.lookup("rho")),
-    etaS_(dict.lookup("etaS")),
-    etaP_(dict.lookup("etaP")),
-    epsilon_(dict.lookup("epsilon")),
-    lambda_(dict.lookup("lambda")),
-    zeta_(dict.lookup("zeta"))
+    rho_(dict.get<dimensionedScalar>("rho")),
+    etaS_(dict.get<dimensionedScalar>("etaS")),
+    etaP_(dict.get<dimensionedScalar>("etaP")),
+    epsilon_(dict.get<dimensionedScalar>("epsilon")),
+    lambda_(dict.get<dimensionedScalar>("lambda")),
+    zeta_(dict.get<dimensionedScalar>("zeta"))
 {}
 
 

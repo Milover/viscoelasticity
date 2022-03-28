@@ -36,7 +36,7 @@ Foam::autoPtr<Foam::viscoelasticLaw> Foam::viscoelasticLaw::New
     const dictionary& dict
 )
 {
-    word typeName = dict.lookup("type");
+    const word typeName(dict.get<word>("type"));
 
     Info<< "Selecting viscoelastic model " << typeName << endl;
 
@@ -49,7 +49,7 @@ Foam::autoPtr<Foam::viscoelasticLaw> Foam::viscoelasticLaw::New
 			dict,
 			"viscoelasticLaw",
 			typeName,
-			*dictionaryContructorTablePtr_,
+			*dictionaryConstructorTablePtr_
 		) << exit(FatalIOError);
     }
 

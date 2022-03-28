@@ -88,13 +88,13 @@ Foam::multiMode::divTau(volVectorField& U) const
 {
 	tmp<fvVectorMatrix> tdivMatrix
 	(
-		new fvVectorMatrix(U, dimPressure/dimDensity);
+		new fvVectorMatrix(U, dimPressure/dimDensity)
 	);
-	fvVectorMatrix& divMatrix = tdivMatrix();
+	fvVectorMatrix& divMatrix = tdivMatrix.ref();
 
     for (const auto& m : models_)
     {
-        divMatrix += m->divTau(U);
+        divMatrix += m.divTau(U);
     }
 
     return tdivMatrix;
@@ -107,7 +107,7 @@ Foam::tmp<Foam::volSymmTensorField> Foam::multiMode::tau() const
 
 	for (const auto& m : models_)
     {
-        tau_ += m->tau();
+        tau_ += m.tau();
     }
 
     return tau_;
@@ -121,7 +121,7 @@ void Foam::multiMode::correct()
 		DebugInFunction
 			<< "Correcting " << m.name() << nl;
 
-        m->correct();
+        m.correct();
     }
 
     tau();
