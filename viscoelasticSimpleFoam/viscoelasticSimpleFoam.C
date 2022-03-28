@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 {
     argList::addNote
     (
-        "Steady-state solver for incompressible, turbulent flows."
+        "Steady-state solver for incompressible, viscoelastic, laminar flows."
     );
 
     #include "postProcess.H"
@@ -88,7 +88,10 @@ int main(int argc, char *argv[])
     #include "createFields.H"
     #include "initContinuityErrs.H"
 
-    turbulence->validate();
+	if (!viscoelastic)
+	{
+		turbulence->validate();
+	}
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -102,9 +105,19 @@ int main(int argc, char *argv[])
         {
             #include "UEqn.H"
             #include "pEqn.H"
-
-			visco.correct();
         }
+
+		// viscoelastic mode
+		if (viscoelastic)
+		{
+			visco->correct();
+		}
+		// simpleFoam mode
+		else
+		{
+			laminarTransport->correct();
+			turbulence->correct();
+		}
 
         runTime.write();
 
