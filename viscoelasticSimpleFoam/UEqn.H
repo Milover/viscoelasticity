@@ -6,7 +6,7 @@
     (
         fvm::div(phi, U)
       + MRF.DDt(U)
-      + turbulence->divDevReff(U)
+      - visco.divTau(U)
      ==
         fvOptions(U)
     );
@@ -22,3 +22,5 @@
 
         fvOptions.correct(U);
     }
+
+    tUEqn.clear();

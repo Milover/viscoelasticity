@@ -102,10 +102,9 @@ int main(int argc, char *argv[])
         {
             #include "UEqn.H"
             #include "pEqn.H"
-        }
 
-        laminarTransport.correct();
-        turbulence->correct();
+			visco.correct();
+        }
 
         runTime.write();
 
