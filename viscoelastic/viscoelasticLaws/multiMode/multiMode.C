@@ -57,12 +57,7 @@ Foam::multiMode::multiMode
             IOobject::AUTO_WRITE
         ),
         U.mesh(),
-        dimensionedSymmTensor
-        (
-            "zero",
-            dimensionSet(1, -1, -2, 0, 0, 0, 0),
-            symmTensor::zero
-        )
+        dimensionedSymmTensor("zero", dimPressure, symmTensor::zero)
     ),
     models_()
 {
@@ -91,24 +86,28 @@ Foam::multiMode::multiMode
 Foam::tmp<Foam::fvVectorMatrix>
 Foam::multiMode::divTau(volVectorField& U) const
 {
-    tmp<fvVectorMatrix> divMatrix = models_[0].divTau(U);
+	tmp<fvVectorMatrix> tdivMatrix
+	(
+		new fvVectorMatrix(U, dimPressure/dimDensity);
+	);
+	fvVectorMatrix& divMatrix = tdivMatrix();
 
-    for (label i = 1; i < models_.size(); i++)
+    for (const auto& m : models_)
     {
-        divMatrix() += models_[i].divTau(U);
+        divMatrix += m->divTau(U);
     }
 
-    return divMatrix;
+    return tdivMatrix;
 }
 
 
 Foam::tmp<Foam::volSymmTensorField> Foam::multiMode::tau() const
 {
-    tau_ *= 0;
+    tau_ = symmTensor::zero;
 
-    for (label i = 0; i < models_.size(); i++)
+	for (const auto& m : models_)
     {
-        tau_ += models_[i].tau();
+        tau_ += m->tau();
     }
 
     return tau_;
@@ -117,10 +116,13 @@ Foam::tmp<Foam::volSymmTensorField> Foam::multiMode::tau() const
 
 void Foam::multiMode::correct()
 {
-    forAll (models_, i)
+	for (auto& m : models_)
     {
-        Info<< "Model mode "  << i+1 << endl;
-        models_[i].correct();
+		if (debug)
+		{
+			Info<< m.name() << "::correct()" << endl;
+		}
+        m->correct();
     }
 
     tau();
