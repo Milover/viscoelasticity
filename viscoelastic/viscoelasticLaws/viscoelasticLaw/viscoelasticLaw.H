@@ -82,6 +82,13 @@ private:
         //- Disallow default bitwise assignment
         void operator=(const viscoelasticLaw&);
 
+protected:
+	
+	// Protected Member Functions
+
+		//- Return strain rate
+		tmp<volScalarField> strainRate() const;
+
 
 public:
 
@@ -159,7 +166,7 @@ public:
         virtual tmp<volSymmTensorField> tau() const = 0;
 
         //- Return the coupling term for the momentum equation
-        virtual tmp<fvVectorMatrix> divTau(volVectorField& U) const = 0;
+        virtual tmp<fvVectorMatrix> divTau(const volVectorField& U) const = 0;
 
         //- Correct the viscoelastic stress
         virtual void correct() = 0;

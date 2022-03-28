@@ -34,36 +34,7 @@ scalar pRefValue = 0.0;
 setRefCell(p, simple.dict(), pRefCell, pRefValue);
 mesh.setFluxRequired(p.name());
 
-autoPtr<viscoelasticModel> visco;
-
-autoPtr<singlePhaseTransportModel> laminarTransport;
-autoPtr<incompressible::turbulenceModel> turbulence;
-
-bool viscoelastic;
-{
-	Foam::fileOperations::uncollatedFileOperation op(false);
-	viscoelastic = op.exists(runTime.constantPath() / "viscoelasticProperties");
-}
-
-// check solver mode
-if (viscoelastic)
-{
-	visco.reset
-	(
-		new viscoelasticModel(U, phi)
-	);
-}
-else
-{
-	laminarTransport.reset
-	(
-		new singlePhaseTransportModel(U, phi)
-	);
-	turbulence.reset
-	(
-		incompressible::turbulenceModel::New(U, phi, laminarTransport.ref())
-	);
-}
+viscoelasticModel visco(U, phi);
 
 #include "createMRF.H"
 #include "createFvOptions.H"

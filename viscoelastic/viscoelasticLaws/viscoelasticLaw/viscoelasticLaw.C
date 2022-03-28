@@ -34,6 +34,14 @@ namespace Foam
 }
 
 
+// * * * * * * * * * * * * Protected Member Functions  * * * * * * * * * * * //
+
+Foam::tmp<Foam::volScalarField> Foam::viscoelasticLaw::strainRate() const
+{
+	return sqrt(2.0)*mag(symm(fvc::grad(U_)));
+}
+
+
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
 Foam::viscoelasticLaw::viscoelasticLaw

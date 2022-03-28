@@ -3,6 +3,8 @@ viscoelasticModel/viscoelasticModel.C
 viscoelasticLaws/viscoelasticLaw/viscoelasticLaw.C
 viscoelasticLaws/viscoelasticLaw/newViscoelasticLaw.C
 
+viscoelasticLaws/Newtonian/Newtonian.C
+viscoelasticLaws/CarreauYasuda/CarreauYasuda.C
 viscoelasticLaws/LPTT/LPTT.C
 viscoelasticLaws/multiMode/multiMode.C
 

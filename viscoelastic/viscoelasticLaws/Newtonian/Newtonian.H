@@ -1,43 +1,37 @@
 /*---------------------------------------------------------------------------*\
   =========                 |
-  \\      /  F ield         | foam-extend: Open Source CFD
-   \\    /   O peration     | Version:     4.1
-    \\  /    A nd           | Web:         http://www.foam-extend.org
-     \\/     M anipulation  | For copyright notice see file Copyright
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     |
+    \\  /    A nd           | Copyright held by original author
+     \\/     M anipulation  |
 -------------------------------------------------------------------------------
 License
-    This file is part of foam-extend.
+    This file is part of OpenFOAM.
 
-    foam-extend is free software: you can redistribute it and/or modify it
+    OpenFOAM is free software; you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by the
-    Free Software Foundation, either version 3 of the License, or (at your
+    Free Software Foundation; either version 2 of the License, or (at your
     option) any later version.
 
-    foam-extend is distributed in the hope that it will be useful, but
-    WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-    General Public License for more details.
+    OpenFOAM is distributed in the hope that it will be useful, but WITHOUT
+    ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+    FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+    for more details.
 
     You should have received a copy of the GNU General Public License
-    along with foam-extend.  If not, see <http://www.gnu.org/licenses/>.
+    along with OpenFOAM; if not, write to the Free Software Foundation,
+    Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
 
 Class
-    LPTT
-
-Description
-    Phan-Thin-Tanner (linear form) viscoelastic fluid model.
-    (Phan-Thien, N.; Tanner, R. I., 1977).
-
-Author
-    Jovani L. Favero.  All rights reserved
+    Newtonian
 
 SourceFiles
-    LPTT.C
+    Newtonian.C
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef LPTT_H
-#define LPTT_H
+#ifndef Newtonian_H
+#define Newtonian_H
 
 #include "viscoelasticLaw.H"
 
@@ -47,10 +41,10 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                           Class LPTT Declaration
+                           Class Newtonian Declaration
 \*---------------------------------------------------------------------------*/
 
-class LPTT
+class Newtonian
 :
     public viscoelasticLaw
 {
@@ -59,46 +53,31 @@ class LPTT
         //- Transported viscoelastic stress
         volSymmTensorField tau_;
 
-
         // Model constants
 
             //- Density
             dimensionedScalar rho_;
 
             //- Solvent viscosity
-            dimensionedScalar etaS_;
-
-            //- Zero shear rate polymer viscosity
-            dimensionedScalar etaP_;
-
-            //- Extensibility parameter
-            dimensionedScalar epsilon_;
-
-            //- Relaxation time
-            dimensionedScalar lambda_;
-
-            //- Chains slip in relation to the continue environment
-            dimensionedScalar zeta_;
-
+            dimensionedScalar eta_;
 
     // Private Member Functions
 
         //- Disallow default bitwise copy construct
-        LPTT(const LPTT&);
+        Newtonian(const Newtonian&);
 
         //- Disallow default bitwise assignment
-        void operator=(const LPTT&);
-
+        void operator=(const Newtonian&);
 
 public:
 
     //- Runtime type information
-    TypeName("PTT-Linear");
+    TypeName("Newtonian");
 
     // Constructors
 
         //- Construct from components
-        LPTT
+        Newtonian
         (
             const word& name,
             const volVectorField& U,
@@ -109,7 +88,7 @@ public:
 
     // Destructor
 
-        virtual ~LPTT()
+        virtual ~Newtonian()
         {}
 
 

@@ -68,7 +68,10 @@ Foam::LPTT::LPTT
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-Foam::tmp<Foam::fvVectorMatrix> Foam::LPTT::divTau(volVectorField& U) const
+Foam::tmp<Foam::fvVectorMatrix> Foam::LPTT::divTau
+(
+	const volVectorField& U
+) const
 {
 //     dimensionedScalar etaPEff = (1 + 1/epsilon_)*etaP_;
     dimensionedScalar etaPEff = etaP_;

@@ -64,12 +64,9 @@ Description
 \*---------------------------------------------------------------------------*/
 
 #include "fvCFD.H"
-#include "singlePhaseTransportModel.H"
-#include "turbulentTransportModel.H"
 #include "simpleControl.H"
 #include "fvOptions.H"
 
-#include "uncollatedFileOperation.H"
 #include "viscoelasticModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -91,11 +88,6 @@ int main(int argc, char *argv[])
     #include "createFields.H"
     #include "initContinuityErrs.H"
 
-	if (!viscoelastic)
-	{
-		turbulence->validate();
-	}
-
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nStarting time loop\n" << endl;
@@ -110,17 +102,7 @@ int main(int argc, char *argv[])
             #include "pEqn.H"
         }
 
-		// viscoelastic mode
-		if (viscoelastic)
-		{
-			visco->correct();
-		}
-		// simpleFoam mode
-		else
-		{
-			laminarTransport->correct();
-			turbulence->correct();
-		}
+		visco.correct();
 
         runTime.write();
 

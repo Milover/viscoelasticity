@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# run from this directory
+cd ${0%/*} || exit 1
+
+# trap on error
+set -e
+
+# check if OpenFOAM has been sourced
+if [ -z "$WM_PROJECT" ]; then
+	echo "Please source OpenFOAM bashrc first!"
+	exit 1
+fi
+
+# compile libraries
+(cd viscoelastic && wclean libso)
+
+# compile solver
+(cd viscoelasticSimpleFoam && wclean)

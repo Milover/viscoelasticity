@@ -83,8 +83,10 @@ Foam::multiMode::multiMode
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-Foam::tmp<Foam::fvVectorMatrix>
-Foam::multiMode::divTau(volVectorField& U) const
+Foam::tmp<Foam::fvVectorMatrix> Foam::multiMode::divTau
+(
+	const volVectorField& U
+) const
 {
 	tmp<fvVectorMatrix> tdivMatrix
 	(

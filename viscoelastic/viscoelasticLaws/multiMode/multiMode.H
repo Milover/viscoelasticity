@@ -99,7 +99,7 @@ public:
         virtual tmp<volSymmTensorField> tau() const;
 
         //- Return the coupling term for the momentum equation
-        virtual tmp<fvVectorMatrix> divTau(volVectorField& U) const;
+        virtual tmp<fvVectorMatrix> divTau(const volVectorField& U) const;
 
         //- Correct the viscoelastic stress
         virtual void correct();
