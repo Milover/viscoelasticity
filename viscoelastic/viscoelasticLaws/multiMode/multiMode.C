@@ -118,10 +118,9 @@ void Foam::multiMode::correct()
 {
 	for (auto& m : models_)
     {
-		if (debug)
-		{
-			Info<< m.name() << "::correct()" << endl;
-		}
+		DebugInFunction
+			<< "Correcting " << m.name() << nl;
+
         m->correct();
     }
 
