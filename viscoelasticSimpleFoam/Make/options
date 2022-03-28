@@ -5,7 +5,8 @@ EXE_INC = \
     -I$(LIB_SRC)/TurbulenceModels/turbulenceModels/lnInclude \
     -I$(LIB_SRC)/TurbulenceModels/incompressible/lnInclude \
     -I$(LIB_SRC)/transportModels \
-    -I$(LIB_SRC)/transportModels/incompressible/singlePhaseTransportModel
+    -I$(LIB_SRC)/transportModels/incompressible/singlePhaseTransportModel \
+    -I$../viscoelastic/lnInclude
 
 EXE_LIBS = \
     -lfiniteVolume \
@@ -15,4 +16,6 @@ EXE_LIBS = \
     -lturbulenceModels \
     -lincompressibleTurbulenceModels \
     -lincompressibleTransportModels \
-    -latmosphericModels
+    -latmosphericModels \
+    -L$(FOAM_USER_LIBBIN) \
+    -lviscoelasticTransportModels
