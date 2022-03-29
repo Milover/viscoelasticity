@@ -4,12 +4,86 @@
 
 ===============================================================================
 
-$ <entry>:<number>
-	:	<reference case_1>
-	:	<reference case_2>
-	:	<reference case ...>
+$ general:0
 
-	> <note>
+	> Comparing ourselves with Chauhan & Sasmal (2021), 'the paper' henceforth.
+
+	  The idea is to simulate a 2D viscous, laminar flow through an idealised
+	  stenosis, defined by:
+
+	  	r/(D/2) = 1 - a/D [1 + cos(pi*z/b)] - b, -b <= z <= b
+	
+	  where 'D' is the unobstructed pipe diameter, 'a' the stenosis height,
+	  'b' the stenosis half-lenght, and 'r' and 'z' are the radial and axial
+	  coordinates respectively. Note that the coordinate system is placed at
+	  the pipe axis at the middle of the stenosis.
+
+	  The aim is to compare flows using different rheological models: a
+	  Newtonian model (\mu = const.), a generalized Newtonian model
+	  (\mu = f(\tau)), and a viscoelastic model (linear PTT) at different
+	  Reynolds numbers (2--3) and different stenosis geometries (3).
+
+	  In general we're tracking:
+
+	  	- radial velocity profile at z = 0
+		- dimensionless pressure along the pipe axis
+		- dimensionless pressure difference measured at the axis for z = +/-8D
+		- dimensionless forces (assume F' = F / (D^2*\pi/4 * \rho*U^2/2))
+
+
+$ dimensionless_parameters:0
+
+	> Dimensionless values are tracked in the paper, but the way in which they
+	  are made dimensionless is unspecified. Since the paper cites several
+	  other authors for comparison, here are some of the parameter definitions
+	  from the cited works:
+
+	  Deshpande et al. (1976):
+
+		D						- unobstructed pipe diameter
+		r						- radial coordinate
+		U						- max. velocity far from stenosis
+		v_r						- radial velocity
+		v_z						- axial velocity
+		z						- axial coordinate
+
+		P	= p*r_0 / (\mu*U)	- dimensionless pressure
+		R	= r / r_0			- dimensionless radial coordinate
+		Re	= \rho*U*r_0 / \mu	- Reynolds number
+		r_0 = D/2				- unobstructed pipe radius
+	  	V_r	= v_r / U			- dimensionless radial velocity
+	  	V_z	= v_z / U			- dimensionless axial velocity
+		Z	= z / r_0			- dimensionless axial coordinate
+	
+	  Young & Tsai (1973):
+
+		D						- unobstructed pipe diameter
+		r						- radial coordinate
+		U						- mean pipe velocity
+		z						- axial coordinate
+		b						- stenosis half-length
+
+		dP	= dp / (\rho*U^2)	- dimensionless pressure drop
+		Re	= \rho*U*D / \mu	- Reynolds number
+		r_0 = D/2				- unobstructed pipe radius
+
+	  Note: the definition of the Reynolds numbers in the paper differs from
+	  the one in Deshpande et at. (1976).
+
+
+$ grid_independence:0
+
+	> Checking the following:
+
+		- radial/axial velocity profile at z = 0
+		- forces
+		- min/max velocity mag., pressure and wall shear stress mag.
+
+	  Testing only the most severe stenosis geometry from the paper (M2) at
+	  the highest Reynolds number (Re = 200) and assuming steady-state flow
+	  of a viscoelastic fluid.
+
+
 
 
 $ <entry>:<number>
