@@ -1,0 +1,29 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2106                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+probes.young_t
+{
+	type			probes;
+	libs			("libsampling.so");
+	writeControl	timeStep;
+	writeInterval	$short_write;
+	log				false;
+
+	fixedLocations	true;
+	interpolation	cellPointFace;
+
+	fields			( pDimless );
+
+	probeLocations
+	(
+		( #eval{ -16*$:R } 0 0)
+		( #eval{  16*$:R } 0 0)
+	);
+}
+
+// ************************************************************************* //

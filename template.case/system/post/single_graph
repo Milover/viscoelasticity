@@ -1,0 +1,57 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2106                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+single_graph.axial
+{
+	type			sets;
+	libs			( "libsampling.so" );
+	writeControl	timeStep;
+	writeInterval	$short_write;
+	setFormat		csv;
+
+	interpolationScheme	cellPatchConstrained;
+
+	fields			( pDimless );
+
+	sets
+	(
+		axis
+		{
+			type	face;
+			axis	x;
+			start	(#eval{ -$:b - $:L } 0 0 );
+			end		(#eval{  $:b + $:L } 0 0 );
+		}
+	);
+}
+
+single_graph.radial
+{
+	type			sets;
+	libs			( "libsampling.so" );
+	writeControl	timeStep;
+	writeInterval	$short_write;
+	setFormat		csv;
+
+	interpolationScheme	cell;
+
+	fields			( UDimless );
+
+	sets
+	(
+		axis
+		{
+			type	midPoint;
+			axis	y;
+			start	(#eval{ -$:b - $:L } 0 0 );
+			end		(#eval{  $:b + $:L } 0 0 );
+		}
+	);
+}
+
+// ************************************************************************* //

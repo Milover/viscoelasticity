@@ -25,11 +25,13 @@ lnInclude
 *.swp
 *~
 
-# random resources
-reference
-notes.*
-
 # case stuff
 **/processor[0-9]*
 **/[0-9]*
 **/polyMesh
+**/cellDecomposition
+**/cellDist
+*.foam
+
+# random resources
+reference

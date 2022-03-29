@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# run from this directory
+cd ${0%/*} || exit 1
+
+# source helper functions
+. $WM_PROJECT_DIR/bin/tools/CleanFunctions
+
+# exit on error
+set -e
+
+#------------------------------------------------------------------------------
+
+# clean
+cleanCase0
+
+rm -rf "system/tools/cellDecomposition"
+
+#------------------------------------------------------------------------------

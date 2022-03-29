@@ -1,0 +1,75 @@
+#!/bin/bash
+
+# run from this directory
+cd ${0%/*} || exit 1
+
+# source helper functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# exit on error
+set -e
+
+#------------------------------------------------------------------------------
+
+decompose()
+{
+	if [ -e system/tools/cellDecomposition ]; then
+		ln -sfn tools/decomposeParDict.manual system/decomposeParDict
+		runApplication -o decomposePar -latestTime -force
+	else
+		ln -sfn tools/decomposeParDict.auto system/decomposeParDict
+		runApplication -o decomposePar -latestTime -force -cellDist
+		mv constant/cellDecomposition system/tools/
+	fi
+}
+
+mesh()
+{
+	runApplication -o blockMesh -dict "system/blockMeshDict"
+}
+
+make_paraview_file()
+{
+	local current_case="$(echo ${PWD##*/} | sed "s/case\.//")"
+	touch "${current_case}.foam"
+}
+
+renumber()
+{
+	runParallel -o renumberMesh -overwrite -latestTime
+}
+
+preprocess()
+{
+	make_paraview_file
+	mesh
+}
+
+#------------------------------------------------------------------------------
+
+# get application and nproc
+#application=$(getApplication)
+application="simpleFoam"
+
+# clean
+#./Allclean
+
+# reset
+restore0Dir
+
+#------------------------------------------------------------------------------
+
+
+# preprocess
+make_paraview_file
+mesh
+decompose
+renumber
+
+# run
+runParallel -o $application
+
+# reconstruct
+#runApplication -o reconstructPar -latestTime
+
+#------------------------------------------------------------------------------

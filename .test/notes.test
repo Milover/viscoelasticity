@@ -1,0 +1,17 @@
+===============================================================================
+
+> TEST
+
+===============================================================================
+
+clock times for the first N iterations, using case_x
+
+> system.0
+	- default setup
+
+	# clock time:	X
+
+> system.1
+	- changing ...
+
+	# clock time:	X

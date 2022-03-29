@@ -1,0 +1,118 @@
+===============================================================================
+
+> INFO
+
+===============================================================================
+
+Entry format:
+
+$ <entry>:<number>
+	:	<reference case 1>
+	:	<reference case 2>
+	:	<reference case ...>
+
+	> <note>
+
+
+Note classification:
+
+- notes named as existing directories should be in their respective directories
+
+notes.description:
+	- should contain input data for the case
+	- notes related to boundary conditions and input data
+
+notes.general
+	- should contain general notes related to case setup/simulation
+	- unspecified notes, eg. related to other software
+
+notes.info
+	- contains instructions on how to build/document/archive the simulation
+
+notes.test
+	- should contain test data
+	- only notes related to performed tests
+
+notes.geometry
+	- should contain notes on geometry used for case setup if geometries differ
+	  between cases
+
+notes.mesh
+	- should contain a listing of meshes and cases in which they were used
+
+
+Case structure:
+
+project
+	|
+1	|- case_1
+	|	|- Allclean
+	|	|- Allrun
+	|	|- <All...>
+	|	|- 0.orig
+	|	|- constant
+	|	|- system
+	|		|- <dict_files/dirs>
+	|		|- <batch_files/dirs>
+	|		|- <function_files/dirs>
+	|- case_n
+	|	|- <...>
+2	|- geometry
+	|	|- <geometry_files/dirs>
+3	|- mesh
+	|	|- <mesh_files/dirs>
+	|- <notes...>
+4	|- results
+	|	|- <...>
+5	|- report
+	|	|- acad
+	|	|	|- <...>
+	|	|- include
+	|	|	|- <...>
+	|	|- latex
+	|	|	|- <...>
+	|	|- pics
+	|	|	|- <...>
+6	|- store
+	|	|- <case_x.tar.xz>
+	|	|	|- <log...>
+	|	|	|- <...>
+	|	|- <...>
+7	|- test
+		|- <system_1>
+		|- <system_2>
+		|- <...>
+
+
+1 - non-active cases should be ready-to-run and contain only files pertinent to
+	running them, all logs, results etc. should be removed once they are no
+	longer active, the 0.orig directory contains ASCII backups of all the
+	fields prior to running the case and the Allrun file contains all the
+	necessary steps to build and run the case from scratch
+
+2 - should contain all of the geometry (.step, .iges...) used in building the
+	cases, if the geometry differs between the cases it should be named the
+	same as the mesh it was used for, subdirectories are allowed and should be
+	used as necessary
+
+3 - meshes should be named according to the following template:
+		
+	<geometry_name>_<mesh_type>_<cell_count>.<mesh_format>
+
+	subdirectories are allowed and should be used as necessary
+
+4 - should contain files, scripts, code etc. used for postprocessing,
+	subdirectories are allowed and should be named as the cases from which
+	the data originates
+
+5 - should contain all files required to generate the report sorted in their
+	respective directories
+
+6 - should contain case data, in directories named after the cases, that should
+	be stored after the case is no longer active ie. selected results, logs...
+
+7 - should contain only system directories used for performing optimization
+	tests, if case setup data is changed other than what is contained in the
+	system directory (eg. boundary conditions) then a new case should be made
+	instead
+

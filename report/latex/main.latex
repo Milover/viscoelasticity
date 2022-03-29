@@ -1,0 +1,366 @@
+\documentclass[a4paper,12pt,fleqn]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[croatian]{babel}
+%\usepackage[english]{babel}
+\usepackage{csquotes}
+\fontfamily{cmr}\selectfont
+\usepackage{setspace}
+% margins
+\usepackage[margin=2.5cm]{geometry}
+% color
+%\usepackage[monochrome]{xcolor}
+\usepackage{xcolor}
+\definecolor{fsbblue}{RGB}{41,91,168}
+% figures
+\usepackage{graphicx}
+\usepackage{graphics}
+%\graphicspath{{../pics/}}
+\usepackage{subcaption}
+\pdfminorversion=6
+% landscape mode
+%\usepackage{lscape}
+% plotting
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{width=0.8\textwidth,compat=1.16}
+% header setup
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhead[R]{}
+\fancyhead[L]{}
+%\fancyfoot[L]{\textsl{Faculty of Mechanical Engineering and Naval Architecture}}
+% abstract
+\usepackage{abstract}
+\renewcommand{\abstractnamefont}{\normalfont\Large\bfseries}
+% appendix
+\usepackage[title,titletoc]{appendix}
+% tables
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{threeparttable}
+\usepackage{multirow}
+% verbatim environment
+\usepackage{verbatim}
+% captions
+\usepackage[labelfont=bf]{caption}
+\captionsetup[table]{position=bottom,justification=raggedright,labelsep=newline,
+			singlelinecheck=false,width=1\textwidth}
+\captionsetup[figure]{labelsep=period}
+% math
+\usepackage{amsmath}
+\usepackage{amssymb}
+% SI units
+\usepackage{siunitx}
+% chemistry
+%\usepackage{chemformula}
+% enumerations
+\usepackage{enumitem}
+% pdfpages
+\usepackage{pdfpages}
+% hyperlinks
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,allcolors=fsbblue,final=true}
+% bibliography
+\usepackage[style=trad-abbrv,sorting=nty,sortcites]{biblatex}
+\addbibresource{references.bib}
+% citations
+
+% siunitx setup
+\sisetup{output-exponent-marker=\ensuremath{\mathrm{e}},
+		 group-separator={}}
+
+% subappendices lettering
+\renewcommand{\setthesection}{\Alph{section}}
+
+% pgfplots setup
+\pgfkeys{/pgf/number format/.cd,1000 sep={}}
+\pgfplotscreateplotcyclelist{plain_list}{%
+{solid, thick, mark=none},
+{dotted, thick, mark=none},
+{dashed, thick, mark=none},
+{dashdotted, thick, mark=none},
+{dashdotdotted, thick, mark=none},
+{densely dotted, thick, mark=none},
+{densely dashed, thick, mark=none},
+{densely dashdotted, thick, mark=none},
+%{densely dashdashdotted, thick, mark=none},
+{loosely dotted, thick, mark=none},
+{loosely dashed, thick, mark=none},
+{loosely dashdotted, thick, mark=none},
+{loosely dashdashdotted, thick, mark=none},
+}
+\pgfplotscreateplotcyclelist{marked_list}{%
+{solid, every mark/.append style={solid, fill=gray}, mark=*},
+{dotted, every mark/.append style={solid, fill=gray}, mark=square*},
+{densely dotted, every mark/.append style={solid, fill=gray}, mark=otimes*},
+{loosely dotted, every mark/.append style={solid, fill=gray}, mark=triangle*},
+{dashed, every mark/.append style={solid, fill=gray},mark=diamond*},
+{loosely dashed, every mark/.append style={solid, fill=gray},mark=*},
+{densely dashed, every mark/.append style={solid, fill=gray},mark=square*},
+{dashdotted, every mark/.append style={solid, fill=gray},mark=otimes*},
+{dashdotdotted, every mark/.append style={solid},mark=star},
+{densely dashdotted,every mark/.append style={solid, fill=gray},mark=diamond*},
+}
+
+% definitions
+\newcommand{\code}[1]{{\bfseries{\texttt{#1}}}}
+
+\newcommand{\vect}[1]{\boldsymbol{#1}}
+
+\def\frontmatter{%
+    \pagenumbering{roman}
+    \setcounter{page}{1}
+    \renewcommand{\thesection}{\Roman{section}}
+}%
+
+\def\mainmatter{%
+	\pagenumbering{arabic}
+    \setcounter{page}{1}
+    \setcounter{section}{0}
+    \renewcommand{\thesection}{\arabic{section}}
+}%
+
+\def\backmatter{%
+	\pagenumbering{roman}
+    \setcounter{section}{0}
+    \renewcommand{\thesection}{\Alph{section}}
+}%
+
+\def\CC{%
+	{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\tiny\bf ++}}
+}%
+
+\def\openfoam{%
+	{OpenFOAM\textsuperscript{\textregistered}}
+}%
+
+\def\todo{%
+	{\textbf{TODO:}}
+}%
+
+\def\unaryplus{{+}}%
+
+\def\unaryminus{{-}}%
+
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\const}{const.}
+
+\begin{document}
+
+\mainmatter
+
+\pagestyle{plain}
+
+{\center\Large\textbf{Master's thesis proposal: Matko Milanovic}\\
+
+\vspace{1.5cm}}
+
+\noindent
+Metode računalne dinamike fluida se, zadnjih godina, često primjenjuju kod
+proučavanja hemodinamike strujanja u krvožilnom sustavu. Od posebnog interesa
+je strujanje kroz stenotične arterije, to jest arterije s naglim suženjem
+poprečnog presjeka, koje obično nastaje radi nakupljanja plaka. Kod modeliranja
+strujanja kroz stenotične arterije vrlo često se pretpostavlja da se krv
+ponaša kao Newtonski fluid, odnosno da postoji linearna veza između gradijenta
+brzine strujanja i smičnog naprezanja, iako to nije u potpunosti točno. Dokazano
+je da se viskoznost krvi smanjuje s povećanjem smičnog naprezanja (eng.\
+\emph{shear-thinning}). Također su primijećena određena viskoelastična svojstva
+krvi, primarno, postojanje graničnog smičnog naprezanja prije kojeg se ne
+ostvaruje tok. S obzirom da odabir modela fluida može bitno utjecati na
+strujanje, potrebno je usporediti razlike između modela kako bi se mogla
+provesti adekvatna hemodinamička analiza stenotičnih arterija.
+
+\vspace*{\baselineskip}
+
+\noindent
+Cilj ovog rada je napraviti numeričku analizu strujanja kroz idealiziranu
+stenotičnu arteriju koristeći različite reološke modele krvi te usporediti
+strujne karakteristike dobivene korištenjem istih. Uz pretpostavku laminarnog,
+izotermnog strujanja nestlačivog fluida potrebno je usporediti utjecaj tri
+različita reološka modela krvi:
+%
+\begin{itemize}
+%
+\item Newtonski
+%
+\item generalizirani Newtonski
+%
+\item viskoelastični
+%
+\end{itemize}
+%
+Potrebno je odrediti utjecaje reoloških modela za slučaj stacionarog i
+oscilatornog strujanja. Rezultate je potrebno usporediti s onima dostupnima
+u literaturi, gdje god je to moguće.
+
+\vspace*{\baselineskip}
+
+\noindent
+U radu je potrebno navesti korištenu literaturu i eventualno dobivenu pomoć.
+
+\vspace*{\fill}
+
+\noindent
+Pitanja/komentari:
+%
+\begin{itemize}
+%
+\item nisam spomenuo da ima više geometrija stenoze (3)
+%
+\item nisam spomenuo da hoćemo usporedit osnosimetrični i full-3D slučaj
+%
+\item nisam spominjao različite Reynoldsove brojeve (50 i 200, 1 mi se čini
+bezveze)
+%
+\item nisam rekao ništa o foamu/softwareu
+%
+\end{itemize}
+%
+
+\clearpage
+
+
+\section*{Thesis outline}
+
+
+\subsection*{General}
+
+Items to be provided:
+%
+\begin{itemize}
+%
+\item computational meshes (2D axisymmetric slice and 3D)
+%
+\item comparison data, extracted from relevant
+literature~\cite{Chauhan-S:Rheology:2021} (see
+also~\cite{Young-T:Stenoses-1:1973, Deshpande-GM:Stenoses:1976,
+Huang-MS:Stenosed:1995,})
+%
+\item viscoelastic solver, modified version of the one used
+in~\cite{Chauhan-S:Rheology:2021} (see ~\cite{Favero-CJS:Viscoelastic:2010,
+Pimenta-A:Viscoelastic:2017} for theory), and any additionally required
+boundary conditions
+%
+\item basic case templates
+%
+\end{itemize}
+
+Parameter values, expressions and the like:
+%
+\begin{itemize}
+%
+\item assume laminar flow of an incompressible fluid
+%
+\item
+%
+\end{itemize}
+
+
+\subsection*{Thesis progression}
+
+\begin{enumerate}
+%
+\item Perform mesh independence study for the 2D and 3D cases using the
+following setup:
+%
+\begin{itemize}
+	%
+	\item steady state flow for $Re = 200$
+	%
+	\item M2 geometry (see~\cite{Young-T:Stenoses-1:1973,
+	Chauhan-S:Rheology:2021})
+	%
+	\item viscoelastic transport model --- multi-mode sPPT model
+	(see~\cite{Thien-T:Constitutive:1977}), using model parameters
+	from~\cite{Chauhan-S:Rheology:2021}
+	%
+\end{itemize}
+%
+\item Perform a parametric study for the steady state 2D axisymmetric case:
+%
+\begin{itemize}
+	%
+	\item include M0--2 geometries (see~\cite{Young-T:Stenoses-1:1973,
+	Chauhan-S:Rheology:2021})
+	%
+	\item perform simulations for $Re \in \{50, 200 \}$
+	%
+	\item using data from~\cite{Chauhan-S:Rheology:2021} for model parameter
+	fitting, include three different transport models for blood:
+	%
+	\begin{itemize}
+		%
+		\item Newtonian ($\mu = \const$)
+		%
+		\item generalized Newtonian (Carreau-Yasuda, see~\textbf{??})
+		%
+		\item viscoelastic (multi-mode sPTT, see~\cite{Thien-T:Constitutive:1977})
+		%
+	\end{itemize}
+	%
+\end{itemize}
+%
+Compare results with provided data, extracted from~\cite{Chauhan-S:Rheology:2021}.
+%
+\item Perform a parametric study for the oscillatory flow in the 2D axisymmetric
+and 3D cases:
+%
+\begin{itemize}
+	%
+	\item include M0--2 geometries (see~\cite{Young-T:Stenoses-1:1973,
+	Chauhan-S:Rheology:2021})
+	%
+	\item perform simulations at $Re \in \{50, 200 \}$
+	%
+	\item using data from~\cite{Chauhan-S:Rheology:2021} for model parameter
+	fitting, include three different transport models for blood:
+	%
+	\begin{itemize}
+		%
+		\item Newtonian ($\mu = \const$)
+		%
+		\item generalized Newtonian (Carreau-Yasuda, see~\textbf{??})
+		%
+		\item viscoelastic (multi-mode sPTT, see~\cite{Thien-T:Constitutive:1977})
+		%
+	\end{itemize}
+	%
+\end{itemize}
+%
+Compare 2D and 3D results with provided data, extracted
+from~\cite{Chauhan-S:Rheology:2021}.
+%
+\end{enumerate}
+
+
+\subsection*{TODO}
+%
+\begin{enumerate}
+	%
+	\item define how mesh independence will be determined
+	%
+	\item extract and provide comparison data from~\cite{Chauhan-S:Rheology:2021}
+	%
+	\item define values to be monitored (sections, probe locations, graphs, etc.)
+	%
+	\item define flow rate variation for the transient cases
+	%
+	\item fit Carreau-Yasuda model parameters to data
+	from~\cite{Chauhan-S:Rheology:2021}
+	%
+	\item add relevant literature for Carreau-Yasuda model (and stuff proving
+	common use in hemodynamics)
+	%
+\end{enumerate}
+
+
+\clearpage
+%\markright{References}
+\printbibliography[heading=subbibliography,title={Literature}]
+\addcontentsline{toc}{section}{Literature}
+
+
+\end{document}
+\endinput

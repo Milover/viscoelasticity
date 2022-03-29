@@ -1,0 +1,142 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2106                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ofGamgConfig
+{
+	//smoother				GaussSeidel;
+	smoother				FDIC;
+
+	minIter					2;
+	maxIter					50;
+	nPreSweeps				1;
+	nPostSweeps				2;
+	nFinestSweeps			2;
+
+	scaleCorrection			true;
+	interpolateCorrection	false;
+	directSolverCoarsestLevel false;
+
+	coarsestLevelCorr
+	{
+		solver				PCG;
+		preconditioner		DIC;
+
+		relTol				0.1;
+	}
+
+	agglomerator			faceAreaPair;
+	cacheAgllomeration		true;
+	nCellsInCoarsestLevel	512;
+	mergeLevels				1;
+}
+
+solvers
+{
+	p
+	{
+		solver					GAMG;
+		$ofGamgConfig;
+
+		tolerance				1e-07;
+		relTol					1e-3;
+	}
+
+	pFinal
+	{
+		$p
+
+		tolerance				1e-07;
+		relTol					0;
+	}
+
+	U
+	{
+		solver					PBiCGStab;
+		preconditioner			DILU;
+
+		minIter					1;
+
+		tolerance				1e-08;
+		relTol					1e-4;
+	}
+
+	UFinal
+	{
+		$U
+		tolerance				1e-8;
+		relTol					0;
+	}
+}
+
+SIMPLE
+{
+	nNonOrthogonalCorrectors 0;
+
+	residualControl
+	{
+		U				1e-4;
+		p				1e-4;
+	}
+}
+
+PIMPLE
+{
+	correctPhi			false;
+	momentumPredictor	true;
+	turbOnFinalIterOnly	false;
+
+	nOuterCorrectors	250;
+	nCorrectors			1;
+	nNonOrthogonalCorrectors 0;
+
+	residualControl
+	{
+		U
+		{
+			tolerance	1e-4;
+			relTol		0;
+		}
+		p
+		{
+			tolerance	1e-4;
+			relTol		0;
+		}
+	}
+}
+
+relaxationFactors
+{
+	fields
+	{
+		p			0.25;
+		".*Final"	1;
+	}
+
+	equations
+	{
+		U			0.6;
+		"(k|omega)"	0.6;
+		".*Final"	1;
+	}
+}
+
+cache
+{
+	grad(U);
+}
+
+// ************************************************************************* //

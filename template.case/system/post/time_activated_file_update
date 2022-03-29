@@ -1,0 +1,26 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2106                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+time_activated_file_update
+{
+	type			timeActivatedFileUpdate;
+	libs			("libutilityFunctionObjects.so");
+	writeControl	timeStep;
+	writeInterval	1;
+	log				false;
+
+	fileToUpdate	"<system>/fvSchemes";
+
+	timeVsFile
+	(
+		(-1		"<system>/tools/fvSchemes.0")
+		( 3		"<system>/tools/fvSchemes.1")
+	);
+}
+
+// ************************************************************************* //

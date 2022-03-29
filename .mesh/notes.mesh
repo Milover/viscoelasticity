@@ -1,0 +1,20 @@
+===============================================================================
+
+> MESH
+
+===============================================================================
+
+$ <entry>:<number>
+	:	<reference case 1>
+	:	<reference case 2>
+	:	<reference case ...>
+
+	> <note>
+
+
+$ <entry>:<number>
+	:	<reference case 1>
+	:	<reference case 2>
+	:	<reference case ...>
+
+	> <note>
