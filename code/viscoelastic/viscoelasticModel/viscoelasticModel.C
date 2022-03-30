@@ -67,6 +67,12 @@ tmp<volSymmTensorField> viscoelasticModel::tau() const
 }
 
 
+tmp<volSymmTensorField> viscoelasticModel::rho() const
+{
+    return lawPtr_->rho();
+}
+
+
 tmp<fvVectorMatrix> viscoelasticModel::divTau(volVectorField& U) const
 {
     return lawPtr_->divTau(U);

@@ -96,6 +96,10 @@ public:
 
     // Member Functions
 
+		//- Return density
+		virtual dimensionedScalar rho() const;
+
+        //- Return the viscoelastic stress tensor
         virtual tmp<volSymmTensorField> tau() const;
 
         //- Return the coupling term for the momentum equation

@@ -108,6 +108,12 @@ public:
 
     // Member Functions
 
+		//- Return density
+		virtual dimensionedScalar rho() const
+		{
+			return rho_;
+		}
+
         //- Return the viscoelastic stress tensor
         virtual tmp<volSymmTensorField> tau() const
         {

@@ -162,6 +162,9 @@ public:
             return phi_;
         }
 
+        //- Return the density
+        virtual dimensionedScalar rho() const = 0;
+
         //- Return the viscoelastic stress tensor
         virtual tmp<volSymmTensorField> tau() const = 0;
 

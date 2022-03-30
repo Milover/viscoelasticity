@@ -57,7 +57,7 @@ Foam::CarreauYasuda::CarreauYasuda
             IOobject::NO_WRITE
         ),
         U.mesh(),
-        dimensionedSymmTensor("0", dimPressure, symmTensor::zero),
+        dimensionedSymmTensor("0", dimPressure, Zero),
         extrapolatedCalculatedFvPatchField<symmTensor>::typeName
     ),
     eta_
@@ -70,7 +70,7 @@ Foam::CarreauYasuda::CarreauYasuda
             IOobject::READ_IF_PRESENT,
             IOobject::AUTO_WRITE
         ),
-        strainRate()*dimensionedScalar("zero", dimVelocity, 0) //Just to ensure dimensions and BCs
+        strainRate()*dimensionedScalar("zero", dimVelocity, Zero) //Just to ensure dimensions and BCs
     ),
     rho_(dict.get<dimensionedScalar>("rho")),
     eta0_(dict.get<dimensionedScalar>("eta0")),

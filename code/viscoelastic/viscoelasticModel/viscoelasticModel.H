@@ -99,6 +99,9 @@ public:
         //- Return the viscoelastic stress tensor
         virtual tmp<volSymmTensorField> tau() const;
 
+        //- Return the density
+        virtual dimensionedScalar rho() const;
+
         //- Return the coupling term for the momentum equation
         virtual tmp<fvVectorMatrix> divTau(volVectorField& U) const;
 

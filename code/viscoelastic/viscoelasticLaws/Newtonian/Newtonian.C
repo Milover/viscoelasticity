@@ -57,7 +57,7 @@ Foam::Newtonian::Newtonian
             IOobject::NO_WRITE
         ),
         U.mesh(),
-        dimensionedSymmTensor("0", dimPressure, symmTensor::zero),
+        dimensionedSymmTensor("0", dimPressure, Zero),
         extrapolatedCalculatedFvPatchField<symmTensor>::typeName
     ),
     rho_(dict.get<dimensionedScalar>("rho")),

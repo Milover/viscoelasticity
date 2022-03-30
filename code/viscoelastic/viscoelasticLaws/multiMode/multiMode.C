@@ -57,7 +57,7 @@ Foam::multiMode::multiMode
             IOobject::AUTO_WRITE
         ),
         U.mesh(),
-        dimensionedSymmTensor("zero", dimPressure, symmTensor::zero)
+        dimensionedSymmTensor("zero", dimPressure, Zero)
     ),
     models_()
 {
@@ -103,9 +103,24 @@ Foam::tmp<Foam::fvVectorMatrix> Foam::multiMode::divTau
 }
 
 
+Foam::dimensionedScalar Foam::multiMode::rho() const
+{
+	scalar rho = Zero;
+	label n = Zero;
+
+	for (const auto& m : models_)
+    {
+		++n;
+        rho += (m.rho().value() - rho) / static_cast<scalar>(n);
+    }
+
+	return dimensionedScalar("rho", dimDensity, rho);
+}
+
+
 Foam::tmp<Foam::volSymmTensorField> Foam::multiMode::tau() const
 {
-    tau_ = symmTensor::zero;
+    tau_ = Zero;
 
 	for (const auto& m : models_)
     {
