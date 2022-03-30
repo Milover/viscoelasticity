@@ -16,7 +16,7 @@ single_graph.axial
 
 	interpolationScheme	cellPatchConstrained;
 
-	fields			( pDimless );
+	fields			( pBar );
 
 	sets
 	(
@@ -24,8 +24,8 @@ single_graph.axial
 		{
 			type	face;
 			axis	x;
-			start	(#eval{ -$:b - $:L } 0 0 );
-			end		(#eval{  $:b + $:L } 0 0 );
+			start	( #eval{ -$:b - $:L } 0 0 );
+			end		( #eval{  $:b + $:L } 0 0 );
 		}
 	);
 }
@@ -40,7 +40,7 @@ single_graph.radial
 
 	interpolationScheme	cell;
 
-	fields			( UDimless );
+	fields			( U );
 
 	sets
 	(
@@ -48,8 +48,8 @@ single_graph.radial
 		{
 			type	midPoint;
 			axis	y;
-			start	(#eval{ -$:b - $:L } 0 0 );
-			end		(#eval{  $:b + $:L } 0 0 );
+			start	( #eval{ -$:b - $:L } 0 0 );
+			end		( #eval{  $:b + $:L } 0 0 );
 		}
 	);
 }

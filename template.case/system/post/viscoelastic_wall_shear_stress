@@ -6,24 +6,15 @@
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 
-probes
+wall_shear_stress
 {
-	type			probes;
-	libs			("libsampling.so");
+	type			viscoelasticWallShearStress;
+	libs			("$(FOAM_USER_LIBBIN)/libviscoelasticTransportModels.so");
 	writeControl	timeStep;
-	writeInterval	$short_write;
+	writeInterval	$long_write;
 	log				false;
 
-	fixedLocations	true;
-	interpolation	cellPointFace;
-
-	fields			( pBar );
-
-	probeLocations
-	(
-		( #eval{ -16*$:R } 0 0)
-		( #eval{  16*$:R } 0 0)
-	);
+	patches			( "wall.*" );
 }
 
 // ************************************************************************* //
