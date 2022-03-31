@@ -10,5 +10,6 @@ viscoelasticLaws/multiMode/multiMode.C
 
 functionObject/field/pBar/pBar.C
 functionObject/field/viscoelasticWallShearStress/viscoelasticWallShearStress.C
+functionObject/forces/viscoelasticForces/viscoelasticForces.C
 
 LIB = $(FOAM_USER_LIBBIN)/libviscoelasticTransportModels
