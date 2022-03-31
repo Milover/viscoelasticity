@@ -28,6 +28,7 @@ License
 
 #include "pBar.H"
 #include "volFieldsFwd.H"
+#include "viscoelasticModel.H"
 #include "addToRunTimeSelectionTable.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
@@ -52,7 +53,7 @@ bool Foam::functionObjects::pBar::calc()
 
         if (mesh_.foundObject<viscoelasticModel>("viscoelasticModel"))
         {
-            const dictionary& model =
+            const viscoelasticModel& model =
                 mesh_.lookupObject<viscoelasticModel>("viscoelasticModel");
 
 			rho = model.rho();

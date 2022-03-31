@@ -207,7 +207,7 @@ protected:
         tmp<volSymmTensorField> tau() const;
 
         //- Return density
-        dimensionedScalar rho() const;
+        scalar rho() const;
 
         //- Add patch contributions to force and moment fields
         void addToFields

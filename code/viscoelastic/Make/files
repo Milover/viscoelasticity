@@ -8,8 +8,8 @@ viscoelasticLaws/CarreauYasuda/CarreauYasuda.C
 viscoelasticLaws/LPTT/LPTT.C
 viscoelasticLaws/multiMode/multiMode.C
 
-functionObject/field/pBar/pBar.C
-functionObject/field/viscoelasticWallShearStress/viscoelasticWallShearStress.C
-functionObject/forces/viscoelasticForces/viscoelasticForces.C
+functionObjects/field/pBar/pBar.C
+functionObjects/field/viscoelasticWallShearStress/viscoelasticWallShearStress.C
+functionObjects/forces/viscoelasticForces/viscoelasticForces.C
 
 LIB = $(FOAM_USER_LIBBIN)/libviscoelasticTransportModels

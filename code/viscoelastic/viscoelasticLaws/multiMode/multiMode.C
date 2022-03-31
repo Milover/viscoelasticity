@@ -120,7 +120,7 @@ Foam::dimensionedScalar Foam::multiMode::rho() const
 
 Foam::tmp<Foam::volSymmTensorField> Foam::multiMode::tau() const
 {
-    tau_ = Zero;
+    tau_ = symmTensor::zero;
 
 	for (const auto& m : models_)
     {

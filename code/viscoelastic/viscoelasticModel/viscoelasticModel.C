@@ -67,7 +67,7 @@ tmp<volSymmTensorField> viscoelasticModel::tau() const
 }
 
 
-tmp<volSymmTensorField> viscoelasticModel::rho() const
+dimensionedScalar viscoelasticModel::rho() const
 {
     return lawPtr_->rho();
 }

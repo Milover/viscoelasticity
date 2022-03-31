@@ -29,8 +29,6 @@ License
 #include "viscoelasticWallShearStress.H"
 #include "volFields.H"
 #include "surfaceFields.H"
-#include "turbulentTransportModel.H"
-#include "turbulentFluidThermoModel.H"
 #include "wallPolyPatch.H"
 #include "addToRunTimeSelectionTable.H"
 
@@ -68,16 +66,16 @@ void Foam::functionObjects::viscoelasticWallShearStress::calcShearStress
     volVectorField& shearStress
 )
 {
-    shearStress.dimensions().reset(Reff.dimensions());
+    shearStress.dimensions().reset(tau.dimensions());
 
     for (const label patchi : patchSet_)
     {
         vectorField& ssp = shearStress.boundaryFieldRef()[patchi];
         const vectorField& Sfp = mesh_.Sf().boundaryField()[patchi];
         const scalarField& magSfp = mesh_.magSf().boundaryField()[patchi];
-        const symmTensorField& Reffp = Reff.boundaryField()[patchi];
+        const symmTensorField& taup = tau.boundaryField()[patchi];
 
-        ssp = (-Sfp/magSfp) & tau;
+        ssp = (-Sfp/magSfp) & taup;
     }
 }
 
@@ -219,7 +217,8 @@ bool Foam::functionObjects::viscoelasticWallShearStress::write()
     {
         const fvPatch& pp = patches[patchi];
 
-        const vectorField& ssp = viscoelasticWallShearStress.boundaryField()[patchi];
+        const vectorField& ssp =
+			viscoelasticWallShearStress.boundaryField()[patchi];
 
         vector minSsp = gMin(ssp);
         vector maxSsp = gMax(ssp);

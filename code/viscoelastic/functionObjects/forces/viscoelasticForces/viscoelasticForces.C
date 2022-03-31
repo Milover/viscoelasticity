@@ -195,21 +195,21 @@ Foam::functionObjects::viscoelasticForces::tau() const
 }
 
 
-Foam::dimensionedScalar Foam::functionObjects::viscoelasticForces::rho() const
+Foam::scalar Foam::functionObjects::viscoelasticForces::rho() const
 {
 	if (foundObject<viscoelasticModel>("viscoelasticModel"))
 	{
 		const viscoelasticModel& model =
 			lookupObject<viscoelasticModel>("viscoelasticModel");
 
-		return model.rho();
+		return model.rho().value();
 	}
 
 	FatalErrorInFunction
 		<< "No valid model for density"
 		<< exit(FatalError);
 
-	return dimensionedScalar("rho", dimDensity, Zero);
+	return Zero;
 }
 
 
@@ -271,7 +271,7 @@ void Foam::functionObjects::viscoelasticForces::writeIntegratedForceMoment
 {
     vector pressure = sum(fm0);
     vector viscous = sum(fm1);
-    vector total = pressure + viscous + porous;
+    vector total = pressure + viscous;
 
     Log << "    Sum of " << descriptor.c_str() << nl
         << "        Total    : " << total << nl
@@ -478,7 +478,7 @@ void Foam::functionObjects::viscoelasticForces::calcForcesMoment()
 		= ttau().boundaryField();
 
 	// Scale pRef by density for incompressible simulations
-	scalar pRef = pRef_/rho().value();
+	scalar pRef = pRef_/rho();
 
 	for (const label patchi : patchSet_)
 	{
