@@ -63,7 +63,7 @@ solvers
 		relTol					0;
 	}
 
-	U
+	"(U|tau.*)"
 	{
 		solver					PBiCGStab;
 		preconditioner			DILU;
@@ -74,7 +74,7 @@ solvers
 		relTol					1e-4;
 	}
 
-	UFinal
+	"(U|tau.*)Final"
 	{
 		$U
 		tolerance				1e-8;
@@ -90,6 +90,7 @@ SIMPLE
 	{
 		U				1e-4;
 		p				1e-4;
+		"tau.*"			1e-4;
 	}
 }
 
@@ -97,7 +98,6 @@ PIMPLE
 {
 	correctPhi			false;
 	momentumPredictor	true;
-	turbOnFinalIterOnly	false;
 
 	nOuterCorrectors	250;
 	nCorrectors			1;
@@ -111,6 +111,11 @@ PIMPLE
 			relTol		0;
 		}
 		p
+		{
+			tolerance	1e-4;
+			relTol		0;
+		}
+		tau
 		{
 			tolerance	1e-4;
 			relTol		0;
@@ -129,6 +134,7 @@ relaxationFactors
 	equations
 	{
 		U			0.6;
+		"tau.*"		0.3;
 		".*Final"	1;
 	}
 }

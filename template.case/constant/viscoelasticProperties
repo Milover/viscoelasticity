@@ -25,7 +25,7 @@ FoamFile
 
 rheology
 {
-	type			Newtonian;
+	type			multiMode;
 
 	NewtonianCoeffs
 	{

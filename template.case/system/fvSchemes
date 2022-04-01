@@ -17,42 +17,48 @@ FoamFile
 
 ddtSchemes
 {
-	//default		Crank-Nicolson 0.9;
-	default			steadyState;
+	//default			Crank-Nicolson 0.9;
+	default				steadyState;
 }
 
 gradSchemes
 {
-	//default		 cellLimited leastSquares;
-	default			leastSquares;
+	//default		 	cellLimited leastSquares;
+	default				leastSquares;
 }
 
 divSchemes
 {
-	default			none;
-	div(phi,U)		Gauss UMISTV leastSquares;
+	default				none;
+	div(phi,U)			Gauss UMISTV leastSquares;
 
-	div((nuEff*dev2(T(grad(U)))))	Gauss linear;
+	div(phi,tau)		Gauss UMIST leastSquares;
+	div(phi,taufirst)	Gauss UMIST leastSquares;
+	div(phi,tausecond)	Gauss UMIST leastSquares;
+	div(phi,tauthird)	Gauss UMIST leastSquares;
+	div(phi,taufourth)	Gauss UMIST leastSquares;
+
+	div(tau)			Gauss linear;
 }
 
 laplacianSchemes
 {
-	default			Gauss linear corrected;
+	default				Gauss linear corrected;
 }
 
 interpolationSchemes
 {
-	default			linear;
+	default				linear;
 }
 
 snGradSchemes
 {
-	default			corrected;
+	default				corrected;
 }
 
 wallDist
 {
-	method			meshWave;
+	method				meshWave;
 }
 
 
