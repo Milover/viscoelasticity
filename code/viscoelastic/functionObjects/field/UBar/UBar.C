@@ -26,9 +26,8 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "pBar.H"
+#include "UBar.H"
 #include "volFieldsFwd.H"
-#include "viscoelasticModel.H"
 #include "addToRunTimeSelectionTable.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
@@ -37,45 +36,25 @@ namespace Foam
 {
 namespace functionObjects
 {
-    defineTypeNameAndDebug(pBar, 0);
-    addToRunTimeSelectionTable(functionObject, pBar, dictionary);
+    defineTypeNameAndDebug(UBar, 0);
+    addToRunTimeSelectionTable(functionObject, UBar, dictionary);
 }
 }
 
 
 // * * * * * * * * * * * * * Private Member Functions  * * * * * * * * * * * //
 
-bool Foam::functionObjects::pBar::calc()
+bool Foam::functionObjects::UBar::calc()
 {
     if (mesh_.foundObject<volScalarField>(fieldName_))
     {
-		dimensionedScalar rho("rho", dimDensity, Zero);
-
-        if (mesh_.foundObject<viscoelasticModel>("viscoelasticModel"))
-        {
-            const viscoelasticModel& model =
-                mesh_.lookupObject<viscoelasticModel>("viscoelasticModel");
-
-			rho = model.rho();
-        }
-        else
-        {
-            FatalErrorInFunction
-                << "Unable to determine the density"
-                << exit(FatalError);
-        }
-
-        const volScalarField& p =
+        const volScalarField& U =
 			mesh_.lookupObject<volScalarField>(fieldName_);
-        const volVectorField& U =
-			mesh_.lookupObject<volVectorField>("U");
-
-		const dimensionedScalar small("small", p.dimensions(), SMALL);
 
         return store
 		(
 			resultName_,
-			p / (rho*magSqr(U) + small)
+			U / dimensionedScalar("URef_", dimVelocity, URef_)
 		);
     }
 
@@ -85,16 +64,39 @@ bool Foam::functionObjects::pBar::calc()
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::functionObjects::pBar::pBar
+Foam::functionObjects::UBar::UBar
 (
     const word& name,
     const Time& runTime,
     const dictionary& dict
 )
 :
-    fieldExpression(name, runTime, dict, "p", "pBar")
+    fieldExpression(name, runTime, dict, "U", "UBar")
 {
     read(dict);
+}
+
+
+// * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
+
+bool Foam::functionObjects::UBar::read(const dictionary& dict)
+{
+	if (fieldExpression::read(dict))
+	{
+		dict.readEntry("URef", URef_);
+
+		if (URef_ < VSMALL)
+		{
+			FatalErrorInFunction
+				<< "Reference velocity = " << URef_
+				<< " cannot be negative or zero."
+				<< abort(FatalError);
+		}
+
+		return true;
+	}
+
+	return false;
 }
 
 

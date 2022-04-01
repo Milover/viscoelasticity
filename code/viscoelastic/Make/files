@@ -9,6 +9,7 @@ viscoelasticLaws/LPTT/LPTT.C
 viscoelasticLaws/multiMode/multiMode.C
 
 functionObjects/field/pBar/pBar.C
+functionObjects/field/UBar/UBar.C
 functionObjects/field/viscoelasticWallShearStress/viscoelasticWallShearStress.C
 functionObjects/forces/viscoelasticForces/viscoelasticForces.C
 
