@@ -6,10 +6,9 @@
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 
-viscoelastric_forces.stenosis
+viscoelastic_forces.stenosis
 {
 	type			viscoelasticForces;
-	libs			("$(FOAM_USER_LIBBIN)/libviscoelasticTransportModels.so");
 	writeControl	timeStep;
 	writeInterval	$short_write;
 	log				false;
@@ -20,10 +19,9 @@ viscoelastric_forces.stenosis
 }
 
 
-viscoelastric_forces.wall
+viscoelastic_forces.wall
 {
 	type			viscoelasticForces;
-	libs			("$(FOAM_USER_LIBBIN)/libviscoelasticTransportModels.so");
 	writeControl	timeStep;
 	writeInterval	$short_write;
 	log				false;

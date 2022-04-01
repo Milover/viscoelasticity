@@ -567,7 +567,7 @@ boundary
 		);
 	}
 
-	symmetry
+	symmetry.patch
 	{
 		type	symmetry;
 		faces
@@ -578,7 +578,7 @@ boundary
 		);
 	}
 
-	empty
+	empty.patch
 	{
 		type	empty;
 		faces

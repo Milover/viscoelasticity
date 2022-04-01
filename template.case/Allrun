@@ -36,7 +36,11 @@ make_paraview_file()
 
 renumber()
 {
-	runParallel -o renumberMesh -overwrite -latestTime
+	if [ -d processor0 ]; then
+		runParallel -o renumberMesh -overwrite -latestTime
+	else
+		runApplication -o renumberMesh -overwrite -latestTime
+	fi
 }
 
 preprocess()
@@ -48,8 +52,7 @@ preprocess()
 #------------------------------------------------------------------------------
 
 # get application and nproc
-#application=$(getApplication)
-application="simpleFoam"
+application=$(getApplication)
 
 # clean
 #./Allclean
@@ -58,7 +61,6 @@ application="simpleFoam"
 restore0Dir
 
 #------------------------------------------------------------------------------
-
 
 # preprocess
 make_paraview_file

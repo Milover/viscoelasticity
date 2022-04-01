@@ -28,7 +28,7 @@ startTime		0;
 
 stopAt			endTime;
 
-endTime			2000;
+endTime			5000;
 
 deltaT			1;
 
@@ -64,5 +64,6 @@ functions
 	#include	"post/single_graph"
 	//#include	"post/time_activated_file_update"
 }
+
 
 // ************************************************************************* //

@@ -48,8 +48,8 @@ single_graph.radial
 		{
 			type	midPoint;
 			axis	y;
-			start	( #eval{ -$:b - $:L } 0 0 );
-			end		( #eval{  $:b + $:L } 0 0 );
+			start	( 0 0   0 );
+			end		( 0 $:a 0 );
 		}
 	);
 }

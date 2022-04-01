@@ -9,10 +9,11 @@
 u_bar
 {
 	type			UBar;
-	libs			("$(FOAM_USER_LIBBIN)/libviscoelasticTransportModels.so");
 	writeControl	timeStep;
 	writeInterval	$long_write;
 	log				false;
+
+	URef			#eval{ mag($[(vector) u_avg]) };
 }
 
 // ************************************************************************* //

@@ -9,7 +9,6 @@
 wall_shear_stress
 {
 	type			viscoelasticWallShearStress;
-	libs			("$(FOAM_USER_LIBBIN)/libviscoelasticTransportModels.so");
 	writeControl	timeStep;
 	writeInterval	$long_write;
 	log				false;
