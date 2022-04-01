@@ -72,12 +72,12 @@ Foam::CarreauYasuda::CarreauYasuda
         ),
         strainRate()*dimensionedScalar("zero", dimVelocity, Zero) //Just to ensure dimensions and BCs
     ),
-    rho_(dimScalar(coeffsDict(), "rho")),
-    eta0_(dimScalar(coeffsDict(), "eta0_")),
-    etaInf_(dimScalar(coeffsDict(), "etaInf_")),
-    k_(dimScalar(coeffsDict(), "k_")),
-    a_(dimScalar(coeffsDict(), "a_")),
-    n_(dimScalar(coeffsDict(), "n_"))
+    rho_(dimScalar(coeffDict(dict), "rho")),
+    eta0_(dimScalar(coeffDict(dict), "eta0")),
+    etaInf_(dimScalar(coeffDict(dict), "etaInf")),
+    k_(dimScalar(coeffDict(dict), "k")),
+    a_(dimScalar(coeffDict(dict), "a")),
+    n_(dimScalar(coeffDict(dict), "n"))
 {
 	correct();
 }
@@ -109,6 +109,7 @@ void Foam::CarreauYasuda::correct()
 		   );
 
 	tau_ = eta_*twoSymm(fvc::grad(U()));
+	tau_.correctBoundaryConditions();
 }
 
 

@@ -60,8 +60,8 @@ Foam::Newtonian::Newtonian
         dimensionedSymmTensor("0", dimPressure, Zero),
         extrapolatedCalculatedFvPatchField<symmTensor>::typeName
     ),
-    rho_(dimScalar(coeffDict(), "rho")),
-    eta_(dimScalar(coeffDict(), "eta_"))
+    rho_(dimScalar(coeffDict(dict), "rho")),
+    eta_(dimScalar(coeffDict(dict), "eta"))
 {
 	correct();
 }
@@ -83,6 +83,7 @@ Foam::tmp<Foam::fvVectorMatrix> Foam::Newtonian::divTau
 void Foam::Newtonian::correct()
 {
 	tau_ = eta_*twoSymm(fvc::grad(U()));
+	tau_.correctBoundaryConditions();
 }
 
 

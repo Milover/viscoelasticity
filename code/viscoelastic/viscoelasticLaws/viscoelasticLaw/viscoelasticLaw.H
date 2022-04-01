@@ -90,7 +90,7 @@ protected:
 		tmp<volScalarField> strainRate() const;
 
 		//- Get coefficients sub-dictionary
-		const dictionary& coeffsDict(const dictionary& dict) const
+		const dictionary& coeffDict(const dictionary& dict) const
 		{
 			return dict.subDict(type() + "Coeffs");
 		}

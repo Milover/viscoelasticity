@@ -57,12 +57,12 @@ Foam::LPTT::LPTT
         ),
         U.mesh()
     ),
-    rho_(dimScalar(coeffDict(), "rho")),
-    etaS_(dimScalar(coeffDict(), "etaS")),
-    etaP_(dimScalar(coeffDict(), "etaP")),
-    epsilon_(dimScalar(coeffDict(), "epsilon")),
-    lambda_(dimScalar(coeffDict(), "lambda")),
-    zeta_(dimScalar(coeffDict(), "zeta"))
+    rho_(dimScalar(coeffDict(dict), "rho")),
+    etaS_(dimScalar(coeffDict(dict), "etaS")),
+    etaP_(dimScalar(coeffDict(dict), "etaP")),
+    epsilon_(dimScalar(coeffDict(dict), "epsilon")),
+    lambda_(dimScalar(coeffDict(dict), "lambda")),
+    zeta_(dimScalar(coeffDict(dict), "zeta"))
 {}
 
 
