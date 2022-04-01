@@ -60,8 +60,8 @@ Foam::Newtonian::Newtonian
         dimensionedSymmTensor("0", dimPressure, Zero),
         extrapolatedCalculatedFvPatchField<symmTensor>::typeName
     ),
-    rho_(dict.get<dimensionedScalar>("rho")),
-    eta_(dict.get<dimensionedScalar>("eta"))
+    rho_(dimScalar(coeffDict(), "rho")),
+    eta_(dimScalar(coeffDict(), "eta_"))
 {
 	correct();
 }

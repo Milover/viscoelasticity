@@ -61,7 +61,7 @@ Foam::multiMode::multiMode
     ),
     models_()
 {
-    PtrList<entry> modelEntries(dict.lookup("models"));
+    PtrList<entry> modelEntries(coeffDict().lookup("models"));
     models_.setSize(modelEntries.size());
 
     forAll (models_, modelI)

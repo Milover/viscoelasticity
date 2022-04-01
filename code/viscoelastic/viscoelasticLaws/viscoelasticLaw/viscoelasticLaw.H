@@ -89,6 +89,21 @@ protected:
 		//- Return strain rate
 		tmp<volScalarField> strainRate() const;
 
+		//- Get coefficients sub-dictionary
+		const dictionary& coeffsDict(const dictionary& dict) const
+		{
+			return dict.subDict(type() + "Coeffs");
+		}
+
+		//- Get a dimensionedScalar form a dictionary
+		dimensionedScalar dimScalar
+		(
+			const dictionary& dict,
+			const word& name
+		) const
+		{
+			return dict.get<dimensionedScalar>(name);
+		}
 
 public:
 

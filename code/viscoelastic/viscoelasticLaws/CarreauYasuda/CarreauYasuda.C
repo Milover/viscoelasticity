@@ -72,12 +72,12 @@ Foam::CarreauYasuda::CarreauYasuda
         ),
         strainRate()*dimensionedScalar("zero", dimVelocity, Zero) //Just to ensure dimensions and BCs
     ),
-    rho_(dict.get<dimensionedScalar>("rho")),
-    eta0_(dict.get<dimensionedScalar>("eta0")),
-    etaInf_(dict.get<dimensionedScalar>("etaInf")),
-    k_(dict.get<dimensionedScalar>("k")),
-    a_(dict.get<dimensionedScalar>("a")),
-    n_(dict.get<dimensionedScalar>("n"))
+    rho_(dimScalar(coeffsDict(), "rho")),
+    eta0_(dimScalar(coeffsDict(), "eta0_")),
+    etaInf_(dimScalar(coeffsDict(), "etaInf_")),
+    k_(dimScalar(coeffsDict(), "k_")),
+    a_(dimScalar(coeffsDict(), "a_")),
+    n_(dimScalar(coeffsDict(), "n_"))
 {
 	correct();
 }

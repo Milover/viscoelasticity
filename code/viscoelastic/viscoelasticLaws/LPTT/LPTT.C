@@ -57,15 +57,13 @@ Foam::LPTT::LPTT
         ),
         U.mesh()
     ),
-    rho_(dict.get<dimensionedScalar>("rho")),
-    etaS_(dict.get<dimensionedScalar>("etaS")),
-    etaP_(dict.get<dimensionedScalar>("etaP")),
-    epsilon_(dict.get<dimensionedScalar>("epsilon")),
-    lambda_(dict.get<dimensionedScalar>("lambda")),
-    zeta_(dict.get<dimensionedScalar>("zeta"))
-{
-	// update tau config
-}
+    rho_(dimScalar(coeffDict(), "rho")),
+    etaS_(dimScalar(coeffDict(), "etaS")),
+    etaP_(dimScalar(coeffDict(), "etaP")),
+    epsilon_(dimScalar(coeffDict(), "epsilon")),
+    lambda_(dimScalar(coeffDict(), "lambda")),
+    zeta_(dimScalar(coeffDict(), "zeta"))
+{}
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
