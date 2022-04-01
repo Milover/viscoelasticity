@@ -31,6 +31,7 @@ lnInclude
 **/cellDecomposition
 **/cellDist
 *.foam
+log.*
 
 # random resources
 vagrant
