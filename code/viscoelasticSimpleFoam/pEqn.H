@@ -15,6 +15,8 @@
         HbyA -= (rAU - rAtU())*fvc::grad(p);
     }
 
+    tUEqn.clear();
+
     // Update the pressure BCs to ensure flux consistency
     constrainPressure(p, U, phiHbyA, rAtU(), MRF);
 

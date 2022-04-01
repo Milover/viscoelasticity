@@ -22,5 +22,3 @@
 
         fvOptions.correct(U);
     }
-
-    tUEqn.clear();

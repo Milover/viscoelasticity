@@ -28,7 +28,6 @@ License
 
 #include "pBar.H"
 #include "volFieldsFwd.H"
-#include "viscoelasticModel.H"
 #include "addToRunTimeSelectionTable.H"
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
@@ -49,22 +48,6 @@ bool Foam::functionObjects::pBar::calc()
 {
     if (mesh_.foundObject<volScalarField>(fieldName_))
     {
-		dimensionedScalar rho("rho", dimDensity, Zero);
-
-        if (mesh_.foundObject<viscoelasticModel>("viscoelasticModel"))
-        {
-            const viscoelasticModel& model =
-                mesh_.lookupObject<viscoelasticModel>("viscoelasticModel");
-
-			rho = model.rho();
-        }
-        else
-        {
-            FatalErrorInFunction
-                << "Unable to determine the density"
-                << exit(FatalError);
-        }
-
         const volScalarField& p =
 			mesh_.lookupObject<volScalarField>(fieldName_);
         const volVectorField& U =
@@ -75,7 +58,7 @@ bool Foam::functionObjects::pBar::calc()
         return store
 		(
 			resultName_,
-			p / (rho*magSqr(U) + small)
+			p / (magSqr(U) + small)
 		);
     }
 

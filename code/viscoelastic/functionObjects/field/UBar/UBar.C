@@ -46,10 +46,10 @@ namespace functionObjects
 
 bool Foam::functionObjects::UBar::calc()
 {
-    if (mesh_.foundObject<volScalarField>(fieldName_))
+    if (mesh_.foundObject<volVectorField>(fieldName_))
     {
-        const volScalarField& U =
-			mesh_.lookupObject<volScalarField>(fieldName_);
+        const volVectorField& U =
+			mesh_.lookupObject<volVectorField>(fieldName_);
 
         return store
 		(

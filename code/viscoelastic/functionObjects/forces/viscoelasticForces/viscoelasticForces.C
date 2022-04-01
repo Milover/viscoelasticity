@@ -179,10 +179,10 @@ void Foam::functionObjects::viscoelasticForces::resetFields()
 Foam::tmp<Foam::volSymmTensorField>
 Foam::functionObjects::viscoelasticForces::tau() const
 {
-	if (foundObject<viscoelasticModel>("viscoelasticModel"))
+	if (foundObject<viscoelasticModel>("viscoelasticProperties"))
 	{
 		const viscoelasticModel& model =
-			lookupObject<viscoelasticModel>("viscoelasticModel");
+			lookupObject<viscoelasticModel>("viscoelasticProperties");
 
 		return model.tau();
 	}
@@ -197,10 +197,10 @@ Foam::functionObjects::viscoelasticForces::tau() const
 
 Foam::scalar Foam::functionObjects::viscoelasticForces::rho() const
 {
-	if (foundObject<viscoelasticModel>("viscoelasticModel"))
+	if (foundObject<viscoelasticModel>("viscoelasticProperties"))
 	{
 		const viscoelasticModel& model =
-			lookupObject<viscoelasticModel>("viscoelasticModel");
+			lookupObject<viscoelasticModel>("viscoelasticProperties");
 
 		return model.rho().value();
 	}
