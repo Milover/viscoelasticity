@@ -16,7 +16,7 @@ single_graph.axial
 
 	interpolationScheme	cellPatchConstrained;
 
-	fields			( pBar );
+	fields			( p pBar );
 
 	sets
 	(
@@ -40,7 +40,7 @@ single_graph.radial
 
 	interpolationScheme	cell;
 
-	fields			( U );
+	fields			( U UBar );
 
 	sets
 	(

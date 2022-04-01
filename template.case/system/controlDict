@@ -20,7 +20,7 @@ FoamFile
 short_write		5;
 long_write		50;
 
-application		simpleFoam;
+application		viscoelasticSimpleFoam;
 
 startFrom		startTime;
 
@@ -54,11 +54,12 @@ functions
 {
 	// field generating stuff
 	#include	"post/p_bar"
+	#include	"post/u_bar"
 	#include	"post/viscoelastic_wall_shear_stress"
 
 	// sampling
 	#include	"post/field_min_max"
-	#include	"post/forces"
+	#include	"post/viscoelastic_forces"
 	#include	"post/probes"
 	#include	"post/single_graph"
 	//#include	"post/time_activated_file_update"

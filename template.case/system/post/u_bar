@@ -6,19 +6,13 @@
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 
-forces
+u_bar
 {
-	type			forces;
-	libs			("libforces.so");
+	type			UBar;
+	libs			("$(FOAM_USER_LIBBIN)/libviscoelasticTransportModels.so");
 	writeControl	timeStep;
-	writeInterval	$short_write;
+	writeInterval	$long_write;
 	log				false;
-	p				p;
-	U				U;
-	rho				rhoInf;
-	rhoInf			$:rho;
-	CofR			( 0 0 0 );
-	patches			( "wall.*" );
 }
 
 // ************************************************************************* //

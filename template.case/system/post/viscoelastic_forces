@@ -6,24 +6,31 @@
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 
-probes
+viscoelastric_forces.stenosis
 {
-	type			probes;
-	libs			("libsampling.so");
+	type			viscoelasticForces;
+	libs			("$(FOAM_USER_LIBBIN)/libviscoelasticTransportModels.so");
 	writeControl	timeStep;
 	writeInterval	$short_write;
 	log				false;
+	p				p;
+	U				U;
+	CofR			( 0 0 0 );
+	patches			( wall.stenosis );
+}
 
-	fixedLocations	true;
-	interpolation	cellPointFace;
 
-	fields			( p pBar );
-
-	probeLocations
-	(
-		( #eval{ -16*$:R } 0 0)
-		( #eval{  16*$:R } 0 0)
-	);
+viscoelastric_forces.wall
+{
+	type			viscoelasticForces;
+	libs			("$(FOAM_USER_LIBBIN)/libviscoelasticTransportModels.so");
+	writeControl	timeStep;
+	writeInterval	$short_write;
+	log				false;
+	p				p;
+	U				U;
+	CofR			( 0 0 0 );
+	patches			( "wall.*" );
 }
 
 // ************************************************************************* //
