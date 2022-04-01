@@ -62,7 +62,9 @@ Foam::Newtonian::Newtonian
     ),
     rho_(dict.get<dimensionedScalar>("rho")),
     eta_(dict.get<dimensionedScalar>("eta"))
-{}
+{
+	correct();
+}
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
@@ -79,7 +81,9 @@ Foam::tmp<Foam::fvVectorMatrix> Foam::Newtonian::divTau
 }
 
 void Foam::Newtonian::correct()
-{}
+{
+	tau_ = eta_*twoSymm(U());
+}
 
 
 // ************************************************************************* //

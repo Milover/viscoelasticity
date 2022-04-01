@@ -79,8 +79,7 @@ Foam::CarreauYasuda::CarreauYasuda
     a_(dict.get<dimensionedScalar>("a")),
     n_(dict.get<dimensionedScalar>("n"))
 {
-  // Initialize eta_
-  correct();
+	correct();
 }
 
 
@@ -108,6 +107,8 @@ void Foam::CarreauYasuda::correct()
 		   		scalar(1.0) + pow(k_*strainRate(), a_),
 				(n_ - scalar(1.0))/a_
 		   );
+
+	tau_ = eta_*twoSymm(U());
 }
 
 

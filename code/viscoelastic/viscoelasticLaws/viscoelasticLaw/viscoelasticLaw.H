@@ -83,7 +83,7 @@ private:
         void operator=(const viscoelasticLaw&);
 
 protected:
-	
+
 	// Protected Member Functions
 
 		//- Return strain rate

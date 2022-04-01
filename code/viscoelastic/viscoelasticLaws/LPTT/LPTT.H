@@ -59,7 +59,6 @@ class LPTT
         //- Transported viscoelastic stress
         volSymmTensorField tau_;
 
-
         // Model constants
 
             //- Density

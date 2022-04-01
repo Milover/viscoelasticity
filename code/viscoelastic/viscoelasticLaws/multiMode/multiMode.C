@@ -118,19 +118,6 @@ Foam::dimensionedScalar Foam::multiMode::rho() const
 }
 
 
-Foam::tmp<Foam::volSymmTensorField> Foam::multiMode::tau() const
-{
-    tau_ = symmTensor::zero;
-
-	for (const auto& m : models_)
-    {
-        tau_ += m.tau();
-    }
-
-    return tau_;
-}
-
-
 void Foam::multiMode::correct()
 {
 	for (auto& m : models_)
@@ -141,7 +128,12 @@ void Foam::multiMode::correct()
         m.correct();
     }
 
-    tau();
+    tau_ = symmTensor::zero;
+
+	for (const auto& m : models_)
+    {
+        tau_ += m.tau();
+    }
 }
 
 

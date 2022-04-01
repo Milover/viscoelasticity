@@ -56,7 +56,7 @@ class multiMode
     // Private data
 
         //- Transported viscoelastic stress
-        mutable volSymmTensorField tau_;
+        volSymmTensorField tau_;
 
         //- List of models
         PtrList<viscoelasticLaw> models_;
@@ -100,7 +100,10 @@ public:
 		virtual dimensionedScalar rho() const;
 
         //- Return the viscoelastic stress tensor
-        virtual tmp<volSymmTensorField> tau() const;
+        virtual tmp<volSymmTensorField> tau() const
+		{
+			return tau_;
+		}
 
         //- Return the coupling term for the momentum equation
         virtual tmp<fvVectorMatrix> divTau(const volVectorField& U) const;

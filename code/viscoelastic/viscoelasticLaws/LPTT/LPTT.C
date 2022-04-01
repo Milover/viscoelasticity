@@ -63,7 +63,9 @@ Foam::LPTT::LPTT
     epsilon_(dict.get<dimensionedScalar>("epsilon")),
     lambda_(dict.get<dimensionedScalar>("lambda")),
     zeta_(dict.get<dimensionedScalar>("zeta"))
-{}
+{
+	// update tau config
+}
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
