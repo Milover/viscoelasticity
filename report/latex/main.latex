@@ -109,6 +109,8 @@
 
 \newcommand{\vect}[1]{\boldsymbol{#1}}
 
+\newcommand{\disregard}[1]{{\color{black!40}{#1}}}
+
 \def\frontmatter{%
     \pagenumbering{roman}
     \setcounter{page}{1}
@@ -247,13 +249,76 @@ boundary conditions
 %
 \end{itemize}
 
+\noindent
 Parameter values, expressions and the like:
 %
 \begin{itemize}
 %
 \item assume laminar flow of an incompressible fluid
 %
-\item
+\item stenosis geometry definition, as per~\cite{Young-T:Stenoses-1:1973,
+Chauhan-S:Rheology:2021}:
+%
+\begin{equation*}
+%
+\frac{r}{R_0} = 1 - \frac{a}{2R_0} \left[1 + \cos\left(\frac{\pi z}{b}\right) \right] -b, \quad -b \leq z \leq b
+%
+\end{equation*}
+%
+\item parameter definitions:
+%
+\begin{description}[style=multiline,leftmargin=5cm,labelindent=\parindent,font=\normalfont]
+	%
+	\item[$a$ \hspace*{\fill} \si{m} \hspace*{0.5cm}]
+	stenosis height
+	%
+	\item[$b$ \hspace*{\fill} \si{m} \hspace*{0.5cm}]
+	stenosis half-length
+	%
+	\item[$D$ \hspace*{\fill} \si{m} \hspace*{0.5cm}]
+	unobstructed pipe diameter
+	%
+	\item[$\overline{p} = p R_0 / (\mu U_\text{ref})$ \hspace*{\fill}]
+	dimensionless pressure, as per~\cite{Deshpande-GM:Stenoses:1976}
+	%
+	\item[$R_0$ \hspace*{\fill} \si{m} \hspace*{0.5cm}]
+	unobstructed pipe radius
+	%
+	\item[$Re = \rho U_\text{ref} D / \mu$ \hspace*{\fill}]
+	Reynolds number, as per~\cite{Chauhan-S:Rheology:2021}
+	%
+	\item[$r$ \hspace*{\fill} \si{m} \hspace*{0.5cm}]
+	radial coordinate
+	%
+	\item[$\vect{U}$ \hspace*{\fill} \si{m.s^{-1}} \hspace*{0.5cm}]
+	flow velocity
+	%
+	\item[$U_\text{ref}$ \hspace*{\fill} \si{m.s^{-1}} \hspace*{0.5cm}]
+	mean flow velocity in unobstructed pipe
+	%
+	\item[$z$ \hspace*{\fill} \si{m} \hspace*{0.5cm}]
+	axial coordinate
+	%
+\end{description}
+%
+\item tracked values:
+%
+\begin{itemize}
+	%
+	\item radial velocity profile at $z = 0$
+	%
+	\item dimensionless pressure drop ($\Delta \overline{p} =
+	(p_\text{in} - p) / (\rho U_\text{ref}^2)$, as per~\cite{Young-T:Stenoses-1:1973})
+	along pipe axis
+	%
+	\item dimensionless pressure drop ($\Delta \overline{p} =
+	(\left. p \right\vert_{z=-16R} - \left. p \right\vert_{z=+16R}) /
+	(\rho U_\text{ref}^2)$) along the axis
+	%
+	\item dimensionless forces acting on the stenosis wall (assuming $\overline{F}
+	= F / (R^2 \pi \rho U_\text{ref}^2)$)
+	%
+\end{itemize}
 %
 \end{itemize}
 
@@ -262,6 +327,7 @@ Parameter values, expressions and the like:
 
 \begin{enumerate}
 %
+\disregard{%
 \item Perform mesh independence study for the 2D and 3D cases using the
 following setup:
 %
@@ -276,7 +342,8 @@ following setup:
 	(see~\cite{Thien-T:Constitutive:1977}), using model parameters
 	from~\cite{Chauhan-S:Rheology:2021}
 	%
-\end{itemize}
+\end{itemize}}
+--- \textbf{to be provided}
 %
 \item Perform a parametric study for the steady state 2D axisymmetric case:
 %
@@ -339,11 +406,11 @@ from~\cite{Chauhan-S:Rheology:2021}.
 %
 \begin{enumerate}
 	%
-	\item define how mesh independence will be determined
+	\disregard{\item define how mesh independence will be determined} --- done
 	%
 	\item extract and provide comparison data from~\cite{Chauhan-S:Rheology:2021}
 	%
-	\item define values to be monitored (sections, probe locations, graphs, etc.)
+	\disregard{\item define values to be monitored (sections, probe locations, graphs, etc.)} --- done
 	%
 	\item define flow rate variation for the transient cases
 	%

@@ -12,7 +12,7 @@ $ general:0
 	  stenosis, defined by:
 
 	  	r/(D/2) = 1 - a/D [1 + cos(pi*z/b)] - b, -b <= z <= b
-	
+
 	  where 'D' is the unobstructed pipe diameter, 'a' the stenosis height,
 	  'b' the stenosis half-lenght, and 'r' and 'z' are the radial and axial
 	  coordinates respectively. Note that the coordinate system is placed at
@@ -54,7 +54,7 @@ $ dimensionless_parameters:0
 	  	V_r	= v_r / U			- dimensionless radial velocity
 	  	V_z	= v_z / U			- dimensionless axial velocity
 		Z	= z / r_0			- dimensionless axial coordinate
-	
+
 	  Young & Tsai (1973):
 
 		D						- unobstructed pipe diameter
