@@ -149,6 +149,12 @@ void Foam::functionObjects::viscoelasticForces::initialise()
 			<< exit(FatalError);
 	}
 
+	forAll(force_, i)
+	{
+		force_[i].setSize(1, vector::zero);
+		moment_[i].setSize(1, vector::zero);
+	}
+
     initialised_ = true;
 }
 
@@ -495,6 +501,11 @@ void Foam::functionObjects::viscoelasticForces::calcForcesMoment()
 		vectorField fT(Sfb[patchi] & taub[patchi]);
 
 		addToFields(patchi, Md, fN, fT);
+
+		force_[0][0] += sum(fN);
+		force_[1][0] += sum(fT);
+		moment_[0][0] += sum(Md^fN);
+		moment_[1][0] += sum(Md^fT);
 	}
 
     Pstream::listCombineGather(force_, plusEqOp<vectorField>());
