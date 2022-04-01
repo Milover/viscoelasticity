@@ -90,7 +90,7 @@ Foam::tmp<Foam::fvVectorMatrix> Foam::multiMode::divTau
 {
 	tmp<fvVectorMatrix> tdivMatrix
 	(
-		new fvVectorMatrix(U, dimPressure/dimDensity)
+		new fvVectorMatrix(U, dimPressure*dimArea/dimDensity)
 	);
 	fvVectorMatrix& divMatrix = tdivMatrix.ref();
 
@@ -128,7 +128,7 @@ void Foam::multiMode::correct()
         m.correct();
     }
 
-    tau_ = symmTensor::zero;
+    tau_ = dimensionedSymmTensor("zero", dimPressure, Zero);
 
 	for (const auto& m : models_)
     {
