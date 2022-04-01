@@ -108,7 +108,7 @@ void Foam::CarreauYasuda::correct()
 				(n_ - scalar(1.0))/a_
 		   );
 
-	tau_ = eta_*twoSymm(U());
+	tau_ = eta_*twoSymm(fvc::grad(U()));
 }
 
 

@@ -82,7 +82,7 @@ Foam::tmp<Foam::fvVectorMatrix> Foam::Newtonian::divTau
 
 void Foam::Newtonian::correct()
 {
-	tau_ = eta_*twoSymm(U());
+	tau_ = eta_*twoSymm(fvc::grad(U()));
 }
 
 
