@@ -18,7 +18,6 @@ FoamFile
 #include	"<constant>/caseSetup"
 
 zMax    0.5;
-zMin   -0.5;
 
 exR_L	1.01;					// cell expansion ratio inlet/outlet, x-axis
 exR_y	1.01;					// cell expansion ratio, y-axis
@@ -38,25 +37,25 @@ scale		1;
 
 vertices
 (
-	(#eval{ -$b } 0  $zMin)				// 0
-	(#eval{  $b } 0  $zMin)				// 1
-	(#eval{  $b } $R $zMin)				// 2
-	(#eval{ -$b } $R $zMin)				// 3
+	#eval{vector(      -$b,   0, -$zMax)}		// 0
+	#eval{vector(       $b,   0, -$zMax)}		// 1
+	#eval{vector(       $b,  $R, -$zMax)}		// 2
+	#eval{vector(      -$b,  $R, -$zMax)}		// 3
 
-	(#eval{ -$b } 0  $zMax)				// 4
-	(#eval{  $b } 0  $zMax)				// 5
-	(#eval{  $b } $R $zMax)				// 6
-	(#eval{ -$b } $R $zMax)				// 7
+	#eval{vector(      -$b,   0,  $zMax)}		// 4
+	#eval{vector(       $b,   0,  $zMax)}		// 5
+	#eval{vector(       $b,  $R,  $zMax)}		// 6
+	#eval{vector(      -$b,  $R,  $zMax)}		// 7
 
-	(#eval{ -$b - $L } 0  $zMin)		// 8
-	(#eval{ -$b - $L } $R $zMin)		// 9
-	(#eval{ -$b - $L } 0  $zMax)		// 10
-	(#eval{ -$b - $L } $R $zMax)		// 11
+	#eval{vector( -$b - $L,   0, -$zMax)}		// 8
+	#eval{vector( -$b - $L,  $R, -$zMax)}		// 9
+	#eval{vector( -$b - $L,   0,  $zMax)}		// 10
+	#eval{vector( -$b - $L,  $R,  $zMax)}		// 11
 
-	(#eval{  $b + $L } 0  $zMin)		// 12
-	(#eval{  $b + $L } $R $zMin)		// 13
-	(#eval{  $b + $L } 0  $zMax)		// 14
-	(#eval{  $b + $L } $R $zMax)		// 15
+	#eval{vector(  $b + $L,   0, -$zMax)}		// 12
+	#eval{vector(  $b + $L,  $R, -$zMax)}		// 13
+	#eval{vector(  $b + $L,   0,  $zMax)}		// 14
+	#eval{vector(  $b + $L,  $R,  $zMax)}		// 15
 );
 
 blocks
@@ -72,211 +71,31 @@ edges
 	line   1 2
 	spline 2 3
 	(
-		(#eval{  $b } $R $zMin)
+		#eval{vector(      $b,                                  $R, -$zMax)}
 
-		(#eval{  0.99*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.99*pi())) } $zMin)
-		(#eval{  0.98*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.98*pi())) } $zMin)
-		(#eval{  0.97*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.97*pi())) } $zMin)
-		(#eval{  0.96*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.96*pi())) } $zMin)
-		(#eval{  0.95*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.95*pi())) } $zMin)
-		(#eval{  0.94*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.94*pi())) } $zMin)
-		(#eval{  0.93*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.93*pi())) } $zMin)
-		(#eval{  0.92*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.92*pi())) } $zMin)
-		(#eval{  0.91*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.91*pi())) } $zMin)
-		(#eval{  0.90*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.90*pi())) } $zMin)
-		(#eval{  0.89*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.89*pi())) } $zMin)
-		(#eval{  0.88*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.88*pi())) } $zMin)
-		(#eval{  0.87*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.87*pi())) } $zMin)
-		(#eval{  0.86*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.86*pi())) } $zMin)
-		(#eval{  0.85*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.85*pi())) } $zMin)
-		(#eval{  0.84*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.84*pi())) } $zMin)
-		(#eval{  0.83*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.83*pi())) } $zMin)
-		(#eval{  0.82*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.82*pi())) } $zMin)
-		(#eval{  0.81*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.81*pi())) } $zMin)
-		(#eval{  0.80*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.80*pi())) } $zMin)
-		(#eval{  0.79*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.79*pi())) } $zMin)
-		(#eval{  0.78*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.78*pi())) } $zMin)
-		(#eval{  0.77*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.77*pi())) } $zMin)
-		(#eval{  0.76*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.76*pi())) } $zMin)
-		(#eval{  0.75*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.75*pi())) } $zMin)
-		(#eval{  0.74*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.74*pi())) } $zMin)
-		(#eval{  0.73*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.73*pi())) } $zMin)
-		(#eval{  0.72*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.72*pi())) } $zMin)
-		(#eval{  0.71*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.71*pi())) } $zMin)
-		(#eval{  0.70*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.70*pi())) } $zMin)
-		(#eval{  0.69*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.69*pi())) } $zMin)
-		(#eval{  0.68*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.68*pi())) } $zMin)
-		(#eval{  0.67*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.67*pi())) } $zMin)
-		(#eval{  0.66*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.66*pi())) } $zMin)
-		(#eval{  0.65*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.65*pi())) } $zMin)
-		(#eval{  0.64*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.64*pi())) } $zMin)
-		(#eval{  0.63*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.63*pi())) } $zMin)
-		(#eval{  0.62*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.62*pi())) } $zMin)
-		(#eval{  0.61*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.61*pi())) } $zMin)
-		(#eval{  0.60*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.60*pi())) } $zMin)
-		(#eval{  0.59*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.59*pi())) } $zMin)
-		(#eval{  0.58*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.58*pi())) } $zMin)
-		(#eval{  0.57*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.57*pi())) } $zMin)
-		(#eval{  0.56*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.56*pi())) } $zMin)
-		(#eval{  0.55*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.55*pi())) } $zMin)
-		(#eval{  0.54*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.54*pi())) } $zMin)
-		(#eval{  0.53*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.53*pi())) } $zMin)
-		(#eval{  0.52*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.52*pi())) } $zMin)
-		(#eval{  0.51*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.51*pi())) } $zMin)
-		(#eval{  0.50*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.50*pi())) } $zMin)
-		(#eval{  0.49*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.49*pi())) } $zMin)
-		(#eval{  0.48*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.48*pi())) } $zMin)
-		(#eval{  0.47*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.47*pi())) } $zMin)
-		(#eval{  0.46*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.46*pi())) } $zMin)
-		(#eval{  0.45*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.45*pi())) } $zMin)
-		(#eval{  0.44*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.44*pi())) } $zMin)
-		(#eval{  0.43*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.43*pi())) } $zMin)
-		(#eval{  0.42*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.42*pi())) } $zMin)
-		(#eval{  0.41*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.41*pi())) } $zMin)
-		(#eval{  0.40*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.40*pi())) } $zMin)
-		(#eval{  0.39*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.39*pi())) } $zMin)
-		(#eval{  0.38*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.38*pi())) } $zMin)
-		(#eval{  0.37*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.37*pi())) } $zMin)
-		(#eval{  0.36*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.36*pi())) } $zMin)
-		(#eval{  0.35*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.35*pi())) } $zMin)
-		(#eval{  0.34*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.34*pi())) } $zMin)
-		(#eval{  0.33*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.33*pi())) } $zMin)
-		(#eval{  0.32*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.32*pi())) } $zMin)
-		(#eval{  0.31*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.31*pi())) } $zMin)
-		(#eval{  0.30*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.30*pi())) } $zMin)
-		(#eval{  0.29*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.29*pi())) } $zMin)
-		(#eval{  0.28*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.28*pi())) } $zMin)
-		(#eval{  0.27*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.27*pi())) } $zMin)
-		(#eval{  0.26*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.26*pi())) } $zMin)
-		(#eval{  0.25*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.25*pi())) } $zMin)
-		(#eval{  0.24*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.24*pi())) } $zMin)
-		(#eval{  0.23*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.23*pi())) } $zMin)
-		(#eval{  0.22*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.22*pi())) } $zMin)
-		(#eval{  0.21*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.21*pi())) } $zMin)
-		(#eval{  0.20*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.20*pi())) } $zMin)
-		(#eval{  0.19*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.19*pi())) } $zMin)
-		(#eval{  0.18*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.18*pi())) } $zMin)
-		(#eval{  0.17*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.17*pi())) } $zMin)
-		(#eval{  0.16*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.16*pi())) } $zMin)
-		(#eval{  0.15*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.15*pi())) } $zMin)
-		(#eval{  0.14*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.14*pi())) } $zMin)
-		(#eval{  0.13*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.13*pi())) } $zMin)
-		(#eval{  0.12*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.12*pi())) } $zMin)
-		(#eval{  0.11*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.11*pi())) } $zMin)
-		(#eval{  0.10*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.10*pi())) } $zMin)
-		(#eval{  0.09*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.09*pi())) } $zMin)
-		(#eval{  0.08*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.08*pi())) } $zMin)
-		(#eval{  0.07*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.07*pi())) } $zMin)
-		(#eval{  0.06*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.06*pi())) } $zMin)
-		(#eval{  0.05*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.05*pi())) } $zMin)
-		(#eval{  0.04*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.04*pi())) } $zMin)
-		(#eval{  0.03*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.03*pi())) } $zMin)
-		(#eval{  0.02*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.02*pi())) } $zMin)
-		(#eval{  0.01*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.01*pi())) } $zMin)
+		#eval{vector(  0.9*$b,  $R - 0.5*$a * (1 + cos( 0.9*pi())), -$zMax)}
+		#eval{vector(  0.8*$b,  $R - 0.5*$a * (1 + cos( 0.8*pi())), -$zMax)}
+		#eval{vector(  0.7*$b,  $R - 0.5*$a * (1 + cos( 0.7*pi())), -$zMax)}
+		#eval{vector(  0.6*$b,  $R - 0.5*$a * (1 + cos( 0.6*pi())), -$zMax)}
+		#eval{vector(  0.5*$b,  $R - 0.5*$a * (1 + cos( 0.5*pi())), -$zMax)}
+		#eval{vector(  0.4*$b,  $R - 0.5*$a * (1 + cos( 0.4*pi())), -$zMax)}
+		#eval{vector(  0.3*$b,  $R - 0.5*$a * (1 + cos( 0.3*pi())), -$zMax)}
+		#eval{vector(  0.2*$b,  $R - 0.5*$a * (1 + cos( 0.2*pi())), -$zMax)}
+		#eval{vector(  0.1*$b,  $R - 0.5*$a * (1 + cos( 0.1*pi())), -$zMax)}
 
-		(0 #eval{ $R - $a } $zMin)
+		#eval{vector(       0,                             $R - $a, -$zMax)}
 
-		(#eval{ -0.01*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.01*pi())) } $zMin)
-		(#eval{ -0.02*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.02*pi())) } $zMin)
-		(#eval{ -0.03*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.03*pi())) } $zMin)
-		(#eval{ -0.04*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.04*pi())) } $zMin)
-		(#eval{ -0.05*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.05*pi())) } $zMin)
-		(#eval{ -0.06*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.06*pi())) } $zMin)
-		(#eval{ -0.07*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.07*pi())) } $zMin)
-		(#eval{ -0.08*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.08*pi())) } $zMin)
-		(#eval{ -0.09*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.09*pi())) } $zMin)
-		(#eval{ -0.10*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.10*pi())) } $zMin)
-		(#eval{ -0.11*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.11*pi())) } $zMin)
-		(#eval{ -0.12*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.12*pi())) } $zMin)
-		(#eval{ -0.13*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.13*pi())) } $zMin)
-		(#eval{ -0.14*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.14*pi())) } $zMin)
-		(#eval{ -0.15*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.15*pi())) } $zMin)
-		(#eval{ -0.16*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.16*pi())) } $zMin)
-		(#eval{ -0.17*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.17*pi())) } $zMin)
-		(#eval{ -0.18*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.18*pi())) } $zMin)
-		(#eval{ -0.19*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.19*pi())) } $zMin)
-		(#eval{ -0.20*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.20*pi())) } $zMin)
-		(#eval{ -0.21*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.21*pi())) } $zMin)
-		(#eval{ -0.22*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.22*pi())) } $zMin)
-		(#eval{ -0.23*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.23*pi())) } $zMin)
-		(#eval{ -0.24*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.24*pi())) } $zMin)
-		(#eval{ -0.25*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.25*pi())) } $zMin)
-		(#eval{ -0.26*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.26*pi())) } $zMin)
-		(#eval{ -0.27*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.27*pi())) } $zMin)
-		(#eval{ -0.28*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.28*pi())) } $zMin)
-		(#eval{ -0.29*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.29*pi())) } $zMin)
-		(#eval{ -0.30*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.30*pi())) } $zMin)
-		(#eval{ -0.31*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.31*pi())) } $zMin)
-		(#eval{ -0.32*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.32*pi())) } $zMin)
-		(#eval{ -0.33*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.33*pi())) } $zMin)
-		(#eval{ -0.34*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.34*pi())) } $zMin)
-		(#eval{ -0.35*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.35*pi())) } $zMin)
-		(#eval{ -0.36*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.36*pi())) } $zMin)
-		(#eval{ -0.37*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.37*pi())) } $zMin)
-		(#eval{ -0.38*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.38*pi())) } $zMin)
-		(#eval{ -0.39*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.39*pi())) } $zMin)
-		(#eval{ -0.40*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.40*pi())) } $zMin)
-		(#eval{ -0.41*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.41*pi())) } $zMin)
-		(#eval{ -0.42*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.42*pi())) } $zMin)
-		(#eval{ -0.43*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.43*pi())) } $zMin)
-		(#eval{ -0.44*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.44*pi())) } $zMin)
-		(#eval{ -0.45*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.45*pi())) } $zMin)
-		(#eval{ -0.46*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.46*pi())) } $zMin)
-		(#eval{ -0.47*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.47*pi())) } $zMin)
-		(#eval{ -0.48*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.48*pi())) } $zMin)
-		(#eval{ -0.49*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.49*pi())) } $zMin)
-		(#eval{ -0.50*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.50*pi())) } $zMin)
-		(#eval{ -0.51*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.51*pi())) } $zMin)
-		(#eval{ -0.52*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.52*pi())) } $zMin)
-		(#eval{ -0.53*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.53*pi())) } $zMin)
-		(#eval{ -0.54*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.54*pi())) } $zMin)
-		(#eval{ -0.55*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.55*pi())) } $zMin)
-		(#eval{ -0.56*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.56*pi())) } $zMin)
-		(#eval{ -0.57*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.57*pi())) } $zMin)
-		(#eval{ -0.58*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.58*pi())) } $zMin)
-		(#eval{ -0.59*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.59*pi())) } $zMin)
-		(#eval{ -0.60*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.60*pi())) } $zMin)
-		(#eval{ -0.61*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.61*pi())) } $zMin)
-		(#eval{ -0.62*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.62*pi())) } $zMin)
-		(#eval{ -0.63*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.63*pi())) } $zMin)
-		(#eval{ -0.64*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.64*pi())) } $zMin)
-		(#eval{ -0.65*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.65*pi())) } $zMin)
-		(#eval{ -0.66*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.66*pi())) } $zMin)
-		(#eval{ -0.67*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.67*pi())) } $zMin)
-		(#eval{ -0.68*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.68*pi())) } $zMin)
-		(#eval{ -0.69*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.69*pi())) } $zMin)
-		(#eval{ -0.70*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.70*pi())) } $zMin)
-		(#eval{ -0.71*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.71*pi())) } $zMin)
-		(#eval{ -0.72*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.72*pi())) } $zMin)
-		(#eval{ -0.73*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.73*pi())) } $zMin)
-		(#eval{ -0.74*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.74*pi())) } $zMin)
-		(#eval{ -0.75*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.75*pi())) } $zMin)
-		(#eval{ -0.76*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.76*pi())) } $zMin)
-		(#eval{ -0.77*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.77*pi())) } $zMin)
-		(#eval{ -0.78*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.78*pi())) } $zMin)
-		(#eval{ -0.79*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.79*pi())) } $zMin)
-		(#eval{ -0.80*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.80*pi())) } $zMin)
-		(#eval{ -0.81*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.81*pi())) } $zMin)
-		(#eval{ -0.82*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.82*pi())) } $zMin)
-		(#eval{ -0.83*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.83*pi())) } $zMin)
-		(#eval{ -0.84*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.84*pi())) } $zMin)
-		(#eval{ -0.85*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.85*pi())) } $zMin)
-		(#eval{ -0.86*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.86*pi())) } $zMin)
-		(#eval{ -0.87*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.87*pi())) } $zMin)
-		(#eval{ -0.88*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.88*pi())) } $zMin)
-		(#eval{ -0.89*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.89*pi())) } $zMin)
-		(#eval{ -0.90*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.90*pi())) } $zMin)
-		(#eval{ -0.91*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.91*pi())) } $zMin)
-		(#eval{ -0.92*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.92*pi())) } $zMin)
-		(#eval{ -0.93*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.93*pi())) } $zMin)
-		(#eval{ -0.94*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.94*pi())) } $zMin)
-		(#eval{ -0.95*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.95*pi())) } $zMin)
-		(#eval{ -0.96*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.96*pi())) } $zMin)
-		(#eval{ -0.97*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.97*pi())) } $zMin)
-		(#eval{ -0.98*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.98*pi())) } $zMin)
-		(#eval{ -0.99*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.99*pi())) } $zMin)
+		#eval{vector( -0.1*$b,  $R - 0.5*$a * (1 + cos(-0.1*pi())), -$zMax)}
+		#eval{vector( -0.2*$b,  $R - 0.5*$a * (1 + cos(-0.2*pi())), -$zMax)}
+		#eval{vector( -0.3*$b,  $R - 0.5*$a * (1 + cos(-0.3*pi())), -$zMax)}
+		#eval{vector( -0.4*$b,  $R - 0.5*$a * (1 + cos(-0.4*pi())), -$zMax)}
+		#eval{vector( -0.5*$b,  $R - 0.5*$a * (1 + cos(-0.5*pi())), -$zMax)}
+		#eval{vector( -0.6*$b,  $R - 0.5*$a * (1 + cos(-0.6*pi())), -$zMax)}
+		#eval{vector( -0.7*$b,  $R - 0.5*$a * (1 + cos(-0.7*pi())), -$zMax)}
+		#eval{vector( -0.8*$b,  $R - 0.5*$a * (1 + cos(-0.8*pi())), -$zMax)}
+		#eval{vector( -0.9*$b,  $R - 0.5*$a * (1 + cos(-0.9*pi())), -$zMax)}
 
-		(#eval{ -$b } $R $zMin)
+		#eval{vector(     -$b,                                  $R, -$zMax)}
 	)
 	line   3 0
 
@@ -284,211 +103,31 @@ edges
 	line   5 6
 	spline 6 7
 	(
-		(#eval{  $b } $R $zMax)
+		#eval{vector(      $b,                                  $R,  $zMax)}
 
-		(#eval{  0.99*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.99*pi())) } $zMax)
-		(#eval{  0.98*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.98*pi())) } $zMax)
-		(#eval{  0.97*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.97*pi())) } $zMax)
-		(#eval{  0.96*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.96*pi())) } $zMax)
-		(#eval{  0.95*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.95*pi())) } $zMax)
-		(#eval{  0.94*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.94*pi())) } $zMax)
-		(#eval{  0.93*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.93*pi())) } $zMax)
-		(#eval{  0.92*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.92*pi())) } $zMax)
-		(#eval{  0.91*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.91*pi())) } $zMax)
-		(#eval{  0.90*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.90*pi())) } $zMax)
-		(#eval{  0.89*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.89*pi())) } $zMax)
-		(#eval{  0.88*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.88*pi())) } $zMax)
-		(#eval{  0.87*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.87*pi())) } $zMax)
-		(#eval{  0.86*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.86*pi())) } $zMax)
-		(#eval{  0.85*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.85*pi())) } $zMax)
-		(#eval{  0.84*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.84*pi())) } $zMax)
-		(#eval{  0.83*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.83*pi())) } $zMax)
-		(#eval{  0.82*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.82*pi())) } $zMax)
-		(#eval{  0.81*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.81*pi())) } $zMax)
-		(#eval{  0.80*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.80*pi())) } $zMax)
-		(#eval{  0.79*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.79*pi())) } $zMax)
-		(#eval{  0.78*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.78*pi())) } $zMax)
-		(#eval{  0.77*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.77*pi())) } $zMax)
-		(#eval{  0.76*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.76*pi())) } $zMax)
-		(#eval{  0.75*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.75*pi())) } $zMax)
-		(#eval{  0.74*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.74*pi())) } $zMax)
-		(#eval{  0.73*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.73*pi())) } $zMax)
-		(#eval{  0.72*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.72*pi())) } $zMax)
-		(#eval{  0.71*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.71*pi())) } $zMax)
-		(#eval{  0.70*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.70*pi())) } $zMax)
-		(#eval{  0.69*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.69*pi())) } $zMax)
-		(#eval{  0.68*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.68*pi())) } $zMax)
-		(#eval{  0.67*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.67*pi())) } $zMax)
-		(#eval{  0.66*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.66*pi())) } $zMax)
-		(#eval{  0.65*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.65*pi())) } $zMax)
-		(#eval{  0.64*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.64*pi())) } $zMax)
-		(#eval{  0.63*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.63*pi())) } $zMax)
-		(#eval{  0.62*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.62*pi())) } $zMax)
-		(#eval{  0.61*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.61*pi())) } $zMax)
-		(#eval{  0.60*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.60*pi())) } $zMax)
-		(#eval{  0.59*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.59*pi())) } $zMax)
-		(#eval{  0.58*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.58*pi())) } $zMax)
-		(#eval{  0.57*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.57*pi())) } $zMax)
-		(#eval{  0.56*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.56*pi())) } $zMax)
-		(#eval{  0.55*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.55*pi())) } $zMax)
-		(#eval{  0.54*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.54*pi())) } $zMax)
-		(#eval{  0.53*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.53*pi())) } $zMax)
-		(#eval{  0.52*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.52*pi())) } $zMax)
-		(#eval{  0.51*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.51*pi())) } $zMax)
-		(#eval{  0.50*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.50*pi())) } $zMax)
-		(#eval{  0.49*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.49*pi())) } $zMax)
-		(#eval{  0.48*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.48*pi())) } $zMax)
-		(#eval{  0.47*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.47*pi())) } $zMax)
-		(#eval{  0.46*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.46*pi())) } $zMax)
-		(#eval{  0.45*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.45*pi())) } $zMax)
-		(#eval{  0.44*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.44*pi())) } $zMax)
-		(#eval{  0.43*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.43*pi())) } $zMax)
-		(#eval{  0.42*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.42*pi())) } $zMax)
-		(#eval{  0.41*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.41*pi())) } $zMax)
-		(#eval{  0.40*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.40*pi())) } $zMax)
-		(#eval{  0.39*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.39*pi())) } $zMax)
-		(#eval{  0.38*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.38*pi())) } $zMax)
-		(#eval{  0.37*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.37*pi())) } $zMax)
-		(#eval{  0.36*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.36*pi())) } $zMax)
-		(#eval{  0.35*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.35*pi())) } $zMax)
-		(#eval{  0.34*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.34*pi())) } $zMax)
-		(#eval{  0.33*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.33*pi())) } $zMax)
-		(#eval{  0.32*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.32*pi())) } $zMax)
-		(#eval{  0.31*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.31*pi())) } $zMax)
-		(#eval{  0.30*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.30*pi())) } $zMax)
-		(#eval{  0.29*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.29*pi())) } $zMax)
-		(#eval{  0.28*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.28*pi())) } $zMax)
-		(#eval{  0.27*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.27*pi())) } $zMax)
-		(#eval{  0.26*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.26*pi())) } $zMax)
-		(#eval{  0.25*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.25*pi())) } $zMax)
-		(#eval{  0.24*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.24*pi())) } $zMax)
-		(#eval{  0.23*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.23*pi())) } $zMax)
-		(#eval{  0.22*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.22*pi())) } $zMax)
-		(#eval{  0.21*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.21*pi())) } $zMax)
-		(#eval{  0.20*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.20*pi())) } $zMax)
-		(#eval{  0.19*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.19*pi())) } $zMax)
-		(#eval{  0.18*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.18*pi())) } $zMax)
-		(#eval{  0.17*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.17*pi())) } $zMax)
-		(#eval{  0.16*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.16*pi())) } $zMax)
-		(#eval{  0.15*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.15*pi())) } $zMax)
-		(#eval{  0.14*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.14*pi())) } $zMax)
-		(#eval{  0.13*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.13*pi())) } $zMax)
-		(#eval{  0.12*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.12*pi())) } $zMax)
-		(#eval{  0.11*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.11*pi())) } $zMax)
-		(#eval{  0.10*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.10*pi())) } $zMax)
-		(#eval{  0.09*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.09*pi())) } $zMax)
-		(#eval{  0.08*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.08*pi())) } $zMax)
-		(#eval{  0.07*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.07*pi())) } $zMax)
-		(#eval{  0.06*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.06*pi())) } $zMax)
-		(#eval{  0.05*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.05*pi())) } $zMax)
-		(#eval{  0.04*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.04*pi())) } $zMax)
-		(#eval{  0.03*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.03*pi())) } $zMax)
-		(#eval{  0.02*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.02*pi())) } $zMax)
-		(#eval{  0.01*$b } #eval{ $R - 0.5*$a * (1 + cos( 0.01*pi())) } $zMax)
+		#eval{vector(  0.9*$b,  $R - 0.5*$a * (1 + cos( 0.9*pi())),  $zMax)}
+		#eval{vector(  0.8*$b,  $R - 0.5*$a * (1 + cos( 0.8*pi())),  $zMax)}
+		#eval{vector(  0.7*$b,  $R - 0.5*$a * (1 + cos( 0.7*pi())),  $zMax)}
+		#eval{vector(  0.6*$b,  $R - 0.5*$a * (1 + cos( 0.6*pi())),  $zMax)}
+		#eval{vector(  0.5*$b,  $R - 0.5*$a * (1 + cos( 0.5*pi())),  $zMax)}
+		#eval{vector(  0.4*$b,  $R - 0.5*$a * (1 + cos( 0.4*pi())),  $zMax)}
+		#eval{vector(  0.3*$b,  $R - 0.5*$a * (1 + cos( 0.3*pi())),  $zMax)}
+		#eval{vector(  0.2*$b,  $R - 0.5*$a * (1 + cos( 0.2*pi())),  $zMax)}
+		#eval{vector(  0.1*$b,  $R - 0.5*$a * (1 + cos( 0.1*pi())),  $zMax)}
 
-		(0 #eval{ $R - $a } $zMax)
+		#eval{vector(       0,                             $R - $a,  $zMax)}
 
-		(#eval{ -0.01*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.01*pi())) } $zMax)
-		(#eval{ -0.02*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.02*pi())) } $zMax)
-		(#eval{ -0.03*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.03*pi())) } $zMax)
-		(#eval{ -0.04*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.04*pi())) } $zMax)
-		(#eval{ -0.05*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.05*pi())) } $zMax)
-		(#eval{ -0.06*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.06*pi())) } $zMax)
-		(#eval{ -0.07*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.07*pi())) } $zMax)
-		(#eval{ -0.08*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.08*pi())) } $zMax)
-		(#eval{ -0.09*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.09*pi())) } $zMax)
-		(#eval{ -0.10*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.10*pi())) } $zMax)
-		(#eval{ -0.11*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.11*pi())) } $zMax)
-		(#eval{ -0.12*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.12*pi())) } $zMax)
-		(#eval{ -0.13*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.13*pi())) } $zMax)
-		(#eval{ -0.14*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.14*pi())) } $zMax)
-		(#eval{ -0.15*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.15*pi())) } $zMax)
-		(#eval{ -0.16*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.16*pi())) } $zMax)
-		(#eval{ -0.17*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.17*pi())) } $zMax)
-		(#eval{ -0.18*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.18*pi())) } $zMax)
-		(#eval{ -0.19*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.19*pi())) } $zMax)
-		(#eval{ -0.20*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.20*pi())) } $zMax)
-		(#eval{ -0.21*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.21*pi())) } $zMax)
-		(#eval{ -0.22*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.22*pi())) } $zMax)
-		(#eval{ -0.23*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.23*pi())) } $zMax)
-		(#eval{ -0.24*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.24*pi())) } $zMax)
-		(#eval{ -0.25*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.25*pi())) } $zMax)
-		(#eval{ -0.26*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.26*pi())) } $zMax)
-		(#eval{ -0.27*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.27*pi())) } $zMax)
-		(#eval{ -0.28*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.28*pi())) } $zMax)
-		(#eval{ -0.29*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.29*pi())) } $zMax)
-		(#eval{ -0.30*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.30*pi())) } $zMax)
-		(#eval{ -0.31*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.31*pi())) } $zMax)
-		(#eval{ -0.32*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.32*pi())) } $zMax)
-		(#eval{ -0.33*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.33*pi())) } $zMax)
-		(#eval{ -0.34*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.34*pi())) } $zMax)
-		(#eval{ -0.35*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.35*pi())) } $zMax)
-		(#eval{ -0.36*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.36*pi())) } $zMax)
-		(#eval{ -0.37*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.37*pi())) } $zMax)
-		(#eval{ -0.38*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.38*pi())) } $zMax)
-		(#eval{ -0.39*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.39*pi())) } $zMax)
-		(#eval{ -0.40*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.40*pi())) } $zMax)
-		(#eval{ -0.41*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.41*pi())) } $zMax)
-		(#eval{ -0.42*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.42*pi())) } $zMax)
-		(#eval{ -0.43*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.43*pi())) } $zMax)
-		(#eval{ -0.44*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.44*pi())) } $zMax)
-		(#eval{ -0.45*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.45*pi())) } $zMax)
-		(#eval{ -0.46*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.46*pi())) } $zMax)
-		(#eval{ -0.47*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.47*pi())) } $zMax)
-		(#eval{ -0.48*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.48*pi())) } $zMax)
-		(#eval{ -0.49*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.49*pi())) } $zMax)
-		(#eval{ -0.50*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.50*pi())) } $zMax)
-		(#eval{ -0.51*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.51*pi())) } $zMax)
-		(#eval{ -0.52*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.52*pi())) } $zMax)
-		(#eval{ -0.53*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.53*pi())) } $zMax)
-		(#eval{ -0.54*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.54*pi())) } $zMax)
-		(#eval{ -0.55*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.55*pi())) } $zMax)
-		(#eval{ -0.56*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.56*pi())) } $zMax)
-		(#eval{ -0.57*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.57*pi())) } $zMax)
-		(#eval{ -0.58*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.58*pi())) } $zMax)
-		(#eval{ -0.59*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.59*pi())) } $zMax)
-		(#eval{ -0.60*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.60*pi())) } $zMax)
-		(#eval{ -0.61*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.61*pi())) } $zMax)
-		(#eval{ -0.62*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.62*pi())) } $zMax)
-		(#eval{ -0.63*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.63*pi())) } $zMax)
-		(#eval{ -0.64*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.64*pi())) } $zMax)
-		(#eval{ -0.65*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.65*pi())) } $zMax)
-		(#eval{ -0.66*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.66*pi())) } $zMax)
-		(#eval{ -0.67*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.67*pi())) } $zMax)
-		(#eval{ -0.68*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.68*pi())) } $zMax)
-		(#eval{ -0.69*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.69*pi())) } $zMax)
-		(#eval{ -0.70*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.70*pi())) } $zMax)
-		(#eval{ -0.71*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.71*pi())) } $zMax)
-		(#eval{ -0.72*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.72*pi())) } $zMax)
-		(#eval{ -0.73*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.73*pi())) } $zMax)
-		(#eval{ -0.74*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.74*pi())) } $zMax)
-		(#eval{ -0.75*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.75*pi())) } $zMax)
-		(#eval{ -0.76*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.76*pi())) } $zMax)
-		(#eval{ -0.77*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.77*pi())) } $zMax)
-		(#eval{ -0.78*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.78*pi())) } $zMax)
-		(#eval{ -0.79*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.79*pi())) } $zMax)
-		(#eval{ -0.80*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.80*pi())) } $zMax)
-		(#eval{ -0.81*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.81*pi())) } $zMax)
-		(#eval{ -0.82*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.82*pi())) } $zMax)
-		(#eval{ -0.83*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.83*pi())) } $zMax)
-		(#eval{ -0.84*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.84*pi())) } $zMax)
-		(#eval{ -0.85*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.85*pi())) } $zMax)
-		(#eval{ -0.86*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.86*pi())) } $zMax)
-		(#eval{ -0.87*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.87*pi())) } $zMax)
-		(#eval{ -0.88*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.88*pi())) } $zMax)
-		(#eval{ -0.89*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.89*pi())) } $zMax)
-		(#eval{ -0.90*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.90*pi())) } $zMax)
-		(#eval{ -0.91*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.91*pi())) } $zMax)
-		(#eval{ -0.92*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.92*pi())) } $zMax)
-		(#eval{ -0.93*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.93*pi())) } $zMax)
-		(#eval{ -0.94*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.94*pi())) } $zMax)
-		(#eval{ -0.95*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.95*pi())) } $zMax)
-		(#eval{ -0.96*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.96*pi())) } $zMax)
-		(#eval{ -0.97*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.97*pi())) } $zMax)
-		(#eval{ -0.98*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.98*pi())) } $zMax)
-		(#eval{ -0.99*$b } #eval{ $R - 0.5*$a * (1 + cos(-0.99*pi())) } $zMax)
+		#eval{vector( -0.1*$b,  $R - 0.5*$a * (1 + cos(-0.1*pi())),  $zMax)}
+		#eval{vector( -0.2*$b,  $R - 0.5*$a * (1 + cos(-0.2*pi())),  $zMax)}
+		#eval{vector( -0.3*$b,  $R - 0.5*$a * (1 + cos(-0.3*pi())),  $zMax)}
+		#eval{vector( -0.4*$b,  $R - 0.5*$a * (1 + cos(-0.4*pi())),  $zMax)}
+		#eval{vector( -0.5*$b,  $R - 0.5*$a * (1 + cos(-0.5*pi())),  $zMax)}
+		#eval{vector( -0.6*$b,  $R - 0.5*$a * (1 + cos(-0.6*pi())),  $zMax)}
+		#eval{vector( -0.7*$b,  $R - 0.5*$a * (1 + cos(-0.7*pi())),  $zMax)}
+		#eval{vector( -0.8*$b,  $R - 0.5*$a * (1 + cos(-0.8*pi())),  $zMax)}
+		#eval{vector( -0.9*$b,  $R - 0.5*$a * (1 + cos(-0.9*pi())),  $zMax)}
 
-		(#eval{ -$b } $R $zMax)
+		#eval{vector(     -$b,                                  $R,  $zMax)}
 	)
 	line   7 4
 

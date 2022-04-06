@@ -1,0 +1,302 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2106                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#include	"<constant>/caseSetup"
+
+// * * * * * * * * * * * * * * * * Geometry  * * * * * * * * * * * * * * * * //
+
+// O-grid inner square side length to pipe radius ratio
+h		#eval{ 1.0/3.0 };
+// O-grid inner quadrangle max height to pipe radius ratio
+H		#eval{ 2.0/5.0 };
+
+// * * * * * * * * * * * * * * * * * Mesh  * * * * * * * * * * * * * * * * * //
+
+// cell expansion ratio inlet/outlet, x-axis
+exR_Z	1.01;
+// cell expansion ratio, y-axis
+exR_R	1.01;
+
+// No. cells (stenosis), x-axis
+ncZ		100;
+// No. cells, y-axis
+ncR		30;
+// No. cells inlet/outlet, x-axis
+ncL		#eval{ round(log(1 - $L*(1 - $exR_Z)/(2*$b/$ncZ) ) / log($exR_Z)) };
+
+// inlet cell exp. ratio
+grZ_o	#eval{ pow($exR_Z, $ncL - 1) };
+// outlet cell exp. ratio
+grZ_i	#eval{ 1/$grZ_o };
+// radial cell exp. ratio
+grR	    #eval{ pow($exR_R, 1 - $ncR) };
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+scale		1;
+
+vertices
+(
+	/*
+	 * O-grid hex
+	 */
+
+	// inlet
+
+	// stenosis
+	#eval{vector(-$b,      0, -$H*$R)}					// 0
+	#eval{vector( $b,      0, -$H*$R)}					// 1
+	#eval{vector( $b,  $h*$R, -$h*$R)}					// 2
+	#eval{vector(-$b,  $h*$R, -$h*$R)}					// 3
+
+	#eval{vector(-$b,      0,      0)}					// 4
+	#eval{vector( $b,      0,      0)}					// 5
+	#eval{vector( $b,  $H*$R,      0)}					// 6
+	#eval{vector(-$b,  $H*$R,      0)}					// 7
+
+	// outlet
+
+
+	/*
+	 * O-grid anulus-Y
+	 */
+
+	// inlet
+
+	// stenosis
+
+	// outlet
+
+
+	/*
+	 * O-grid anulus-Z
+	 */
+
+	// inlet
+
+	// stenosis
+
+	// outlet
+);
+
+blocks
+(
+	hex (0 1 2 3 4 5 6 7)     ($ncZ $ncR $ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
+);
+
+edges
+(
+	/*
+	 * O-grid hex
+	 */
+
+	// inlet
+
+	// stenosis
+	spline 0 1 // FIXME: dunno if this is ok!
+	(
+		#eval{vector(     -$b,                                       0,                                  -$H*$R )}
+
+		#eval{vector( -0.9*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
+		#eval{vector( -0.8*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
+		#eval{vector( -0.7*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
+		#eval{vector( -0.6*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
+		#eval{vector( -0.5*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
+		#eval{vector( -0.4*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
+		#eval{vector( -0.3*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
+		#eval{vector( -0.2*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
+		#eval{vector( -0.1*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
+
+		#eval{vector(       0,                                       0,                           -$H*($R - $a) )}
+
+		#eval{vector(  0.1*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
+		#eval{vector(  0.2*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
+		#eval{vector(  0.3*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
+		#eval{vector(  0.4*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
+		#eval{vector(  0.5*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
+		#eval{vector(  0.6*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
+		#eval{vector(  0.7*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
+		#eval{vector(  0.8*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
+		#eval{vector(  0.9*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
+
+		#eval{vector(      $b,                                       0,                                  -$H*$R )}
+	)
+	arc    2 1 #eval{vector(  $b, -$h*$R, -$h*$R )}
+	spline 2 3 // FIXME: dunno if this is ok!
+	(
+		#eval{vector(      $b,                                   $h*$R,                                  -$h*$R )}
+
+		#eval{vector(  0.9*$b,  $h*($R - 0.5*$a * (1 + cos(0.9*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
+		#eval{vector(  0.8*$b,  $h*($R - 0.5*$a * (1 + cos(0.8*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
+		#eval{vector(  0.7*$b,  $h*($R - 0.5*$a * (1 + cos(0.7*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
+		#eval{vector(  0.6*$b,  $h*($R - 0.5*$a * (1 + cos(0.6*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
+		#eval{vector(  0.5*$b,  $h*($R - 0.5*$a * (1 + cos(0.5*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
+		#eval{vector(  0.4*$b,  $h*($R - 0.5*$a * (1 + cos(0.4*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
+		#eval{vector(  0.3*$b,  $h*($R - 0.5*$a * (1 + cos(0.3*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
+		#eval{vector(  0.2*$b,  $h*($R - 0.5*$a * (1 + cos(0.2*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
+		#eval{vector(  0.1*$b,  $h*($R - 0.5*$a * (1 + cos(0.1*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
+
+		#eval{vector(       0,                            $h*($R - $a),                           -$h*($R - $a) )}
+
+		#eval{vector( -0.1*$b,  $h*($R - 0.5*$a * (1 + cos(0.1*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
+		#eval{vector( -0.2*$b,  $h*($R - 0.5*$a * (1 + cos(0.2*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
+		#eval{vector( -0.3*$b,  $h*($R - 0.5*$a * (1 + cos(0.3*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
+		#eval{vector( -0.4*$b,  $h*($R - 0.5*$a * (1 + cos(0.4*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
+		#eval{vector( -0.5*$b,  $h*($R - 0.5*$a * (1 + cos(0.5*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
+		#eval{vector( -0.6*$b,  $h*($R - 0.5*$a * (1 + cos(0.6*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
+		#eval{vector( -0.7*$b,  $h*($R - 0.5*$a * (1 + cos(0.7*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
+		#eval{vector( -0.8*$b,  $h*($R - 0.5*$a * (1 + cos(0.8*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
+		#eval{vector( -0.9*$b,  $h*($R - 0.5*$a * (1 + cos(0.9*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
+
+		#eval{vector(     -$b,                                   $h*$R,                                  -$h*$R )}
+	)
+	arc    3 0 #eval{vector( -$b, -$h*$R, -$h*$R )}
+
+	line   4 5
+	line   5 6
+	spline 6 7 // FIXME: dunno if this is ok!
+	(
+		#eval{vector(      $b,                                   $H*$R,                                       0 )}
+
+		#eval{vector(  0.9*$b,  $H*($R - 0.5*$a * (1 + cos(0.9*pi()))),                                       0 )}
+		#eval{vector(  0.8*$b,  $H*($R - 0.5*$a * (1 + cos(0.8*pi()))),                                       0 )}
+		#eval{vector(  0.7*$b,  $H*($R - 0.5*$a * (1 + cos(0.7*pi()))),                                       0 )}
+		#eval{vector(  0.6*$b,  $H*($R - 0.5*$a * (1 + cos(0.6*pi()))),                                       0 )}
+		#eval{vector(  0.5*$b,  $H*($R - 0.5*$a * (1 + cos(0.5*pi()))),                                       0 )}
+		#eval{vector(  0.4*$b,  $H*($R - 0.5*$a * (1 + cos(0.4*pi()))),                                       0 )}
+		#eval{vector(  0.3*$b,  $H*($R - 0.5*$a * (1 + cos(0.3*pi()))),                                       0 )}
+		#eval{vector(  0.2*$b,  $H*($R - 0.5*$a * (1 + cos(0.2*pi()))),                                       0 )}
+		#eval{vector(  0.1*$b,  $H*($R - 0.5*$a * (1 + cos(0.1*pi()))),                                       0 )}
+
+		#eval{vector(       0,                            $H*($R - $a),                                       0 )}
+
+		#eval{vector( -0.1*$b,  $H*($R - 0.5*$a * (1 + cos(0.1*pi()))),                                       0 )}
+		#eval{vector( -0.2*$b,  $H*($R - 0.5*$a * (1 + cos(0.2*pi()))),                                       0 )}
+		#eval{vector( -0.3*$b,  $H*($R - 0.5*$a * (1 + cos(0.3*pi()))),                                       0 )}
+		#eval{vector( -0.4*$b,  $H*($R - 0.5*$a * (1 + cos(0.4*pi()))),                                       0 )}
+		#eval{vector( -0.5*$b,  $H*($R - 0.5*$a * (1 + cos(0.5*pi()))),                                       0 )}
+		#eval{vector( -0.6*$b,  $H*($R - 0.5*$a * (1 + cos(0.6*pi()))),                                       0 )}
+		#eval{vector( -0.7*$b,  $H*($R - 0.5*$a * (1 + cos(0.7*pi()))),                                       0 )}
+		#eval{vector( -0.8*$b,  $H*($R - 0.5*$a * (1 + cos(0.8*pi()))),                                       0 )}
+		#eval{vector( -0.9*$b,  $H*($R - 0.5*$a * (1 + cos(0.9*pi()))),                                       0 )}
+
+		#eval{vector(     -$b,                                   $H*$R,                                       0 )}
+	)
+	line   7 4
+
+	line   0 4
+	line   1 5
+	arc    2 6 #eval{vector(  $b,  $h*$R,  $h*$R )}
+	arc    3 7 #eval{vector( -$b,  $h*$R,  $h*$R )}
+
+	// outlet
+
+
+	/*
+	 * O-grid anulus-Y
+	 */
+
+	// inlet
+
+	// stenosis
+
+	// outlet
+
+
+	/*
+	 * O-grid anulus-Z
+	 */
+
+	// inlet
+
+	// stenosis
+
+	// outlet
+);
+
+boundary
+(
+	inlet
+	{
+		type	patch;
+		faces
+		(
+			( 0 4 7 3 )
+		);
+	}
+
+	outlet
+	{
+		type	patch;
+		faces
+		(
+			( 1 2 6 5 )
+		);
+	}
+
+//	wall.inlet
+//	{
+//		type	wall;
+//		faces
+//		(
+//			( 3 9 11 7 )
+//		);
+//	}
+
+	wall.stenosis
+	{
+		type	wall;
+		faces
+		(
+			( 0 3 2 1 )
+			( 2 3 7 6 )
+		);
+	}
+
+//	wall.outlet
+//	{
+//		type	wall;
+//		faces
+//		(
+//			( 2 6 15 13 )
+//		);
+//	}
+
+	symmetry.y
+	{
+		type	symmetry;
+		faces
+		(
+			( 0 1 5 4 )
+		);
+	}
+
+	symmetry.z
+	{
+		type	symmetry;
+		faces
+		(
+			( 4 5 6 7 )
+		);
+	}
+);
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
