@@ -10,8 +10,7 @@ single_graph.axial
 {
 	type			sets;
 	libs			( "libsampling.so" );
-	writeControl	timeStep;
-	writeInterval	$short_write;
+	writeControl	onEnd;
 	setFormat		csv;
 
 	interpolationScheme	cellPatchConstrained;
@@ -34,8 +33,7 @@ single_graph.radial
 {
 	type			sets;
 	libs			( "libsampling.so" );
-	writeControl	timeStep;
-	writeInterval	$short_write;
+	writeControl	onEnd;
 	setFormat		csv;
 
 	interpolationScheme	cell;

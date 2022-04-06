@@ -27,14 +27,10 @@ Re			200;					// Reynolds number
 // blood
 rhoS		1060;					// density of solvent
 muS			0.0012;					// dynamic viscosity of solvent
-
-// water
-//rho			998.2;
-//muInf		1.0518e-3;
-//mu0			1.0518e-3;
+muTot		0.0548;					// total dynamic viscosity (multi-mode)
 
 // avg. inlet velocity
-u_avg		#eval{ vector($Re*$muS / (2*$R*$rhoS), 0, 0) };
+u_avg		#eval{ vector($Re*$muTot / (2*$R*$rhoS), 0, 0) };
 
 // as per Hagen-Poiseuille flow solution
 u_max		#eval{ 2*$[(vector) u_avg] };

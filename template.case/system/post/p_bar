@@ -12,6 +12,8 @@ p_bar
 	writeControl	timeStep;
 	writeInterval	$long_write;
 	log				false;
+
+	URef			#eval{ mag($[(vector) u_avg]) };
 }
 
 // ************************************************************************* //

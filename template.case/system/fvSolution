@@ -35,7 +35,7 @@ ofGamgConfig
 		solver				PCG;
 		preconditioner		DIC;
 
-		relTol				0.1;
+		relTol				0.075;
 	}
 
 	agglomerator			faceAreaPair;
@@ -52,7 +52,7 @@ solvers
 		$ofGamgConfig;
 
 		tolerance				1e-07;
-		relTol					1e-3;
+		relTol					1e-4;
 	}
 
 	pFinal
@@ -68,8 +68,7 @@ solvers
 		solver					PBiCGStab;
 		preconditioner			DILU;
 
-		minIter					1;
-
+		minIter					2;
 		tolerance				1e-08;
 		relTol					1e-4;
 	}
@@ -127,14 +126,14 @@ relaxationFactors
 {
 	fields
 	{
-		p			0.25;
+		p			0.4;
 		".*Final"	1;
 	}
 
 	equations
 	{
-		U			0.6;
-		"tau.*"		0.3;
+		U			0.8;
+		"tau.*"		0.4;
 		".*Final"	1;
 	}
 }
