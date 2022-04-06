@@ -50,15 +50,11 @@ bool Foam::functionObjects::pBar::calc()
     {
         const volScalarField& p =
 			mesh_.lookupObject<volScalarField>(fieldName_);
-        const volVectorField& U =
-			mesh_.lookupObject<volVectorField>("U");
-
-		const dimensionedScalar small("small", p.dimensions(), SMALL);
 
         return store
 		(
 			resultName_,
-			p / (magSqr(U) + small)
+			p / dimensionedScalar("URef", sqr(dimVelocity), sqr(URef_))
 		);
     }
 
@@ -78,6 +74,27 @@ Foam::functionObjects::pBar::pBar
     fieldExpression(name, runTime, dict, "p", "pBar")
 {
     read(dict);
+}
+
+
+bool Foam::functionObjects::pBar::read(const dictionary& dict)
+{
+	if (fieldExpression::read(dict))
+	{
+		dict.readEntry("URef", URef_);
+
+		if (URef_ < VSMALL)
+		{
+			FatalErrorInFunction
+				<< "Reference velocity = " << URef_
+				<< " cannot be negative or zero."
+				<< abort(FatalError);
+		}
+
+		return true;
+	}
+
+	return false;
 }
 
 

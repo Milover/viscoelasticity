@@ -105,6 +105,11 @@ class pBar
 :
     public fieldExpression
 {
+	// Private Data
+
+		//- Reference velocity
+		scalar URef_;
+
     // Private Member Functions
 
         //- Calculate the dimensionless pressure field and return true
@@ -137,6 +142,12 @@ public:
 
     //- Destructor
     virtual ~pBar() = default;
+
+
+	// Member functions
+
+		//- Read input dictionary
+		virtual bool read(const dictionary& dict);
 };
 
 
