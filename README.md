@@ -1,7 +1,7 @@
 ## General
 
 This is a somewhat modified port of the `viscoelasticFluidFoam` solver for
-OpenFOAM v2016.
+OpenFOAM v2106.
 
 Only a steady state version of the solver is available currently, along with
 some rheological models (Newtonian, Carreau-Yasuda, PTT). The solver assumes
