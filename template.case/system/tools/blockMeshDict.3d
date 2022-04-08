@@ -20,9 +20,9 @@ FoamFile
 // * * * * * * * * * * * * * * * * Geometry  * * * * * * * * * * * * * * * * //
 
 // O-grid inner square side length to pipe radius ratio
-h		#eval{ 1.0/3.0 };
+h		#eval{ 1.0/2.0 };
 // O-grid inner quadrangle max height to pipe radius ratio
-H		#eval{ 2.0/5.0 };
+H		#eval{ 3.1/5.0 };
 
 // * * * * * * * * * * * * * * * * * Mesh  * * * * * * * * * * * * * * * * * //
 
@@ -51,6 +51,23 @@ grR   1;
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+/* NOTE:
+ * 	The mesh is built (1/8 of the geometry w/o inlet/outlet lengths) but there
+ * 	is an issue with continuity between the two annular blocks. Continuity,
+ * 	i.e., tangency, is kept only where the arcs are explicitly specified, but
+ * 	along the stenosis the continuity is broken, i.e., the two arcs which form
+ * 	the wall patch are no longer tangential to each other. The non-continuity
+ * 	is especially visible near the stenosis inflection point, close to the
+ * 	apex of the stenosis.
+ *
+ * 	Considering that a circular cross-section cannot be formed, we'll mesh
+ * 	the 3D geometries in an external software since no other method available
+ * 	in foam is applicable, at least not without additional scripting which
+ * 	kind of defeats the purpose of this approach (this could also be scripted
+ * 	such that multiple longitudinal blocks are formed, reducing the
+ * 	discontinuity).
+ */
+
 scale		1;
 
 vertices
@@ -62,15 +79,15 @@ vertices
 	// inlet
 
 	// stenosis
-	#eval{vector( -$b,               0,          -$H*$R )}	// 0
-	#eval{vector(  $b,               0,          -$H*$R )}	// 1
-	#eval{vector(  $b,           $h*$R,          -$h*$R )}	// 2
-	#eval{vector( -$b,           $h*$R,          -$h*$R )}	// 3
+	#eval{vector(   0,                      0,          -$H*($R - $a) )}	// 0
+	#eval{vector(  $b,                      0,                 -$H*$R )}	// 1
+	#eval{vector(  $b,                  $h*$R,                 -$h*$R )}	// 2
+	#eval{vector(   0,           $h*($R - $a),          -$h*($R - $a) )}	// 3
 
-	#eval{vector( -$b,               0,               0 )}	// 4
-	#eval{vector(  $b,               0,               0 )}	// 5
-	#eval{vector(  $b,           $H*$R,               0 )}	// 6
-	#eval{vector( -$b,           $H*$R,               0 )}	// 7
+	#eval{vector(   0,                      0,                      0 )}	// 4
+	#eval{vector(  $b,                      0,                      0 )}	// 5
+	#eval{vector(  $b,                  $H*$R,                      0 )}	// 6
+	#eval{vector(   0,           $H*($R - $a),                      0 )}	// 7
 
 	// outlet
 
@@ -82,10 +99,10 @@ vertices
 	// inlet
 
 	// stenosis
-	#eval{vector(  $b,  $R*cos(pi()/4), -$R*sin(pi()/4) )}	// 8
-	#eval{vector( -$b,  $R*cos(pi()/4), -$R*sin(pi()/4) )}	// 9
-	#eval{vector(  $b,              $R,               0 )}	// 10
-	#eval{vector( -$b,              $R,               0 )}	// 11
+	#eval{vector(  $b,         $R*cos(pi()/4),        -$R*sin(pi()/4) )}	// 8
+	#eval{vector(   0,  ($R - $a)*cos(pi()/4), -($R - $a)*sin(pi()/4) )}	// 9
+	#eval{vector(  $b,                     $R,                      0 )}	// 10
+	#eval{vector(   0,                $R - $a,                      0 )}	// 11
 
 	// outlet
 
@@ -97,8 +114,8 @@ vertices
 	// inlet
 
 	// stenosis
-	#eval{vector( -$b,               0,             -$R )}	// 12
-	#eval{vector(  $b,               0,             -$R )}	// 13
+	#eval{vector(   0,                      0,             -($R - $a) )}	// 12
+	#eval{vector(  $b,                      0,                    -$R )}	// 13
 
 	// outlet
 );
@@ -121,20 +138,8 @@ edges
 	// inlet
 
 	// stenosis
-	spline  0  1 // FIXME: dunno if this is ok!
+	spline  0  1 // XXX: dunno if this is ok!
 	(
-		#eval{vector(     -$b,                                                     0,                                           -$H*$R )}
-
-		#eval{vector( -0.9*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
-		#eval{vector( -0.8*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
-		#eval{vector( -0.7*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
-		#eval{vector( -0.6*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
-		#eval{vector( -0.5*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
-		#eval{vector( -0.4*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
-		#eval{vector( -0.3*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
-		#eval{vector( -0.2*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
-		#eval{vector( -0.1*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
-
 		#eval{vector(       0,                                                     0,                                    -$H*($R - $a) )}
 
 		#eval{vector(  0.1*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
@@ -150,7 +155,7 @@ edges
 		#eval{vector(      $b,                                                     0,                                           -$H*$R )}
 	)
 	arc     2  1 #eval{vector(  $b, -$h*$R, -$h*$R )}
-	spline  2  3 // FIXME: dunno if this is ok!
+	spline  2  3 // XXX: dunno if this is ok!
 	(
 		#eval{vector(      $b,                                                 $h*$R,                                           -$h*$R )}
 
@@ -165,24 +170,12 @@ edges
 		#eval{vector(  0.1*$b,                $h*($R - 0.5*$a * (1 + cos(0.1*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
 
 		#eval{vector(       0,                                          $h*($R - $a),                                    -$h*($R - $a) )}
-
-		#eval{vector( -0.1*$b,                $h*($R - 0.5*$a * (1 + cos(0.1*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
-		#eval{vector( -0.2*$b,                $h*($R - 0.5*$a * (1 + cos(0.2*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
-		#eval{vector( -0.3*$b,                $h*($R - 0.5*$a * (1 + cos(0.3*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
-		#eval{vector( -0.4*$b,                $h*($R - 0.5*$a * (1 + cos(0.4*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
-		#eval{vector( -0.5*$b,                $h*($R - 0.5*$a * (1 + cos(0.5*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
-		#eval{vector( -0.6*$b,                $h*($R - 0.5*$a * (1 + cos(0.6*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
-		#eval{vector( -0.7*$b,                $h*($R - 0.5*$a * (1 + cos(0.7*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
-		#eval{vector( -0.8*$b,                $h*($R - 0.5*$a * (1 + cos(0.8*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
-		#eval{vector( -0.9*$b,                $h*($R - 0.5*$a * (1 + cos(0.9*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
-
-		#eval{vector(     -$b,                                                 $h*$R,                                           -$h*$R )}
 	)
-	arc     3  0 #eval{vector( -$b, -$h*$R, -$h*$R )}
+	arc     3  0 #eval{vector(   0, -$h*($R - $a), -$h*($R - $a) )}	// FIXME
 
 	line    4  5
 	line    5  6
-	spline  6  7 // FIXME: dunno if this is ok!
+	spline  6  7 // XXX: dunno if this is ok!
 	(
 		#eval{vector(      $b,                                                 $H*$R,                                                0 )}
 
@@ -197,25 +190,13 @@ edges
 		#eval{vector(  0.1*$b,                $H*($R - 0.5*$a * (1 + cos(0.1*pi()))),                                                0 )}
 
 		#eval{vector(       0,                                          $H*($R - $a),                                                0 )}
-
-		#eval{vector( -0.1*$b,                $H*($R - 0.5*$a * (1 + cos(0.1*pi()))),                                                0 )}
-		#eval{vector( -0.2*$b,                $H*($R - 0.5*$a * (1 + cos(0.2*pi()))),                                                0 )}
-		#eval{vector( -0.3*$b,                $H*($R - 0.5*$a * (1 + cos(0.3*pi()))),                                                0 )}
-		#eval{vector( -0.4*$b,                $H*($R - 0.5*$a * (1 + cos(0.4*pi()))),                                                0 )}
-		#eval{vector( -0.5*$b,                $H*($R - 0.5*$a * (1 + cos(0.5*pi()))),                                                0 )}
-		#eval{vector( -0.6*$b,                $H*($R - 0.5*$a * (1 + cos(0.6*pi()))),                                                0 )}
-		#eval{vector( -0.7*$b,                $H*($R - 0.5*$a * (1 + cos(0.7*pi()))),                                                0 )}
-		#eval{vector( -0.8*$b,                $H*($R - 0.5*$a * (1 + cos(0.8*pi()))),                                                0 )}
-		#eval{vector( -0.9*$b,                $H*($R - 0.5*$a * (1 + cos(0.9*pi()))),                                                0 )}
-
-		#eval{vector(     -$b,                                                 $H*$R,                                                0 )}
 	)
 	line    7  4
 
 	line    0  4
 	line    1  5
 	arc     2  6 #eval{vector(  $b,  $h*$R,  $h*$R )}
-	arc     3  7 #eval{vector( -$b,  $h*$R,  $h*$R )}
+	arc     3  7 #eval{vector(   0,  $h*($R - $a),  $h*($R - $a) )}	// FIXME
 
 	// outlet
 
@@ -243,18 +224,6 @@ edges
 		#eval{vector(  0.1*$b,       ($R - 0.5*$a * (1 + cos(0.1*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.1*pi())))*sin(pi()/4) )}
 
 		#eval{vector(       0,                                 ($R - $a)*cos(pi()/4),                           -($R - $a)*cos(pi()/4) )}
-
-		#eval{vector( -0.1*$b,       ($R - 0.5*$a * (1 + cos(0.1*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.1*pi())))*cos(pi()/4) )}
-		#eval{vector( -0.2*$b,       ($R - 0.5*$a * (1 + cos(0.2*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.2*pi())))*cos(pi()/4) )}
-		#eval{vector( -0.3*$b,       ($R - 0.5*$a * (1 + cos(0.3*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.3*pi())))*cos(pi()/4) )}
-		#eval{vector( -0.4*$b,       ($R - 0.5*$a * (1 + cos(0.4*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.4*pi())))*cos(pi()/4) )}
-		#eval{vector( -0.5*$b,       ($R - 0.5*$a * (1 + cos(0.5*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.5*pi())))*cos(pi()/4) )}
-		#eval{vector( -0.6*$b,       ($R - 0.5*$a * (1 + cos(0.6*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.6*pi())))*cos(pi()/4) )}
-		#eval{vector( -0.7*$b,       ($R - 0.5*$a * (1 + cos(0.7*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.7*pi())))*cos(pi()/4) )}
-		#eval{vector( -0.8*$b,       ($R - 0.5*$a * (1 + cos(0.8*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.8*pi())))*cos(pi()/4) )}
-		#eval{vector( -0.9*$b,       ($R - 0.5*$a * (1 + cos(0.9*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.9*pi())))*cos(pi()/4) )}
-
-		#eval{vector(     -$b,                                        $R*cos(pi()/4),                                  -$R*cos(pi()/4) )}
 	)
 	line    9  3
 
@@ -274,23 +243,13 @@ edges
 		#eval{vector(  0.1*$b,                     $R - 0.5*$a * (1 + cos(0.1*pi())),                                                0 )}
 
 		#eval{vector(       0,                                               $R - $a,                                                0 )}
-
-		#eval{vector( -0.1*$b,                     $R - 0.5*$a * (1 + cos(0.1*pi())),                                                0 )}
-		#eval{vector( -0.2*$b,                     $R - 0.5*$a * (1 + cos(0.2*pi())),                                                0 )}
-		#eval{vector( -0.3*$b,                     $R - 0.5*$a * (1 + cos(0.3*pi())),                                                0 )}
-		#eval{vector( -0.4*$b,                     $R - 0.5*$a * (1 + cos(0.4*pi())),                                                0 )}
-		#eval{vector( -0.5*$b,                     $R - 0.5*$a * (1 + cos(0.5*pi())),                                                0 )}
-		#eval{vector( -0.6*$b,                     $R - 0.5*$a * (1 + cos(0.6*pi())),                                                0 )}
-		#eval{vector( -0.7*$b,                     $R - 0.5*$a * (1 + cos(0.7*pi())),                                                0 )}
-		#eval{vector( -0.8*$b,                     $R - 0.5*$a * (1 + cos(0.8*pi())),                                                0 )}
-		#eval{vector( -0.9*$b,                     $R - 0.5*$a * (1 + cos(0.9*pi())),                                                0 )}
-
-		#eval{vector(     -$b,                                                    $R,                                                0 )}
 	)
 	line   11  7
 
-	arc    11  9 #eval{vector( -$b,      0,    -$R )}
-	arc    10  8 #eval{vector(  $b,      0,    -$R )}
+	//arc    11  9 #eval{vector(   0,      0,    -($R - $a) )}	// FIXME
+	arc    11  9 origin (0 0 0)
+	//arc    10  8 #eval{vector(  $b,      0,    -$R )}
+	arc    10  8 origin ($b 0 0)
 
 	// outlet
 
@@ -317,21 +276,11 @@ edges
 		#eval{vector(  0.1*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
 
 		#eval{vector(       0,                                                     0,                                       -($R - $a) )}
-
-		#eval{vector( -0.1*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
-		#eval{vector( -0.2*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
-		#eval{vector( -0.3*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
-		#eval{vector( -0.4*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
-		#eval{vector( -0.5*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
-		#eval{vector( -0.6*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
-		#eval{vector( -0.7*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
-		#eval{vector( -0.8*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
-		#eval{vector( -0.9*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
-
-		#eval{vector(     -$b,                                                     0,                                              -$R )}
 	)
-	arc    13  8 #eval{vector(  $b,     $R,      0 )}
-	arc    12  9 #eval{vector( -$b,     $R,      0 )}
+	//arc    13  8 #eval{vector(  $b,     $R,      0 )}
+	arc    13  8 origin ($b 0 0)
+	//arc    12  9 #eval{vector(   0,     $R - $a,      0 )}	// FIXME
+	arc    12  9 origin (0 0 0)
 
 	line   12  0
 	line   13  1
