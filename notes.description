@@ -11,9 +11,9 @@ $ general:0
 	  The idea is to simulate a 2D viscous, laminar flow through an idealised
 	  stenosis, defined by:
 
-	  	r/(D/2) = 1 - a/D [1 + cos(pi*z/b)] - b, -b <= z <= b
+	  	r/R = 1 - a/(2*R) [1 + cos(pi*z/b)] - b, -b <= z <= b
 
-	  where 'D' is the unobstructed pipe diameter, 'a' the stenosis height,
+	  where 'R' is the unobstructed pipe radius, 'a' the stenosis height,
 	  'b' the stenosis half-lenght, and 'r' and 'z' are the radial and axial
 	  coordinates respectively. Note that the coordinate system is placed at
 	  the pipe axis at the middle of the stenosis.
