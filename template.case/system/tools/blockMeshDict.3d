@@ -38,12 +38,16 @@ ncR		30;
 // No. cells inlet/outlet, x-axis
 ncL		#eval{ round(log(1 - $L*(1 - $exR_Z)/(2*$b/$ncZ) ) / log($exR_Z)) };
 
-// inlet cell exp. ratio
-grZ_o	#eval{ pow($exR_Z, $ncL - 1) };
-// outlet cell exp. ratio
-grZ_i	#eval{ 1/$grZ_o };
-// radial cell exp. ratio
-grR	    #eval{ pow($exR_R, 1 - $ncR) };
+//// inlet cell exp. ratio
+//grZ_o	#eval{ pow($exR_Z, $ncL - 1) };
+//// outlet cell exp. ratio
+//grZ_i	#eval{ 1/$grZ_o };
+//// radial cell exp. ratio
+//grR	    #eval{ pow($exR_R, 1 - $ncR) };
+
+grZ_o 1;
+grZ_i 1;
+grR   1;
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -58,15 +62,15 @@ vertices
 	// inlet
 
 	// stenosis
-	#eval{vector(-$b,      0, -$H*$R)}					// 0
-	#eval{vector( $b,      0, -$H*$R)}					// 1
-	#eval{vector( $b,  $h*$R, -$h*$R)}					// 2
-	#eval{vector(-$b,  $h*$R, -$h*$R)}					// 3
+	#eval{vector( -$b,               0,          -$H*$R )}	// 0
+	#eval{vector(  $b,               0,          -$H*$R )}	// 1
+	#eval{vector(  $b,           $h*$R,          -$h*$R )}	// 2
+	#eval{vector( -$b,           $h*$R,          -$h*$R )}	// 3
 
-	#eval{vector(-$b,      0,      0)}					// 4
-	#eval{vector( $b,      0,      0)}					// 5
-	#eval{vector( $b,  $H*$R,      0)}					// 6
-	#eval{vector(-$b,  $H*$R,      0)}					// 7
+	#eval{vector( -$b,               0,               0 )}	// 4
+	#eval{vector(  $b,               0,               0 )}	// 5
+	#eval{vector(  $b,           $H*$R,               0 )}	// 6
+	#eval{vector( -$b,           $H*$R,               0 )}	// 7
 
 	// outlet
 
@@ -78,6 +82,10 @@ vertices
 	// inlet
 
 	// stenosis
+	#eval{vector(  $b,  $R*cos(pi()/4), -$R*sin(pi()/4) )}	// 8
+	#eval{vector( -$b,  $R*cos(pi()/4), -$R*sin(pi()/4) )}	// 9
+	#eval{vector(  $b,              $R,               0 )}	// 10
+	#eval{vector( -$b,              $R,               0 )}	// 11
 
 	// outlet
 
@@ -89,13 +97,19 @@ vertices
 	// inlet
 
 	// stenosis
+	#eval{vector( -$b,               0,             -$R )}	// 12
+	#eval{vector(  $b,               0,             -$R )}	// 13
 
 	// outlet
 );
 
 blocks
 (
-	hex (0 1 2 3 4 5 6 7)     ($ncZ $ncR $ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
+	hex (  0  1  2  3  4  5  6  7 )     ($ncZ $ncR $ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
+	// FIXME: no. cells and scaling in radial direction
+	hex (  3  2  8  9  7  6 10 11 )     ($ncZ $ncR $ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
+	// FIXME: no. cells and scaling in radial direction
+	hex ( 12 13  8  9  0  1  2  3 )     ($ncZ $ncR $ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
 );
 
 edges
@@ -107,101 +121,101 @@ edges
 	// inlet
 
 	// stenosis
-	spline 0 1 // FIXME: dunno if this is ok!
+	spline  0  1 // FIXME: dunno if this is ok!
 	(
-		#eval{vector(     -$b,                                       0,                                  -$H*$R )}
+		#eval{vector(     -$b,                                                     0,                                           -$H*$R )}
 
-		#eval{vector( -0.9*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
-		#eval{vector( -0.8*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
-		#eval{vector( -0.7*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
-		#eval{vector( -0.6*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
-		#eval{vector( -0.5*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
-		#eval{vector( -0.4*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
-		#eval{vector( -0.3*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
-		#eval{vector( -0.2*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
-		#eval{vector( -0.1*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
+		#eval{vector( -0.9*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
+		#eval{vector( -0.8*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
+		#eval{vector( -0.7*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
+		#eval{vector( -0.6*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
+		#eval{vector( -0.5*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
+		#eval{vector( -0.4*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
+		#eval{vector( -0.3*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
+		#eval{vector( -0.2*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
+		#eval{vector( -0.1*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
 
-		#eval{vector(       0,                                       0,                           -$H*($R - $a) )}
+		#eval{vector(       0,                                                     0,                                    -$H*($R - $a) )}
 
-		#eval{vector(  0.1*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
-		#eval{vector(  0.2*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
-		#eval{vector(  0.3*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
-		#eval{vector(  0.4*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
-		#eval{vector(  0.5*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
-		#eval{vector(  0.6*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
-		#eval{vector(  0.7*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
-		#eval{vector(  0.8*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
-		#eval{vector(  0.9*$b,                                       0, -$H*($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
+		#eval{vector(  0.1*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
+		#eval{vector(  0.2*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
+		#eval{vector(  0.3*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
+		#eval{vector(  0.4*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
+		#eval{vector(  0.5*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
+		#eval{vector(  0.6*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
+		#eval{vector(  0.7*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
+		#eval{vector(  0.8*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
+		#eval{vector(  0.9*$b,                                                     0,          -$H*($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
 
-		#eval{vector(      $b,                                       0,                                  -$H*$R )}
+		#eval{vector(      $b,                                                     0,                                           -$H*$R )}
 	)
-	arc    2 1 #eval{vector(  $b, -$h*$R, -$h*$R )}
-	spline 2 3 // FIXME: dunno if this is ok!
+	arc     2  1 #eval{vector(  $b, -$h*$R, -$h*$R )}
+	spline  2  3 // FIXME: dunno if this is ok!
 	(
-		#eval{vector(      $b,                                   $h*$R,                                  -$h*$R )}
+		#eval{vector(      $b,                                                 $h*$R,                                           -$h*$R )}
 
-		#eval{vector(  0.9*$b,  $h*($R - 0.5*$a * (1 + cos(0.9*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
-		#eval{vector(  0.8*$b,  $h*($R - 0.5*$a * (1 + cos(0.8*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
-		#eval{vector(  0.7*$b,  $h*($R - 0.5*$a * (1 + cos(0.7*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
-		#eval{vector(  0.6*$b,  $h*($R - 0.5*$a * (1 + cos(0.6*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
-		#eval{vector(  0.5*$b,  $h*($R - 0.5*$a * (1 + cos(0.5*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
-		#eval{vector(  0.4*$b,  $h*($R - 0.5*$a * (1 + cos(0.4*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
-		#eval{vector(  0.3*$b,  $h*($R - 0.5*$a * (1 + cos(0.3*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
-		#eval{vector(  0.2*$b,  $h*($R - 0.5*$a * (1 + cos(0.2*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
-		#eval{vector(  0.1*$b,  $h*($R - 0.5*$a * (1 + cos(0.1*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
+		#eval{vector(  0.9*$b,                $h*($R - 0.5*$a * (1 + cos(0.9*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
+		#eval{vector(  0.8*$b,                $h*($R - 0.5*$a * (1 + cos(0.8*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
+		#eval{vector(  0.7*$b,                $h*($R - 0.5*$a * (1 + cos(0.7*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
+		#eval{vector(  0.6*$b,                $h*($R - 0.5*$a * (1 + cos(0.6*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
+		#eval{vector(  0.5*$b,                $h*($R - 0.5*$a * (1 + cos(0.5*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
+		#eval{vector(  0.4*$b,                $h*($R - 0.5*$a * (1 + cos(0.4*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
+		#eval{vector(  0.3*$b,                $h*($R - 0.5*$a * (1 + cos(0.3*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
+		#eval{vector(  0.2*$b,                $h*($R - 0.5*$a * (1 + cos(0.2*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
+		#eval{vector(  0.1*$b,                $h*($R - 0.5*$a * (1 + cos(0.1*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
 
-		#eval{vector(       0,                            $h*($R - $a),                           -$h*($R - $a) )}
+		#eval{vector(       0,                                          $h*($R - $a),                                    -$h*($R - $a) )}
 
-		#eval{vector( -0.1*$b,  $h*($R - 0.5*$a * (1 + cos(0.1*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
-		#eval{vector( -0.2*$b,  $h*($R - 0.5*$a * (1 + cos(0.2*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
-		#eval{vector( -0.3*$b,  $h*($R - 0.5*$a * (1 + cos(0.3*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
-		#eval{vector( -0.4*$b,  $h*($R - 0.5*$a * (1 + cos(0.4*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
-		#eval{vector( -0.5*$b,  $h*($R - 0.5*$a * (1 + cos(0.5*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
-		#eval{vector( -0.6*$b,  $h*($R - 0.5*$a * (1 + cos(0.6*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
-		#eval{vector( -0.7*$b,  $h*($R - 0.5*$a * (1 + cos(0.7*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
-		#eval{vector( -0.8*$b,  $h*($R - 0.5*$a * (1 + cos(0.8*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
-		#eval{vector( -0.9*$b,  $h*($R - 0.5*$a * (1 + cos(0.9*pi()))), -$h*($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
+		#eval{vector( -0.1*$b,                $h*($R - 0.5*$a * (1 + cos(0.1*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
+		#eval{vector( -0.2*$b,                $h*($R - 0.5*$a * (1 + cos(0.2*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
+		#eval{vector( -0.3*$b,                $h*($R - 0.5*$a * (1 + cos(0.3*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
+		#eval{vector( -0.4*$b,                $h*($R - 0.5*$a * (1 + cos(0.4*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
+		#eval{vector( -0.5*$b,                $h*($R - 0.5*$a * (1 + cos(0.5*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
+		#eval{vector( -0.6*$b,                $h*($R - 0.5*$a * (1 + cos(0.6*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
+		#eval{vector( -0.7*$b,                $h*($R - 0.5*$a * (1 + cos(0.7*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
+		#eval{vector( -0.8*$b,                $h*($R - 0.5*$a * (1 + cos(0.8*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
+		#eval{vector( -0.9*$b,                $h*($R - 0.5*$a * (1 + cos(0.9*pi()))),          -$h*($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
 
-		#eval{vector(     -$b,                                   $h*$R,                                  -$h*$R )}
+		#eval{vector(     -$b,                                                 $h*$R,                                           -$h*$R )}
 	)
-	arc    3 0 #eval{vector( -$b, -$h*$R, -$h*$R )}
+	arc     3  0 #eval{vector( -$b, -$h*$R, -$h*$R )}
 
-	line   4 5
-	line   5 6
-	spline 6 7 // FIXME: dunno if this is ok!
+	line    4  5
+	line    5  6
+	spline  6  7 // FIXME: dunno if this is ok!
 	(
-		#eval{vector(      $b,                                   $H*$R,                                       0 )}
+		#eval{vector(      $b,                                                 $H*$R,                                                0 )}
 
-		#eval{vector(  0.9*$b,  $H*($R - 0.5*$a * (1 + cos(0.9*pi()))),                                       0 )}
-		#eval{vector(  0.8*$b,  $H*($R - 0.5*$a * (1 + cos(0.8*pi()))),                                       0 )}
-		#eval{vector(  0.7*$b,  $H*($R - 0.5*$a * (1 + cos(0.7*pi()))),                                       0 )}
-		#eval{vector(  0.6*$b,  $H*($R - 0.5*$a * (1 + cos(0.6*pi()))),                                       0 )}
-		#eval{vector(  0.5*$b,  $H*($R - 0.5*$a * (1 + cos(0.5*pi()))),                                       0 )}
-		#eval{vector(  0.4*$b,  $H*($R - 0.5*$a * (1 + cos(0.4*pi()))),                                       0 )}
-		#eval{vector(  0.3*$b,  $H*($R - 0.5*$a * (1 + cos(0.3*pi()))),                                       0 )}
-		#eval{vector(  0.2*$b,  $H*($R - 0.5*$a * (1 + cos(0.2*pi()))),                                       0 )}
-		#eval{vector(  0.1*$b,  $H*($R - 0.5*$a * (1 + cos(0.1*pi()))),                                       0 )}
+		#eval{vector(  0.9*$b,                $H*($R - 0.5*$a * (1 + cos(0.9*pi()))),                                                0 )}
+		#eval{vector(  0.8*$b,                $H*($R - 0.5*$a * (1 + cos(0.8*pi()))),                                                0 )}
+		#eval{vector(  0.7*$b,                $H*($R - 0.5*$a * (1 + cos(0.7*pi()))),                                                0 )}
+		#eval{vector(  0.6*$b,                $H*($R - 0.5*$a * (1 + cos(0.6*pi()))),                                                0 )}
+		#eval{vector(  0.5*$b,                $H*($R - 0.5*$a * (1 + cos(0.5*pi()))),                                                0 )}
+		#eval{vector(  0.4*$b,                $H*($R - 0.5*$a * (1 + cos(0.4*pi()))),                                                0 )}
+		#eval{vector(  0.3*$b,                $H*($R - 0.5*$a * (1 + cos(0.3*pi()))),                                                0 )}
+		#eval{vector(  0.2*$b,                $H*($R - 0.5*$a * (1 + cos(0.2*pi()))),                                                0 )}
+		#eval{vector(  0.1*$b,                $H*($R - 0.5*$a * (1 + cos(0.1*pi()))),                                                0 )}
 
-		#eval{vector(       0,                            $H*($R - $a),                                       0 )}
+		#eval{vector(       0,                                          $H*($R - $a),                                                0 )}
 
-		#eval{vector( -0.1*$b,  $H*($R - 0.5*$a * (1 + cos(0.1*pi()))),                                       0 )}
-		#eval{vector( -0.2*$b,  $H*($R - 0.5*$a * (1 + cos(0.2*pi()))),                                       0 )}
-		#eval{vector( -0.3*$b,  $H*($R - 0.5*$a * (1 + cos(0.3*pi()))),                                       0 )}
-		#eval{vector( -0.4*$b,  $H*($R - 0.5*$a * (1 + cos(0.4*pi()))),                                       0 )}
-		#eval{vector( -0.5*$b,  $H*($R - 0.5*$a * (1 + cos(0.5*pi()))),                                       0 )}
-		#eval{vector( -0.6*$b,  $H*($R - 0.5*$a * (1 + cos(0.6*pi()))),                                       0 )}
-		#eval{vector( -0.7*$b,  $H*($R - 0.5*$a * (1 + cos(0.7*pi()))),                                       0 )}
-		#eval{vector( -0.8*$b,  $H*($R - 0.5*$a * (1 + cos(0.8*pi()))),                                       0 )}
-		#eval{vector( -0.9*$b,  $H*($R - 0.5*$a * (1 + cos(0.9*pi()))),                                       0 )}
+		#eval{vector( -0.1*$b,                $H*($R - 0.5*$a * (1 + cos(0.1*pi()))),                                                0 )}
+		#eval{vector( -0.2*$b,                $H*($R - 0.5*$a * (1 + cos(0.2*pi()))),                                                0 )}
+		#eval{vector( -0.3*$b,                $H*($R - 0.5*$a * (1 + cos(0.3*pi()))),                                                0 )}
+		#eval{vector( -0.4*$b,                $H*($R - 0.5*$a * (1 + cos(0.4*pi()))),                                                0 )}
+		#eval{vector( -0.5*$b,                $H*($R - 0.5*$a * (1 + cos(0.5*pi()))),                                                0 )}
+		#eval{vector( -0.6*$b,                $H*($R - 0.5*$a * (1 + cos(0.6*pi()))),                                                0 )}
+		#eval{vector( -0.7*$b,                $H*($R - 0.5*$a * (1 + cos(0.7*pi()))),                                                0 )}
+		#eval{vector( -0.8*$b,                $H*($R - 0.5*$a * (1 + cos(0.8*pi()))),                                                0 )}
+		#eval{vector( -0.9*$b,                $H*($R - 0.5*$a * (1 + cos(0.9*pi()))),                                                0 )}
 
-		#eval{vector(     -$b,                                   $H*$R,                                       0 )}
+		#eval{vector(     -$b,                                                 $H*$R,                                                0 )}
 	)
-	line   7 4
+	line    7  4
 
-	line   0 4
-	line   1 5
-	arc    2 6 #eval{vector(  $b,  $h*$R,  $h*$R )}
-	arc    3 7 #eval{vector( -$b,  $h*$R,  $h*$R )}
+	line    0  4
+	line    1  5
+	arc     2  6 #eval{vector(  $b,  $h*$R,  $h*$R )}
+	arc     3  7 #eval{vector( -$b,  $h*$R,  $h*$R )}
 
 	// outlet
 
@@ -213,6 +227,70 @@ edges
 	// inlet
 
 	// stenosis
+	line    2  8
+	spline  8  9
+	(
+		#eval{vector(      $b,                                        $R*cos(pi()/4),                                  -$R*cos(pi()/4) )}
+
+		#eval{vector(  0.9*$b,       ($R - 0.5*$a * (1 + cos(0.9*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.9*pi())))*sin(pi()/4) )}
+		#eval{vector(  0.8*$b,       ($R - 0.5*$a * (1 + cos(0.8*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.8*pi())))*sin(pi()/4) )}
+		#eval{vector(  0.7*$b,       ($R - 0.5*$a * (1 + cos(0.7*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.7*pi())))*sin(pi()/4) )}
+		#eval{vector(  0.6*$b,       ($R - 0.5*$a * (1 + cos(0.6*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.6*pi())))*sin(pi()/4) )}
+		#eval{vector(  0.5*$b,       ($R - 0.5*$a * (1 + cos(0.5*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.5*pi())))*sin(pi()/4) )}
+		#eval{vector(  0.4*$b,       ($R - 0.5*$a * (1 + cos(0.4*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.4*pi())))*sin(pi()/4) )}
+		#eval{vector(  0.3*$b,       ($R - 0.5*$a * (1 + cos(0.3*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.3*pi())))*sin(pi()/4) )}
+		#eval{vector(  0.2*$b,       ($R - 0.5*$a * (1 + cos(0.2*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.2*pi())))*sin(pi()/4) )}
+		#eval{vector(  0.1*$b,       ($R - 0.5*$a * (1 + cos(0.1*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.1*pi())))*sin(pi()/4) )}
+
+		#eval{vector(       0,                                 ($R - $a)*cos(pi()/4),                           -($R - $a)*cos(pi()/4) )}
+
+		#eval{vector( -0.1*$b,       ($R - 0.5*$a * (1 + cos(0.1*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.1*pi())))*cos(pi()/4) )}
+		#eval{vector( -0.2*$b,       ($R - 0.5*$a * (1 + cos(0.2*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.2*pi())))*cos(pi()/4) )}
+		#eval{vector( -0.3*$b,       ($R - 0.5*$a * (1 + cos(0.3*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.3*pi())))*cos(pi()/4) )}
+		#eval{vector( -0.4*$b,       ($R - 0.5*$a * (1 + cos(0.4*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.4*pi())))*cos(pi()/4) )}
+		#eval{vector( -0.5*$b,       ($R - 0.5*$a * (1 + cos(0.5*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.5*pi())))*cos(pi()/4) )}
+		#eval{vector( -0.6*$b,       ($R - 0.5*$a * (1 + cos(0.6*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.6*pi())))*cos(pi()/4) )}
+		#eval{vector( -0.7*$b,       ($R - 0.5*$a * (1 + cos(0.7*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.7*pi())))*cos(pi()/4) )}
+		#eval{vector( -0.8*$b,       ($R - 0.5*$a * (1 + cos(0.8*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.8*pi())))*cos(pi()/4) )}
+		#eval{vector( -0.9*$b,       ($R - 0.5*$a * (1 + cos(0.9*pi())))*cos(pi()/4), -($R - 0.5*$a * (1 + cos(0.9*pi())))*cos(pi()/4) )}
+
+		#eval{vector(     -$b,                                        $R*cos(pi()/4),                                  -$R*cos(pi()/4) )}
+	)
+	line    9  3
+
+	line    6 10
+	spline 10 11
+	(
+		#eval{vector(      $b,                                                    $R,                                                0 )}
+
+		#eval{vector(  0.9*$b,                     $R - 0.5*$a * (1 + cos(0.9*pi())),                                                0 )}
+		#eval{vector(  0.8*$b,                     $R - 0.5*$a * (1 + cos(0.8*pi())),                                                0 )}
+		#eval{vector(  0.7*$b,                     $R - 0.5*$a * (1 + cos(0.7*pi())),                                                0 )}
+		#eval{vector(  0.6*$b,                     $R - 0.5*$a * (1 + cos(0.6*pi())),                                                0 )}
+		#eval{vector(  0.5*$b,                     $R - 0.5*$a * (1 + cos(0.5*pi())),                                                0 )}
+		#eval{vector(  0.4*$b,                     $R - 0.5*$a * (1 + cos(0.4*pi())),                                                0 )}
+		#eval{vector(  0.3*$b,                     $R - 0.5*$a * (1 + cos(0.3*pi())),                                                0 )}
+		#eval{vector(  0.2*$b,                     $R - 0.5*$a * (1 + cos(0.2*pi())),                                                0 )}
+		#eval{vector(  0.1*$b,                     $R - 0.5*$a * (1 + cos(0.1*pi())),                                                0 )}
+
+		#eval{vector(       0,                                               $R - $a,                                                0 )}
+
+		#eval{vector( -0.1*$b,                     $R - 0.5*$a * (1 + cos(0.1*pi())),                                                0 )}
+		#eval{vector( -0.2*$b,                     $R - 0.5*$a * (1 + cos(0.2*pi())),                                                0 )}
+		#eval{vector( -0.3*$b,                     $R - 0.5*$a * (1 + cos(0.3*pi())),                                                0 )}
+		#eval{vector( -0.4*$b,                     $R - 0.5*$a * (1 + cos(0.4*pi())),                                                0 )}
+		#eval{vector( -0.5*$b,                     $R - 0.5*$a * (1 + cos(0.5*pi())),                                                0 )}
+		#eval{vector( -0.6*$b,                     $R - 0.5*$a * (1 + cos(0.6*pi())),                                                0 )}
+		#eval{vector( -0.7*$b,                     $R - 0.5*$a * (1 + cos(0.7*pi())),                                                0 )}
+		#eval{vector( -0.8*$b,                     $R - 0.5*$a * (1 + cos(0.8*pi())),                                                0 )}
+		#eval{vector( -0.9*$b,                     $R - 0.5*$a * (1 + cos(0.9*pi())),                                                0 )}
+
+		#eval{vector(     -$b,                                                    $R,                                                0 )}
+	)
+	line   11  7
+
+	arc    11  9 #eval{vector( -$b,      0,    -$R )}
+	arc    10  8 #eval{vector(  $b,      0,    -$R )}
 
 	// outlet
 
@@ -224,6 +302,39 @@ edges
 	// inlet
 
 	// stenosis
+	spline 13 12
+	(
+		#eval{vector(      $b,                                                     0,                                              -$R )}
+
+		#eval{vector(  0.9*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
+		#eval{vector(  0.8*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
+		#eval{vector(  0.7*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
+		#eval{vector(  0.6*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
+		#eval{vector(  0.5*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
+		#eval{vector(  0.4*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
+		#eval{vector(  0.3*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
+		#eval{vector(  0.2*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
+		#eval{vector(  0.1*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
+
+		#eval{vector(       0,                                                     0,                                       -($R - $a) )}
+
+		#eval{vector( -0.1*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.1*pi()))) )}
+		#eval{vector( -0.2*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.2*pi()))) )}
+		#eval{vector( -0.3*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.3*pi()))) )}
+		#eval{vector( -0.4*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.4*pi()))) )}
+		#eval{vector( -0.5*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.5*pi()))) )}
+		#eval{vector( -0.6*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.6*pi()))) )}
+		#eval{vector( -0.7*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.7*pi()))) )}
+		#eval{vector( -0.8*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.8*pi()))) )}
+		#eval{vector( -0.9*$b,                                                     0,             -($R - 0.5*$a * (1 + cos(0.9*pi()))) )}
+
+		#eval{vector(     -$b,                                                     0,                                              -$R )}
+	)
+	arc    13  8 #eval{vector(  $b,     $R,      0 )}
+	arc    12  9 #eval{vector( -$b,     $R,      0 )}
+
+	line   12  0
+	line   13  1
 
 	// outlet
 );
@@ -235,7 +346,9 @@ boundary
 		type	patch;
 		faces
 		(
-			( 0 4 7 3 )
+			(  0  4  7  3 )
+			(  3  7 11  9 )
+			( 12  0  3  9 )
 		);
 	}
 
@@ -244,7 +357,9 @@ boundary
 		type	patch;
 		faces
 		(
-			( 1 2 6 5 )
+			(  1  2  6  5 )
+			(  2  8 10  6 )
+			( 13  8  2  1 )
 		);
 	}
 
@@ -262,8 +377,8 @@ boundary
 		type	wall;
 		faces
 		(
-			( 0 3 2 1 )
-			( 2 3 7 6 )
+			(  9 11 10  8 )
+			( 12  9  8 13 )
 		);
 	}
 
@@ -281,7 +396,8 @@ boundary
 		type	symmetry;
 		faces
 		(
-			( 0 1 5 4 )
+			(  0  1  5  4 )
+			(  0 12 13  1 )
 		);
 	}
 
@@ -290,7 +406,8 @@ boundary
 		type	symmetry;
 		faces
 		(
-			( 4 5 6 7 )
+			(  4  5  6  7 )
+			(  7  6 10 11 )
 		);
 	}
 );
