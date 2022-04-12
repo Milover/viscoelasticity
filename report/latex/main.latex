@@ -155,7 +155,7 @@
 
 \pagestyle{plain}
 
-{\center\Large\textbf{Master's thesis proposal: Matko Milanovic}\\
+{\center\Large\textbf{Thesis proposal}\\
 
 \vspace{1.5cm}}
 
@@ -408,14 +408,14 @@ from~\cite{Chauhan-S:Rheology:2021}.
 	%
 	\disregard{\item define how mesh independence will be determined} --- done
 	%
-	\item extract and provide comparison data from~\cite{Chauhan-S:Rheology:2021}
+	\item extract and provide comparison data from~\cite{Chauhan-S:Rheology:2021} --- partially done
 	%
 	\disregard{\item define values to be monitored (sections, probe locations, graphs, etc.)} --- done
 	%
 	\item define flow rate variation for the transient cases
 	%
-	\item fit Carreau-Yasuda model parameters to data
-	from~\cite{Chauhan-S:Rheology:2021}
+	\disregard{\item fit Carreau-Yasuda model parameters to data
+	from~\cite{Chauhan-S:Rheology:2021}} --- done
 	%
 	\item add relevant literature for Carreau-Yasuda model (and stuff proving
 	common use in hemodynamics)
