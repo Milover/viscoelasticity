@@ -29,7 +29,7 @@ rhoS		1060;					// density of solvent
 muS			0.0012;					// dynamic viscosity of solvent
 muTot		0.0548;					// total dynamic viscosity (multi-mode)
 
-// avg. inlet velocity
+// avg. inlet velocity (multi-mode)
 u_avg		#eval{ vector($Re*$muTot / (2*$R*$rhoS), 0, 0) };
 
 // as per Hagen-Poiseuille flow solution
