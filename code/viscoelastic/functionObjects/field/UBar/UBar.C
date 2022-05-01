@@ -27,6 +27,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "UBar.H"
+#include "volFields.H"
 #include "volFieldsFwd.H"
 #include "addToRunTimeSelectionTable.H"
 

@@ -27,6 +27,7 @@ License
 \*---------------------------------------------------------------------------*/
 
 #include "pBar.H"
+#include "volFields.H"
 #include "volFieldsFwd.H"
 #include "addToRunTimeSelectionTable.H"
 
