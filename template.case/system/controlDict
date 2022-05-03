@@ -62,6 +62,11 @@ functions
 	#include	"post/viscoelastic_forces"
 	#include	"post/probes"
 	#include	"post/single_graph"
+	#include	"post/stream_line"
+
+	// images
+	#include	"post/runtime_postprocessing"
+
 	//#include	"post/time_activated_file_update"
 }
 

@@ -1,0 +1,225 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2112                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+postPro1
+{
+	type            runTimePostProcessing;
+	libs            ("librunTimePostProcessing.so");
+	writeControl    timeStep;
+	writeInterval   $long_write;
+	output
+	{
+		name        image;
+        width       3500;
+        height      400;
+	}
+	colourScheme
+	{
+		black
+		{
+			background  (0 0 0);
+			text        (0.75 0.75 0.75);
+			edge        (1 0 0);
+			surface     (0.5 0.5 0.5);
+			line        (1 0 0);
+			point       (0.5 0.5 0.5);
+		}
+
+		white
+		{
+			background  (1 1 1);
+			text        (0 0 0);
+			edge        (0 0 0);
+			surface     (0 0 0);
+			line        (0 0 0);
+			point       (0 0 0);
+		}
+
+		blueGradient
+		{
+			background  (1 1 1);
+			background2 (0 0 1);
+			text        (0 0 0);
+			edge        (1 0 0);
+			surface     (0.5 0.5 0.5);
+			line        (1 0 0);
+			point       (0.5 0.5 0.5);
+		}
+
+		greyGradient
+		{
+			background  (0.5 0.5 0.5);
+			background2 (0.7 0.7 0.7);
+			text        (1 1 1);
+			edge        (1 0 0);
+			surface     (0.5 0.5 0.5);
+			line        (1 0 0);
+			point       (0.5 0.5 0.5);
+		}
+
+		paraview
+		{
+			background  (0.317647 0.341176 0.431373);
+			text        (0.75 0.75 0.75);
+			edge        (1 0 0);
+			surface     (0.5 0.5 0.5);
+			line        (1 0 0);
+			point       (0.5 0.5 0.5);
+		}
+	}
+	scalarBar
+	{
+		right
+		{
+			visible         true;
+			vertical        true;
+			position        (0.8 0.1);
+			size            (0.1 0.75);
+			fontSize        0;   // auto
+			labelFormat     "%f";
+			numberOfLabels  5;
+			bold            yes;
+			italic          yes;
+			shadow          yes;
+		}
+
+		bottom
+		{
+			visible         true;
+			vertical        false;
+			position        (0.2 0.1);
+			size            (0.6 0.1);
+			fontSize        0;   // auto
+			labelFormat     "%f";
+			numberOfLabels  5;
+			bold            yes;
+			italic          yes;
+			shadow          yes;
+		}
+	}
+
+    // debug       true;
+    // parallel    true;
+
+    camera
+    {
+        // If camera is moving, optionally provide start and end times
+        // startPosition    0.2;
+        // endPosition      0.75;
+
+        // Total number of frames to generate
+        nFrameTotal     1;
+
+        // Parallel projection flag
+        parallelProjection  yes;
+
+        // clipBox is optional
+
+		// FIXME: should use caseSetup params here
+        position        (5 0.25 208.658);
+        focalPoint      (5 0.25 0);
+        up              (0 1 0);
+        zoom            0.8;
+    }
+
+    // Default colours
+    // - If select to colourBy colour, these values are used unless
+    // they are locally overridden
+    colours
+    {
+        //${..colourScheme.white};
+        ${..colourScheme.white};
+    }
+
+    // Line data
+    lines
+    {
+        streamline
+        {
+            type            functionObjectLine;
+            functionObject  stream_line;
+            representation  line;
+            visible         yes;
+            //tubeRadius      0.005;
+            colourBy        colour;
+			//colour          (0 0 0);
+            field           p;
+            //range           (0 10);
+            //opacity         0.8; // doesn't work (at least not in parallel)
+        }
+    }
+
+    surfaces
+    {
+        cutting
+        {
+            type            plane;
+            planeType       pointAndNormal;
+
+            pointAndNormalDict
+            {
+                point   (0 0 0);
+                normal  (0 0 1);
+            }
+
+            //offsets         (0 200);
+
+            smooth          true;
+            colourMap       coolToWarm;
+			nColours        32;
+            representation  surface;
+
+            // representation  glyph;
+
+            // maxGlyphLength  5;
+            maxGlyphLength  0;
+            visible         true;
+            featureEdges    none;
+
+            colourBy        field;
+            colourField     U;
+            field           U;
+            range           (0 8);
+
+			scalarBar
+			{
+				title           "";
+				visible         true;
+				vertical        false;
+				position        (0.05 0);
+				size            (0.9 0.25);
+				fontSize        0;   // auto
+				labelFormat     "%.1f";
+				numberOfLabels  5;
+				bold            yes;
+				italic          yes;
+				shadow          yes;
+			}
+        }
+    }
+
+    // Text data
+    text
+    {
+//        text1
+//        {
+//            string      "ellipse kkLOmega";
+//            position    (0.5 0.15);
+//            halign      centre;
+//            size        18;
+//            opacity     0.4;
+//            bold        yes;
+//            italic      yes;
+//            shadow      yes;
+//            visible     yes;
+//        }
+    }
+}
+
+
+// ************************************************************************* //
