@@ -9,57 +9,34 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       dictionary;
-    location    "system";
-    object      fvSchemes;
+	class		IODictionary;
+    location    "constant";
+    object      caseSetup;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-ddtSchemes
-{
-	//default			Crank-Nicolson 0.9;
-	default				steadyState;
-}
+// geometry
+R			1;						// pipe radius
+a			#eval{ 0.667*$R };		// stenosis height
+b			#eval{ 4*$R };			// stenosis half-length
+L			#eval{ 50*$R };			// inlet/outlet length
 
-gradSchemes
-{
-	//default		 	cellLimited leastSquares 1;
-	default				leastSquares;
-}
+// flow quantities
+Re			200;					// Reynolds number
 
-divSchemes
-{
-	default				none;
-	div(phi,U)			Gauss linearUpwindV leastSquares;
+// blood
+rhoS		1060;					// density of solvent
+muS			0.0012;					// dynamic viscosity of solvent
+muTot		0.0548;					// total dynamic viscosity (multi-mode)
 
-	div(phi,tau)		Gauss linearUpwind leastSquares;
-	div(phi,taufirst)	Gauss linearUpwind leastSquares;
-	div(phi,tausecond)	Gauss linearUpwind leastSquares;
-	div(phi,tauthird)	Gauss linearUpwind leastSquares;
-	div(phi,taufourth)	Gauss linearUpwind leastSquares;
+// avg. inlet velocity (multi-mode)
+//u_avg		#eval{ vector($Re*$muTot / (2*$R*$rhoS), 0, 0) };
+u_avg		#eval{ vector($Re*$muS / (2*$R*$rhoS), 0, 0) };
 
-	div(tau)			Gauss linear;
-}
+// as per Hagen-Poiseuille flow solution
+u_max		#eval{ 2*$[(vector) u_avg] };
 
-laplacianSchemes
-{
-	default				Gauss linear corrected;
-}
 
-interpolationSchemes
-{
-	default				linear;
-}
-
-snGradSchemes
-{
-	default				corrected;
-}
-
-wallDist
-{
-	method				meshWave;
-}
-
+#inputMode merge
 
 // ************************************************************************* //

@@ -9,33 +9,56 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-	class		IODictionary;
-    location    "constant";
-    object      caseSetup;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-// geometry
-R			1;						// pipe radius
-a			#eval{ 0.667*$R };		// stenosis height
-b			#eval{ 4*$R };			// stenosis half-length
-L			#eval{ 50*$R };			// inlet/outlet length
+ddtSchemes
+{
+	//default			Crank-Nicolson 0.9;
+	default				steadyState;
+}
 
-// flow quantities
-Re			200;					// Reynolds number
+gradSchemes
+{
+	//default				Gauss linear;
+	//default				cellLimited leastSquares 1;
+	default				leastSquares;
+}
 
-// blood
-rhoS		1060;					// density of solvent
-muS			0.0012;					// dynamic viscosity of solvent
-muTot		0.0548;					// total dynamic viscosity (multi-mode)
+divSchemes
+{
+	default				none;
+	div(phi,U)			bounded Gauss linearUpwindV leastSquares;
+	//div(phi,U)			bounded Gauss upwind;
 
-// avg. inlet velocity (multi-mode)
-u_avg		#eval{ vector($Re*$muTot / (2*$R*$rhoS), 0, 0) };
+	"div\(phi,tau.*\)"	bounded Gauss linearUpwind leastSquares;
+	//"div\(phi,tau.*\)"	bounded Gauss upwind;
 
-// as per Hagen-Poiseuille flow solution
-u_max		#eval{ 2*$[(vector) u_avg] };
+	div(tau)			Gauss linear;
+}
 
+laplacianSchemes
+{
+	default				Gauss linear corrected;
+}
 
-#inputMode merge
+interpolationSchemes
+{
+	default				linear;
+}
+
+snGradSchemes
+{
+	default				corrected;
+}
+
+wallDist
+{
+	method				meshWave;
+}
+
 
 // ************************************************************************* //

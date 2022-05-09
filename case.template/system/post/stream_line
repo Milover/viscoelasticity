@@ -18,8 +18,8 @@ stream_line
     // Velocity field to use for tracking.
     U               U;
 
-    // Tracked forwards (+U) or backwards (-U)
-    trackForward    true;
+	direction       bidirectional;
+	//trackLength     108;
 
     // Names of fields to sample. Should contain above velocity field!
     fields          (p U);
@@ -40,9 +40,9 @@ stream_line
         axis        x;  //distance;
 
         // Note: tracks slightly offset so as not to be on a face
-        start       (-54 0 0);
-        end         (-54 1 0);
-        nPoints     10;
+        start       (0 0 0);
+        end         (5 1 0);
+        nPoints     20;
     }
 }
 

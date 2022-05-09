@@ -52,7 +52,7 @@ solvers
 		$ofGamgConfig;
 
 		tolerance				1e-07;
-		relTol					1e-4;
+		relTol					1e-3;
 	}
 
 	pFinal
@@ -126,14 +126,14 @@ relaxationFactors
 {
 	fields
 	{
-		p			0.4;
+		p			0.25;
 		".*Final"	1;
 	}
 
 	equations
 	{
-		U			0.8;
-		"tau.*"		0.4;
+		U			0.7;
+		"tau.*"		0.25;
 		".*Final"	1;
 	}
 }
