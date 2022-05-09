@@ -121,8 +121,8 @@ postPro1
         // clipBox is optional
 
 		// FIXME: should use caseSetup params here
-        position        (5 0.25 208.658);
-        focalPoint      (5 0.25 0);
+        position        #eval{ vector($b, 0.25*$R, 208.658) };
+        focalPoint      #eval{ vector($b, 0.25*$R, 0) };
         up              (0 1 0);
         zoom            0.8;
     }

@@ -37,12 +37,12 @@ stream_line
     seedSampleSet
     {
         type        uniform;
-        axis        x;  //distance;
+        axis        distance;  //distance;
 
         // Note: tracks slightly offset so as not to be on a face
-        start       (0 0 0);
-        end         (5 1 0);
-        nPoints     20;
+		start		#eval{ vector(1.25*$b, 0,  0)};
+		end			#eval{ vector(1.25*$b, $R, 0)};
+        nPoints     15;
     }
 }
 
