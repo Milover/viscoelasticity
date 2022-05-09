@@ -76,13 +76,13 @@ Note
 
 #include "fvCFD.H"
 #include "dynamicFvMesh.H"
-#include "singlePhaseTransportModel.H"
-#include "turbulentTransportModel.H"
 #include "pimpleControl.H"
 #include "CorrectPhi.H"
 #include "fvOptions.H"
 #include "localEulerDdtScheme.H"
 #include "fvcSmooth.H"
+
+#include "viscoelasticModel.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -106,8 +106,6 @@ int main(int argc, char *argv[])
     #include "createUfIfPresent.H"
     #include "CourantNo.H"
     #include "setInitialDeltaT.H"
-
-    turbulence->validate();
 
     if (!LTS)
     {
@@ -175,12 +173,8 @@ int main(int argc, char *argv[])
             {
                 #include "pEqn.H"
             }
-
-            if (pimple.turbCorr())
-            {
-                laminarTransport.correct();
-                turbulence->correct();
-            }
+			
+			visco.correct();
         }
 
         runTime.write();

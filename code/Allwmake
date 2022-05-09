@@ -15,8 +15,9 @@ fi
 # compile libraries
 (cd viscoelastic && wmake libso)
 
-# compile solver
+# compile solvers
 (cd viscoelasticSimpleFoam && wmake)
+(cd viscoelasticPimpleFoam && wmake)
 
 # compile third party
 (cd thirdparty && ./Allwmake)

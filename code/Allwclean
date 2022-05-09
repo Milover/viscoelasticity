@@ -15,8 +15,9 @@ fi
 # clean libraries
 (cd viscoelastic && wclean libso)
 
-# clean solver
+# clean solvers
 (cd viscoelasticSimpleFoam && wclean)
+(cd viscoelasticPimpleFoam && wclean)
 
 # clean third party
 (cd thirdparty && ./Allwclean)

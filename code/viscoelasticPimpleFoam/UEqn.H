@@ -4,9 +4,10 @@ MRF.correctBoundaryVelocity(U);
 
 tmp<fvVectorMatrix> tUEqn
 (
-    fvm::ddt(U) + fvm::div(phi, U)
+    fvm::ddt(U)
+  + fvm::div(phi, U)
   + MRF.DDt(U)
-  + turbulence->divDevReff(U)
+  - visco.divTau(U)
  ==
     fvOptions(U)
 );
