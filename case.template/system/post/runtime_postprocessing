@@ -9,7 +9,7 @@
 postPro1
 {
 	type            runTimePostProcessing;
-	libs            ("librunTimePostProcessing.so");
+	libs            ("$FOAM_USER_LIBBIN/sys-openmpi/librunTimePostProcessing.so");
 	writeControl    timeStep;
 	writeInterval   $long_write;
 	output

@@ -12,8 +12,11 @@ if [ -z "$WM_PROJECT" ]; then
 	exit 1
 fi
 
-# compile libraries
+# clean libraries
 (cd viscoelastic && wclean libso)
 
-# compile solver
+# clean solver
 (cd viscoelasticSimpleFoam && wclean)
+
+# clean third party
+(cd thirdparty && ./Allwclean)

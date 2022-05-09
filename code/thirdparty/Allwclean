@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# run from this directory
+cd ${0%/*} || exit 1
+
+# trap on error
+set -e
+
+# clean visualization library
+if [ -d visualization ]; then
+	visualization/Allwclean
+fi

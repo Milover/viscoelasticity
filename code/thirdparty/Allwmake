@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# run from this directory
+cd ${0%/*} || exit 1
+
+# trap on error
+set -e
+
+# build visualization library
+if [ ! -d visualization ]; then
+	tar xvJf visualization.tar.xz
+fi
+visualization/Allwmake

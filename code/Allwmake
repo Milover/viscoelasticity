@@ -17,3 +17,6 @@ fi
 
 # compile solver
 (cd viscoelasticSimpleFoam && wmake)
+
+# compile third party
+(cd thirdparty && ./Allwmake)
