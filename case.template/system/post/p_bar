@@ -9,8 +9,8 @@
 p_bar
 {
 	type			pBar;
-	writeControl	timeStep;
-	writeInterval	$long_write;
+	writeControl	onEnd;
+	//writeInterval	$long_write;
 	log				false;
 
 	URef			#eval{ mag($[(vector) u_avg]) };

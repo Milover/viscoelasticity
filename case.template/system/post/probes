@@ -6,12 +6,10 @@
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 
-probes
+_probes
 {
 	type			probes;
 	libs			("libsampling.so");
-	writeControl	timeStep;
-	writeInterval	$short_write;
 	log				false;
 
 	fixedLocations	true;
@@ -25,5 +23,26 @@ probes
 		( #eval{  16*$:R } 0 0)
 	);
 }
+
+// * * * * * * * * * * * * * * * * Sampling  * * * * * * * * * * * * * * * * //
+
+convergence.probes
+{
+	${_probes}
+
+	writeControl	timeStep;
+	writeInterval	$short_write;
+}
+
+probes
+{
+	${_probes}
+
+	writeControl	onEnd;
+}
+
+// * * * * * * * * * * * * * * * * Cleanup * * * * * * * * * * * * * * * * * //
+
+#remove "_.*"
 
 // ************************************************************************* //

@@ -6,33 +6,49 @@
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 
-viscoelastic_forces.stenosis
+_viscoelastic_forces
 {
 	type			viscoelasticForces;
-	executeControl	timeStep;
-	executeInterval	$short_write;
-	writeControl	timeStep;
-	writeInterval	$short_write;
 	log				false;
 	p				p;
 	U				U;
 	CofR			( 0 0 0 );
+}
+
+// * * * * * * * * * * * * * * * * Sampling  * * * * * * * * * * * * * * * * //
+
+convergence.viscoelastic_forces.stenosis
+{
+	${_viscoelastic_forces}
+
+	executeControl	timeStep;
+	executeInterval	$short_write;
+
 	patches			( wall.stenosis );
 }
 
+viscoelastic_forces.stenosis
+{
+	${_viscoelastic_forces}
+
+	executeControl	onEnd;
+	writeControl	onEnd;
+
+	patches			( wall.stenosis );
+}
 
 viscoelastic_forces.wall
 {
-	type			viscoelasticForces;
-	executeControl	timeStep;
-	executeInterval	$short_write;
-	writeControl	timeStep;
-	writeInterval	$short_write;
-	log				false;
-	p				p;
-	U				U;
-	CofR			( 0 0 0 );
+	${_viscoelastic_forces}
+
+	executeControl	onEnd;
+	writeControl	onEnd;
+
 	patches			( "wall.*" );
 }
+
+// * * * * * * * * * * * * * * * * Cleanup * * * * * * * * * * * * * * * * * //
+
+#remove "_.*"
 
 // ************************************************************************* //

@@ -11,6 +11,7 @@ single_graph.axial
 	type			sets;
 	libs			( "libsampling.so" );
 	writeControl	onEnd;
+	//writeInterval   $short_write;
 	setFormat		csv;
 
 	interpolationScheme	cellPatchConstrained;
@@ -34,6 +35,7 @@ single_graph.radial
 	type			sets;
 	libs			( "libsampling.so" );
 	writeControl	onEnd;
+	//writeInterval   $short_write;
 	setFormat		csv;
 
 	interpolationScheme	cell;

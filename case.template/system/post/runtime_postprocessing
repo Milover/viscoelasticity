@@ -10,8 +10,8 @@ postPro1
 {
 	type            runTimePostProcessing;
 	libs            ("$FOAM_USER_LIBBIN/sys-openmpi/librunTimePostProcessing.so");
-	writeControl    timeStep;
-	writeInterval   $long_write;
+	writeControl    onEnd;
+	//writeInterval   $long_write;
 	output
 	{
 		name        image;
@@ -182,8 +182,8 @@ postPro1
             featureEdges    none;
 
             colourBy        field;
-            colourField     U;
-            field           U;
+            colourField     UBar;
+            field           UBar;
             range           (0 8);
 
 			scalarBar

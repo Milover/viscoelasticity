@@ -5,23 +5,21 @@
 |   \\  /    A nd           | Website:  www.openfoam.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
-FoamFile
+
+convergence.solver_info
 {
-    version     2.0;
-    format      ascii;
-    class       dictionary;
-    location    "system/tools";
-    object      decomposeParDict;
-}
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+	type			solverInfo;
+	libs			("libutilityFunctionObjects.so");
+	writeControl	timeStep;
+	writeInterval	$short_write;
+	log				false;
+	writeResidualFields	false;
 
-numberOfSubdomains	16;
-
-method				manual;
-
-manualCoeffs
-{
-	dataFile		"../system/tools/cellDecomposition";
+#ifeq $rheo_model multiMode
+	fields			( p U "tau.*" );
+#else
+	fields			( p U );
+#endif
 }
 
 // ************************************************************************* //

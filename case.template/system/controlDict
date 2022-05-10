@@ -59,10 +59,11 @@ functions
 
 	// sampling
 	#include	"post/field_min_max"
-	#include	"post/viscoelastic_forces"
 	#include	"post/probes"
 	#include	"post/single_graph"
 	#include	"post/stream_line"
+	#include	"post/solver_info"
+	#include	"post/viscoelastic_forces"
 
 	// images
 	#include	"post/runtime_postprocessing"

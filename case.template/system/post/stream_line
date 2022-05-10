@@ -10,8 +10,8 @@ stream_line
 {
     type  streamLine;
     libs  (	"libfieldFunctionObjects.so" );
-	writeControl    timeStep;
-	writeInterval   $long_write;
+	writeControl    onEnd;
+	//writeInterval   $long_write;
 
     setFormat       vtk;
 

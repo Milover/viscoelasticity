@@ -15,27 +15,85 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-// geometry
-R			1;						// pipe radius
-a			#eval{ 0.667*$R };		// stenosis height
-b			#eval{ 4*$R };			// stenosis half-length
-L			#eval{ 50*$R };			// inlet/outlet length
+/* NOTE:
+ * Multi-mode PTT coefficients are taken directly from Chauhan & Sasmal (2021),
+ * 'the paper' henceforth, while Carreau-Yasuda coefficients were fitted to the
+ * 'same' data (actually fitted to data directly from Yeleswarapu et al. 1998).
+ *
+ * The value for the Newtonian viscosity is set to a commonly used value, since
+ * it isn't defined in the paper, but shouldn't have much impact since the cases
+ * are matched by Reynolds number, and only dimensionless values are tracked.
+ *
+ * The dimensions for the different geometry configurations are taken as per the
+ * paper, as are the Reynolds number values, although Re = 1 should be skipped
+ * as it seems uninteresting.
+ * The inlet/outlet length can probably be somewhat reduced, but it shouldn't
+ * have too big of an impact for the 2D cases.
+ */
 
-// flow quantities
-Re			200;					// Reynolds number
+// * * * * * * * * * * * * * * * * * Setup * * * * * * * * * * * * * * * * * //
 
-// blood
-rhoS		1060;					// density of solvent
-muS			0.0012;					// dynamic viscosity of solvent
-muTot		0.0548;					// total dynamic viscosity (multi-mode)
+// set pipe radius
+R			1;						// any, but 1 is nice and simple
 
-// avg. inlet velocity (multi-mode)
-//u_avg		#eval{ vector($Re*$muTot / (2*$R*$rhoS), 0, 0) };
-u_avg		#eval{ vector($Re*$muS / (2*$R*$rhoS), 0, 0) };
+// set fluid  density
+density		1060;					// blood, as per the paper
 
-// as per Hagen-Poiseuille flow solution
+// set Reynolds number
+Re			200;					// 50/200, see the paper (1 seems boring)
+
+// set geometry
+geo_config	M2;						// M0/M1/M2, see the paper
+
+// set rheological model
+rheo_model	Newtonian;				// Newtonian/CarreauYasuda/multiMode
+
+// * * * * * * * * * * * * * * * * * Logic * * * * * * * * * * * * * * * * * //
+
+// crash by default
+a			0.0;		// stenosis height
+b			0.0;		// stenosis half-length
+L			0.0;		// inlet/outlet length
+viscosity	0.0;		// (effective) dynamic viscosity
+
+// set dimensions based on the geometry configuration
+#ifeq $geo_config M0
+	a		#eval{ 0.5*$R };
+	b		#eval{ $R };
+	L		#eval{ 50*$R };
+#endif
+#ifeq $geo_config M1
+	a		#eval{ 0.333*$R };
+	b		#eval{ 4*$R };
+	L		#eval{ 50*$R };
+#endif
+#ifeq $geo_config M2
+	a		#eval{ 0.667*$R };
+	b		#eval{ 4*$R };
+	L		#eval{ 50*$R };
+#endif
+
+// set viscosity based on the rheological model
+#ifeq $rheo_model Newtonian
+	viscosity	0.0035;				// generally used for blood, but undefined in the paper
+#endif
+#ifeq $rheo_model CarreauYasuda
+	// TODO: compute
+	viscosity	0.0;				// effective viscosity (see test/simset.effective_viscosity.tar.xz)
+#endif
+#ifeq $rheo_model multiMode
+	viscosity	0.0548;				// as per the paper
+#endif
+
+// * * * * * * * * * * * * * * * * * Compute * * * * * * * * * * * * * * * * //
+
+// avg. inlet velocity
+u_avg		#eval{ vector($Re*$viscosity / (2*$R*$density), 0, 0) };
+
+// peak velocity, as per Hagen-Poiseuille flow solution
 u_max		#eval{ 2*$[(vector) u_avg] };
 
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 #inputMode merge
 
