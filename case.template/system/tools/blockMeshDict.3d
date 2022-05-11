@@ -10,12 +10,12 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    location    "system";
-    object      blockMeshDict;
+    location    "system/tools";
+    object      blockMeshDict.3d;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#include	"<constant>/caseSetup"
+#message "Using 3D mesh config";
 
 // * * * * * * * * * * * * * * * * Geometry  * * * * * * * * * * * * * * * * //
 
@@ -432,5 +432,9 @@ boundary
 mergePatchPairs
 (
 );
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#inputMode merge
 
 // ************************************************************************* //

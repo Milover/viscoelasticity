@@ -43,10 +43,13 @@ density		1060;					// blood, as per the paper
 Re			200;					// 50/200, see the paper (1 seems boring)
 
 // set geometry
-geo_config	M2;						// M0/M1/M2, see the paper
+geo_config	"M2";					// M0/M1/M2, see the paper
 
 // set rheological model
 rheo_model	Newtonian;				// Newtonian/CarreauYasuda/multiMode
+
+// set case type (axisymmetric/full geometry)
+case_type	"2D";					// 2D/3D
 
 // * * * * * * * * * * * * * * * * * Logic * * * * * * * * * * * * * * * * * //
 
@@ -57,31 +60,31 @@ L			0.0;		// inlet/outlet length
 viscosity	0.0;		// (effective) dynamic viscosity
 
 // set dimensions based on the geometry configuration
-#ifeq $geo_config M0
+#ifeq $geo_config "M0";
 	a		#eval{ 0.5*$R };
 	b		#eval{ $R };
 	L		#eval{ 50*$R };
 #endif
-#ifeq $geo_config M1
+#ifeq $geo_config "M1";
 	a		#eval{ 0.333*$R };
 	b		#eval{ 4*$R };
 	L		#eval{ 50*$R };
 #endif
-#ifeq $geo_config M2
+#ifeq $geo_config "M2";
 	a		#eval{ 0.667*$R };
 	b		#eval{ 4*$R };
 	L		#eval{ 50*$R };
 #endif
 
 // set viscosity based on the rheological model
-#ifeq $rheo_model Newtonian
+#ifeq $rheo_model Newtonian;
 	viscosity	0.0035;				// generally used for blood, but undefined in the paper
 #endif
-#ifeq $rheo_model CarreauYasuda
+#ifeq $rheo_model CarreauYasuda;
 	// TODO: compute
 	viscosity	0.0;				// effective viscosity (see test/simset.effective_viscosity.tar.xz)
 #endif
-#ifeq $rheo_model multiMode
+#ifeq $rheo_model multiMode;
 	viscosity	0.0548;				// as per the paper
 #endif
 

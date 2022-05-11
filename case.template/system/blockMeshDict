@@ -1,1 +1,28 @@
-tools/blockMeshDict.2d
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2106                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#include	"<constant>/caseSetup"
+
+// include the appropriate mesh
+#ifeq $case_type "2D";
+	#include	"<system>/tools/blockMeshDict.2d"
+#endif
+#ifeq $case_type "3D";
+	#include	"<system>/tools/blockMeshDict.3d"
+#endif
+
+// ************************************************************************* //
