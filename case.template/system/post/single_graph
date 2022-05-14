@@ -38,7 +38,7 @@ single_graph.radial
 	//writeInterval   $short_write;
 	setFormat		csv;
 
-	interpolationScheme	cell;
+	interpolationScheme	cellPoint;
 
 	fields			( U UBar );
 

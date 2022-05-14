@@ -25,29 +25,22 @@ boundaryField
 {
 	inlet
 	{
-		type			fixedValue;
-		value			$internalField;
+		type		fixedValue;
+		value		$internalField;
 	}
 
 	outlet
 	{
-		type			zeroGradient;
+		type		zeroGradient;
 	}
 
 	"wall.*"
 	{
-		type			noSlip;
+		type		noSlip;
 	}
 
-	"symmetry.*"
-	{
-		type			symmetry;
-	}
+	#include		"genericBCs"
 
-	"empty.*"
-	{
-		type			empty;
-	}
 }
 
 // ************************************************************************* //

@@ -9,38 +9,34 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       volSymmTensorField;
-    location    "0";
-    object      tau;
+	class		IODictionary;
+   location    "0";
+    object      genericBCs;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#include		"<constant>/caseSetup"
-
-dimensions		[1 -1 -2 0 0 0 0];
-
-internalField	uniform (0 0 0 0 0 0);
-
-boundaryField
+"symmetry.*"
 {
-	inlet
-	{
-		type	fixedValue;
-		value	$internalField;
-	}
-
-	outlet
-	{
-		type	zeroGradient;
-	}
-
-	"wall.*"
-	{
-		type	zeroGradient;
-	}
-
-	#include	"genericBCs"
-
+	type			symmetry;
 }
+
+"empty.*"
+{
+	type			empty;
+}
+
+"wedge.*"
+{
+	type			wedge;
+}
+
+"slip.*"
+{
+	type			slip;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#inputMode merge
 
 // ************************************************************************* //

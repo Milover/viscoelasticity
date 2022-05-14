@@ -68,7 +68,7 @@ solvers
 		solver					PBiCGStab;
 		preconditioner			DILU;
 
-		minIter					2;
+		minIter					1;
 		tolerance				1e-08;
 		relTol					1e-4;
 	}
@@ -84,6 +84,7 @@ solvers
 SIMPLE
 {
 	nNonOrthogonalCorrectors 0;
+	consistent			false;
 
 	residualControl
 	{
@@ -102,6 +103,8 @@ PIMPLE
 	nCorrectors			1;
 	nNonOrthogonalCorrectors 0;
 
+	consistent			false;
+
 	residualControl
 	{
 		U
@@ -111,7 +114,7 @@ PIMPLE
 		}
 		p
 		{
-			tolerance	1e-4;
+			tolerance	1e-3;
 			relTol		0;
 		}
 		tau
