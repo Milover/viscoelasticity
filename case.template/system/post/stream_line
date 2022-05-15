@@ -19,7 +19,7 @@ stream_line
     U               U;
 
 	direction       bidirectional;
-	//trackLength     108;
+	//trackLength     1e5;
 
     // Names of fields to sample. Should contain above velocity field!
     fields          (p U);
@@ -40,7 +40,7 @@ stream_line
         axis        distance;  //distance;
 
         // Note: tracks slightly offset so as not to be on a face
-		start		#eval{ vector(1.25*$b, 0,  0)};
+		start		#eval{ vector(1.25*$b,  0, 0)};
 		end			#eval{ vector(1.25*$b, $R, 0)};
         nPoints     15;
     }

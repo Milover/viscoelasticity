@@ -13,7 +13,7 @@ _probes
 	log				false;
 
 	fixedLocations	true;
-	interpolation	cellPointFace;
+	interpolation	cellPoint;
 
 	fields			( p pBar );
 

@@ -17,52 +17,56 @@ FoamFile
 
 #message "Using 2D mesh config";
 
-zMax    0.5;
+// axial cell expansion ratio, inlet/outlet
+exR_Z	1.01;
+// radial cell expansion ratio
+exR_R	1.01;
 
-exR_L	1.01;					// cell expansion ratio inlet/outlet, x-axis
-exR_y	1.01;					// cell expansion ratio, y-axis
+// No. cells inlet/outlet in axial dir.
+ncL		#eval{ round(log(1 - $L*(1 - $exR_Z)/(2*$b/$:ncZ) ) / log($exR_Z)) };
 
-ncX		300;					// No. cells (stenosis), x-axis
-ncY		80;						// No. cells, y-axis
-// No. cells inlet/outlet, x-axis
-ncL		#eval{ round(log(1 - $L*(1 - $exR_L)/(2*$b/$ncX) ) / log($exR_L)) };
+// inlet cell exp. ratio in axial dir.
+grZ_o	#eval{ pow($exR_Z, $ncL - 1) };
+// outlet cell exp. ratio in axial dir.
+grZ_i	#eval{ 1/$grZ_o };
+// radial cell exp. ratio
+grR	    #eval{ pow($exR_R, 1 - $:ncR) };
 
-grX_o	#eval{ pow($exR_L, $ncL - 1) };	// inlet cell exp. ratio
-grX_i	#eval{ 1/$grX_o };				// outlet cell exp. ratio
-grY	    #eval{ pow($exR_y, 1 - $ncY) };	// radial cell exp. ratio
+// wedge half-angle
+ang		2.5;
+sAng    #eval{ sin(degToRad($ang)) };
+cAng    #eval{ cos(degToRad($ang)) };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+merge       points;
 
 scale		1;
 
 vertices
 (
-	#eval{vector(      -$b,   0, -$zMax)}		// 0
-	#eval{vector(       $b,   0, -$zMax)}		// 1
-	#eval{vector(       $b,  $R, -$zMax)}		// 2
-	#eval{vector(      -$b,  $R, -$zMax)}		// 3
+	#eval{vector(      -$b,         0,            0)}		// 0
+	#eval{vector(       $b,         0,            0)}		// 1
+	#eval{vector(       $b,  $cAng*$R,    -$sAng*$R)}		// 2
+	#eval{vector(      -$b,  $cAng*$R,    -$sAng*$R)}		// 3
 
-	#eval{vector(      -$b,   0,  $zMax)}		// 4
-	#eval{vector(       $b,   0,  $zMax)}		// 5
-	#eval{vector(       $b,  $R,  $zMax)}		// 6
-	#eval{vector(      -$b,  $R,  $zMax)}		// 7
+	#eval{vector(       $b,  $cAng*$R,     $sAng*$R)}		// 4
+	#eval{vector(      -$b,  $cAng*$R,     $sAng*$R)}		// 5
 
-	#eval{vector( -$b - $L,   0, -$zMax)}		// 8
-	#eval{vector( -$b - $L,  $R, -$zMax)}		// 9
-	#eval{vector( -$b - $L,   0,  $zMax)}		// 10
-	#eval{vector( -$b - $L,  $R,  $zMax)}		// 11
+	#eval{vector( -$b - $L,         0,            0)}		// 6
+	#eval{vector( -$b - $L,  $cAng*$R,    -$sAng*$R)}		// 7
+	#eval{vector( -$b - $L,  $cAng*$R,     $sAng*$R)}		// 8
 
-	#eval{vector(  $b + $L,   0, -$zMax)}		// 12
-	#eval{vector(  $b + $L,  $R, -$zMax)}		// 13
-	#eval{vector(  $b + $L,   0,  $zMax)}		// 14
-	#eval{vector(  $b + $L,  $R,  $zMax)}		// 15
+	#eval{vector(  $b + $L,         0,            0)}		// 9
+	#eval{vector(  $b + $L,  $cAng*$R,    -$sAng*$R)}		// 10
+	#eval{vector(  $b + $L,  $cAng*$R,     $sAng*$R)}		// 11
 );
 
 blocks
 (
-	hex (0 1 2 3 4 5 6 7)     ($ncX $ncY 1) simpleGrading (1      $grY 1)
-	hex (8 0 3 9 10 4 7 11)   ($ncL $ncY 1) simpleGrading ($grX_i $grY 1)
-	hex (1 12 13 2 5 14 15 6) ($ncL $ncY 1) simpleGrading ($grX_o $grY 1)
+	hex (0 1 2 3 0 1 4 5)   ($:ncZ $:ncR 1) simpleGrading (1      $grR 1)
+	hex (6 0 3 7 6 0 5 8)   ($ncL $:ncR 1)  simpleGrading ($grZ_i $grR 1)
+	hex (1 9 10 2 1 9 11 4) ($ncL $:ncR 1)  simpleGrading ($grZ_o $grR 1)
 );
 
 edges
@@ -71,92 +75,85 @@ edges
 	line   1 2
 	spline 2 3
 	(
-		#eval{vector(      $b,                                  $R, -$zMax)}
+		#eval{vector(      $b,                                   $cAng*$R,                                   -$sAng*$R)}
 
-		#eval{vector(  0.9*$b,  $R - 0.5*$a * (1 + cos( 0.9*pi())), -$zMax)}
-		#eval{vector(  0.8*$b,  $R - 0.5*$a * (1 + cos( 0.8*pi())), -$zMax)}
-		#eval{vector(  0.7*$b,  $R - 0.5*$a * (1 + cos( 0.7*pi())), -$zMax)}
-		#eval{vector(  0.6*$b,  $R - 0.5*$a * (1 + cos( 0.6*pi())), -$zMax)}
-		#eval{vector(  0.5*$b,  $R - 0.5*$a * (1 + cos( 0.5*pi())), -$zMax)}
-		#eval{vector(  0.4*$b,  $R - 0.5*$a * (1 + cos( 0.4*pi())), -$zMax)}
-		#eval{vector(  0.3*$b,  $R - 0.5*$a * (1 + cos( 0.3*pi())), -$zMax)}
-		#eval{vector(  0.2*$b,  $R - 0.5*$a * (1 + cos( 0.2*pi())), -$zMax)}
-		#eval{vector(  0.1*$b,  $R - 0.5*$a * (1 + cos( 0.1*pi())), -$zMax)}
+		#eval{vector(  0.9*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.9*pi()))), -$sAng*($R - 0.5*$a * (1 + cos( 0.9*pi()))))}
+		#eval{vector(  0.8*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.8*pi()))), -$sAng*($R - 0.5*$a * (1 + cos( 0.8*pi()))))}
+		#eval{vector(  0.7*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.7*pi()))), -$sAng*($R - 0.5*$a * (1 + cos( 0.7*pi()))))}
+		#eval{vector(  0.6*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.6*pi()))), -$sAng*($R - 0.5*$a * (1 + cos( 0.6*pi()))))}
+		#eval{vector(  0.5*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.5*pi()))), -$sAng*($R - 0.5*$a * (1 + cos( 0.5*pi()))))}
+		#eval{vector(  0.4*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.4*pi()))), -$sAng*($R - 0.5*$a * (1 + cos( 0.4*pi()))))}
+		#eval{vector(  0.3*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.3*pi()))), -$sAng*($R - 0.5*$a * (1 + cos( 0.3*pi()))))}
+		#eval{vector(  0.2*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.2*pi()))), -$sAng*($R - 0.5*$a * (1 + cos( 0.2*pi()))))}
+		#eval{vector(  0.1*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.1*pi()))), -$sAng*($R - 0.5*$a * (1 + cos( 0.1*pi()))))}
 
-		#eval{vector(       0,                             $R - $a, -$zMax)}
+		#eval{vector(       0,                           $cAng*($R - $a),                             -$sAng*($R - $a))}
 
-		#eval{vector( -0.1*$b,  $R - 0.5*$a * (1 + cos(-0.1*pi())), -$zMax)}
-		#eval{vector( -0.2*$b,  $R - 0.5*$a * (1 + cos(-0.2*pi())), -$zMax)}
-		#eval{vector( -0.3*$b,  $R - 0.5*$a * (1 + cos(-0.3*pi())), -$zMax)}
-		#eval{vector( -0.4*$b,  $R - 0.5*$a * (1 + cos(-0.4*pi())), -$zMax)}
-		#eval{vector( -0.5*$b,  $R - 0.5*$a * (1 + cos(-0.5*pi())), -$zMax)}
-		#eval{vector( -0.6*$b,  $R - 0.5*$a * (1 + cos(-0.6*pi())), -$zMax)}
-		#eval{vector( -0.7*$b,  $R - 0.5*$a * (1 + cos(-0.7*pi())), -$zMax)}
-		#eval{vector( -0.8*$b,  $R - 0.5*$a * (1 + cos(-0.8*pi())), -$zMax)}
-		#eval{vector( -0.9*$b,  $R - 0.5*$a * (1 + cos(-0.9*pi())), -$zMax)}
+		#eval{vector( -0.1*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.1*pi()))), -$sAng*($R - 0.5*$a * (1 + cos(-0.1*pi()))))}
+		#eval{vector( -0.2*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.2*pi()))), -$sAng*($R - 0.5*$a * (1 + cos(-0.2*pi()))))}
+		#eval{vector( -0.3*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.3*pi()))), -$sAng*($R - 0.5*$a * (1 + cos(-0.3*pi()))))}
+		#eval{vector( -0.4*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.4*pi()))), -$sAng*($R - 0.5*$a * (1 + cos(-0.4*pi()))))}
+		#eval{vector( -0.5*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.5*pi()))), -$sAng*($R - 0.5*$a * (1 + cos(-0.5*pi()))))}
+		#eval{vector( -0.6*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.6*pi()))), -$sAng*($R - 0.5*$a * (1 + cos(-0.6*pi()))))}
+		#eval{vector( -0.7*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.7*pi()))), -$sAng*($R - 0.5*$a * (1 + cos(-0.7*pi()))))}
+		#eval{vector( -0.8*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.8*pi()))), -$sAng*($R - 0.5*$a * (1 + cos(-0.8*pi()))))}
+		#eval{vector( -0.9*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.9*pi()))), -$sAng*($R - 0.5*$a * (1 + cos(-0.9*pi()))))}
 
-		#eval{vector(     -$b,                                  $R, -$zMax)}
+		#eval{vector(     -$b,                                   $cAng*$R,                                   -$sAng*$R)}
 	)
 	line   3 0
 
-	line   4 5
-	line   5 6
-	spline 6 7
+	line   1 4
+	spline 4 5
 	(
-		#eval{vector(      $b,                                  $R,  $zMax)}
+		#eval{vector(      $b,                                   $cAng*$R,                                    $sAng*$R)}
 
-		#eval{vector(  0.9*$b,  $R - 0.5*$a * (1 + cos( 0.9*pi())),  $zMax)}
-		#eval{vector(  0.8*$b,  $R - 0.5*$a * (1 + cos( 0.8*pi())),  $zMax)}
-		#eval{vector(  0.7*$b,  $R - 0.5*$a * (1 + cos( 0.7*pi())),  $zMax)}
-		#eval{vector(  0.6*$b,  $R - 0.5*$a * (1 + cos( 0.6*pi())),  $zMax)}
-		#eval{vector(  0.5*$b,  $R - 0.5*$a * (1 + cos( 0.5*pi())),  $zMax)}
-		#eval{vector(  0.4*$b,  $R - 0.5*$a * (1 + cos( 0.4*pi())),  $zMax)}
-		#eval{vector(  0.3*$b,  $R - 0.5*$a * (1 + cos( 0.3*pi())),  $zMax)}
-		#eval{vector(  0.2*$b,  $R - 0.5*$a * (1 + cos( 0.2*pi())),  $zMax)}
-		#eval{vector(  0.1*$b,  $R - 0.5*$a * (1 + cos( 0.1*pi())),  $zMax)}
+		#eval{vector(  0.9*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.9*pi()))),  $sAng*($R - 0.5*$a * (1 + cos( 0.9*pi()))))}
+		#eval{vector(  0.8*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.8*pi()))),  $sAng*($R - 0.5*$a * (1 + cos( 0.8*pi()))))}
+		#eval{vector(  0.7*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.7*pi()))),  $sAng*($R - 0.5*$a * (1 + cos( 0.7*pi()))))}
+		#eval{vector(  0.6*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.6*pi()))),  $sAng*($R - 0.5*$a * (1 + cos( 0.6*pi()))))}
+		#eval{vector(  0.5*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.5*pi()))),  $sAng*($R - 0.5*$a * (1 + cos( 0.5*pi()))))}
+		#eval{vector(  0.4*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.4*pi()))),  $sAng*($R - 0.5*$a * (1 + cos( 0.4*pi()))))}
+		#eval{vector(  0.3*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.3*pi()))),  $sAng*($R - 0.5*$a * (1 + cos( 0.3*pi()))))}
+		#eval{vector(  0.2*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.2*pi()))),  $sAng*($R - 0.5*$a * (1 + cos( 0.2*pi()))))}
+		#eval{vector(  0.1*$b, $cAng*($R - 0.5*$a * (1 + cos( 0.1*pi()))),  $sAng*($R - 0.5*$a * (1 + cos( 0.1*pi()))))}
 
-		#eval{vector(       0,                             $R - $a,  $zMax)}
+		#eval{vector(       0,                           $cAng*($R - $a),                              $sAng*($R - $a))}
 
-		#eval{vector( -0.1*$b,  $R - 0.5*$a * (1 + cos(-0.1*pi())),  $zMax)}
-		#eval{vector( -0.2*$b,  $R - 0.5*$a * (1 + cos(-0.2*pi())),  $zMax)}
-		#eval{vector( -0.3*$b,  $R - 0.5*$a * (1 + cos(-0.3*pi())),  $zMax)}
-		#eval{vector( -0.4*$b,  $R - 0.5*$a * (1 + cos(-0.4*pi())),  $zMax)}
-		#eval{vector( -0.5*$b,  $R - 0.5*$a * (1 + cos(-0.5*pi())),  $zMax)}
-		#eval{vector( -0.6*$b,  $R - 0.5*$a * (1 + cos(-0.6*pi())),  $zMax)}
-		#eval{vector( -0.7*$b,  $R - 0.5*$a * (1 + cos(-0.7*pi())),  $zMax)}
-		#eval{vector( -0.8*$b,  $R - 0.5*$a * (1 + cos(-0.8*pi())),  $zMax)}
-		#eval{vector( -0.9*$b,  $R - 0.5*$a * (1 + cos(-0.9*pi())),  $zMax)}
+		#eval{vector( -0.1*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.1*pi()))),  $sAng*($R - 0.5*$a * (1 + cos(-0.1*pi()))))}
+		#eval{vector( -0.2*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.2*pi()))),  $sAng*($R - 0.5*$a * (1 + cos(-0.2*pi()))))}
+		#eval{vector( -0.3*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.3*pi()))),  $sAng*($R - 0.5*$a * (1 + cos(-0.3*pi()))))}
+		#eval{vector( -0.4*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.4*pi()))),  $sAng*($R - 0.5*$a * (1 + cos(-0.4*pi()))))}
+		#eval{vector( -0.5*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.5*pi()))),  $sAng*($R - 0.5*$a * (1 + cos(-0.5*pi()))))}
+		#eval{vector( -0.6*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.6*pi()))),  $sAng*($R - 0.5*$a * (1 + cos(-0.6*pi()))))}
+		#eval{vector( -0.7*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.7*pi()))),  $sAng*($R - 0.5*$a * (1 + cos(-0.7*pi()))))}
+		#eval{vector( -0.8*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.8*pi()))),  $sAng*($R - 0.5*$a * (1 + cos(-0.8*pi()))))}
+		#eval{vector( -0.9*$b, $cAng*($R - 0.5*$a * (1 + cos(-0.9*pi()))),  $sAng*($R - 0.5*$a * (1 + cos(-0.9*pi()))))}
 
-		#eval{vector(     -$b,                                  $R,  $zMax)}
+		#eval{vector(     -$b,                                   $cAng*$R,                                    $sAng*$R)}
 	)
-	line   7 4
+	line   5 0
 
-	line   0 4
-	line   1 5
-	line   2 6
+	line   2 4
+	line   3 5
+
+	line   6 0
 	line   3 7
+	line   7 6
 
-	line   8 0
-	line   3 9
-	line   9 8
+	line   5 8
+	line   8 6
 
-	line   10 4
-	line   7 11
-	line   11 10
+	line   7 8
 
-	line   8 10
+	line   9 10
+	line   10 2
+
+	line   1 9
 	line   9 11
+	line   11 4
 
-	line   1 12
-	line   12 13
-	line   13 2
-
-	line   5 14
-	line   14 15
-	line   15 6
-
-	line   12 14
-	line   13 15
+	line   10 11
 );
 
 boundary
@@ -166,7 +163,7 @@ boundary
 		type	patch;
 		faces
 		(
-			( 8 10 11 9)
+			( 6 8 7 6 )
 		);
 	}
 
@@ -175,7 +172,7 @@ boundary
 		type	patch;
 		faces
 		(
-			( 12 13 15 14)
+			( 9 10 11 9 )
 		);
 	}
 
@@ -184,7 +181,7 @@ boundary
 		type	wall;
 		faces
 		(
-			( 3 9 11 7 )
+			( 3 7 8 5 )
 		);
 	}
 
@@ -193,7 +190,7 @@ boundary
 		type	wall;
 		faces
 		(
-			( 2 3 7 6 )
+			( 2 3 5 4 )
 		);
 	}
 
@@ -202,34 +199,40 @@ boundary
 		type	wall;
 		faces
 		(
-			( 2 6 15 13 )
+			( 2 4 11 10 )
 		);
 	}
 
-	symmetry.patch
-	{
-		type	symmetry;
-		faces
-		(
-			( 0 4 10 8 )
-			( 0 1 5 4 )
-			( 1 12 14 5 )
-		);
-	}
-
-	empty.patch
+	empty.axis
 	{
 		type	empty;
 		faces
 		(
-			( 0 8 9 3 )
-			( 4 7 11 10 )
+			( 0 0 6 6 )
+			( 0 1 1 0 )
+			( 1 9 9 1 )
+		);
+	}
 
-			( 0 3 2 1 )
-			( 4 5 6 7 )
+	wedge.0
+	{
+		type	wedge;
+		faces
+		(
+			( 0 6  7 3 )
+			( 0 3  2 1 )
+			( 1 2 10 9 )
+		);
+	}
 
-			( 1 2 13 12 )
-			( 5 14 15 6 )
+	wedge.1
+	{
+		type	wedge;
+		faces
+		(
+			( 0 5  8 6 )
+			( 0 1  4 5 )
+			( 1 9 11 4 )
 		);
 	}
 );

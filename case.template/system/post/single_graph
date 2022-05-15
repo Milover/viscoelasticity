@@ -14,7 +14,7 @@ single_graph.axial
 	//writeInterval   $short_write;
 	setFormat		csv;
 
-	interpolationScheme	cellPatchConstrained;
+	interpolationScheme	cellPoint;
 
 	fields			( p pBar );
 
@@ -24,8 +24,8 @@ single_graph.axial
 		{
 			type	face;
 			axis	x;
-			start	( #eval{ -$:b - $:L } 0 0 );
-			end		( #eval{  $:b + $:L } 0 0 );
+			start	#eval{vector( -$:b - $:L, 1e-9*$:R, 0 )};
+			end		#eval{vector(  $:b + $:L, 1e-9*$:R, 0 )};
 		}
 	);
 }
@@ -48,7 +48,7 @@ single_graph.radial
 		{
 			type	midPoint;
 			axis	y;
-			start	( 0 0   0 );
+			start	( 0   0 0 );
 			end		( 0 $:a 0 );
 		}
 	);

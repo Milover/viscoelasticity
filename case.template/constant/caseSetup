@@ -45,8 +45,12 @@ Re			200;					// 50/200, see the paper (1 seems boring)
 // set geometry
 geo_config	"M2";					// M0/M1/M2, see the paper
 
+// set (stenosis) mesh cell count
+ncZ		240;						// No. cells in axial direction
+ncR		60;							// No. cells in radial direction
+
 // set rheological model
-rheo_model	Newtonian;				// Newtonian/CarreauYasuda/multiMode
+rheo_model	multiMode;				// Newtonian/CarreauYasuda/multiMode
 
 // set case type (axisymmetric/full geometry)
 case_type	"2D";					// 2D/3D

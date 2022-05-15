@@ -6,7 +6,7 @@
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 
-postPro1
+runtime_postprocessing.0
 {
 	type            runTimePostProcessing;
 	libs            ("$FOAM_USER_LIBBIN/sys-openmpi/librunTimePostProcessing.so");
@@ -143,9 +143,9 @@ postPro1
         {
             type            functionObjectLine;
             functionObject  stream_line;
-            representation  line;
+            representation  tube;
             visible         yes;
-            //tubeRadius      0.005;
+            tubeRadius      0.005;
             colourBy        colour;
 			//colour          (0 0 0);
             field           p;

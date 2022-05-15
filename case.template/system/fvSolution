@@ -15,8 +15,9 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-ofGamgConfig
+gamg_config
 {
+	solver					GAMG;
 	//smoother				GaussSeidel;
 	smoother				FDIC;
 
@@ -44,12 +45,37 @@ ofGamgConfig
 	mergeLevels				1;
 }
 
+pcg_config
+{
+	solver					PCG;
+	preconditioner			FDIC;
+
+	minIter					2;
+}
+
+pbicgstab_config
+{
+	solver					PBiCGStab;
+	preconditioner			DILU;
+
+	minIter					1;
+}
+
+pbicccg_config
+{
+	type					coupled;
+	solver					PBiCCCG;
+	preconditioner			DILU;
+
+	minIter					1;
+}
+
+
 solvers
 {
 	p
 	{
-		solver					GAMG;
-		$ofGamgConfig;
+		$gamg_config
 
 		tolerance				1e-07;
 		relTol					1e-3;
@@ -57,25 +83,56 @@ solvers
 
 	pFinal
 	{
-		$p
+		$gamg_config
 
 		tolerance				1e-07;
 		relTol					0;
 	}
-
+/*
 	"(U|tau.*)"
 	{
-		solver					PBiCGStab;
-		preconditioner			DILU;
+		$pbicgstab_config
 
-		minIter					1;
 		tolerance				1e-08;
 		relTol					1e-4;
 	}
 
 	"(U|tau.*)Final"
 	{
-		$U
+		$pbicgstab_config
+
+		tolerance				1e-8;
+		relTol					0;
+	}
+*/
+	U
+	{
+		$pbicccg_config
+
+		tolerance				(1e-8 1e-8 1e-8);
+		relTol					(1e-4 1e-4 1e-4);
+	}
+
+	UFinal
+	{
+		$pbicccg_config
+
+		tolerance				(1e-8 1e-8 1e-8);
+		relTol					(0 0 0);
+	}
+
+	"tau.*"
+	{
+		$pbicgstab_config
+
+		tolerance				1e-8;
+		relTol					1e-4;
+	}
+
+	"tau.*Final"
+	{
+		$pbicgstab_config
+
 		tolerance				1e-8;
 		relTol					0;
 	}
@@ -119,7 +176,7 @@ PIMPLE
 		}
 		tau
 		{
-			tolerance	1e-4;
+			tolerance	1e-3;
 			relTol		0;
 		}
 	}
@@ -129,14 +186,14 @@ relaxationFactors
 {
 	fields
 	{
-		p			0.25;
+		p			0.3;
 		".*Final"	1;
 	}
 
 	equations
 	{
-		U			0.7;
-		"tau.*"		0.25;
+		U			0.6;
+		"tau.*"		0.3;
 		".*Final"	1;
 	}
 }

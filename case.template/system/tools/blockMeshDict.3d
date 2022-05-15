@@ -26,24 +26,20 @@ H		#eval{ 3.1/5.0 };
 
 // * * * * * * * * * * * * * * * * * Mesh  * * * * * * * * * * * * * * * * * //
 
-// cell expansion ratio inlet/outlet, x-axis
+// axial cell expansion ratio, inlet/outlet
 exR_Z	1.01;
-// cell expansion ratio, y-axis
+// radial cell expansion ratio
 exR_R	1.01;
 
-// No. cells (stenosis), x-axis
-ncZ		100;
-// No. cells, y-axis
-ncR		30;
-// No. cells inlet/outlet, x-axis
-ncL		#eval{ round(log(1 - $L*(1 - $exR_Z)/(2*$b/$ncZ) ) / log($exR_Z)) };
+// No. cells inlet/outlet in axial dir.
+ncL		#eval{ round(log(1 - $L*(1 - $exR_Z)/(2*$b/$:ncZ) ) / log($exR_Z)) };
 
-//// inlet cell exp. ratio
+//// inlet cell exp. ratio in axial dir.
 //grZ_o	#eval{ pow($exR_Z, $ncL - 1) };
-//// outlet cell exp. ratio
+//// outlet cell exp. ratio in axial dir.
 //grZ_i	#eval{ 1/$grZ_o };
 //// radial cell exp. ratio
-//grR	    #eval{ pow($exR_R, 1 - $ncR) };
+//grR	    #eval{ pow($exR_R, 1 - $:ncR) };
 
 grZ_o 1;
 grZ_i 1;
@@ -98,16 +94,16 @@ vertices
 blocks
 (
 	// annulus z
-	hex ( 0  1  4  3  6  7 10  9)     ($ncZ $ncR $ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
-	hex ( 1  2  5  4  7  8 11 10)     ($ncZ $ncR $ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
+	hex ( 0  1  4  3  6  7 10  9)     ($:ncZ $:ncR $:ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
+	hex ( 1  2  5  4  7  8 11 10)     ($:ncZ $:ncR $:ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
 
 	// annulus y
-	hex ( 9 10  4  3 15 16 19 18)     ($ncZ $ncR $ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
-	hex (10 11  5  4 16 17 20 19)     ($ncZ $ncR $ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
+	hex ( 9 10  4  3 15 16 19 18)     ($:ncZ $:ncR $:ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
+	hex (10 11  5  4 16 17 20 19)     ($:ncZ $:ncR $:ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
 
 	// inner
-	hex ( 6  7 10  9 12 13 16 15)     ($ncZ $ncR $ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
-	hex ( 7  8 11 10 13 14 17 16)     ($ncZ $ncR $ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
+	hex ( 6  7 10  9 12 13 16 15)     ($:ncZ $:ncR $:ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
+	hex ( 7  8 11 10 13 14 17 16)     ($:ncZ $:ncR $:ncR) simpleGrading #eval{vector(1, $grR, 1/$grR)}
 );
 
 edges

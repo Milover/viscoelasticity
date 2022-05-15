@@ -13,7 +13,7 @@ p_bar
 	//writeInterval	$long_write;
 	log				false;
 
-	URef			#eval{ mag($[(vector) u_avg]) };
+	URef			#eval{ mag($[(vector) u_max]) };
 }
 
 // ************************************************************************* //

@@ -18,7 +18,7 @@ FoamFile
 #include		"<constant>/caseSetup";
 
 short_write		5;
-long_write		50;
+long_write		100;
 
 application		viscoelasticSimpleFoam;
 
