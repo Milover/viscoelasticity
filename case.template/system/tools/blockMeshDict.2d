@@ -15,7 +15,8 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#message "Using 2D mesh config";
+// NOTE: v2112 onwards
+//#message "Using 2D mesh config";
 
 // axial cell expansion ratio, inlet/outlet
 exR_Z	1.01;
@@ -39,7 +40,7 @@ cAng    #eval{ cos(degToRad($ang)) };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-merge       points;
+mergeType   points;
 
 scale		1;
 
@@ -65,8 +66,8 @@ vertices
 blocks
 (
 	hex (0 1 2 3 0 1 4 5)   ($:ncZ $:ncR 1) simpleGrading (1      $grR 1)
-	hex (6 0 3 7 6 0 5 8)   ($ncL $:ncR 1)  simpleGrading ($grZ_i $grR 1)
-	hex (1 9 10 2 1 9 11 4) ($ncL $:ncR 1)  simpleGrading ($grZ_o $grR 1)
+	hex (6 0 3 7 6 0 5 8)   ($:ncL $:ncR 1) simpleGrading ($grZ_i $grR 1)
+	hex (1 9 10 2 1 9 11 4) ($:ncL $:ncR 1) simpleGrading ($grZ_o $grR 1)
 );
 
 edges

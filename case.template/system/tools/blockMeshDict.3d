@@ -15,7 +15,8 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#message "Using 3D mesh config";
+// NOTE: v2112 onwards
+//#message "Using 3D mesh config";
 
 // * * * * * * * * * * * * * * * * Geometry  * * * * * * * * * * * * * * * * //
 
