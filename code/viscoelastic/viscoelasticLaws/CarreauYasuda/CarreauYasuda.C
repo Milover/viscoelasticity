@@ -70,7 +70,7 @@ Foam::CarreauYasuda::CarreauYasuda
             IOobject::READ_IF_PRESENT,
             IOobject::AUTO_WRITE
         ),
-        strainRate()*dimensionedScalar("zero", dimVelocity, Zero) //Just to ensure dimensions and BCs
+        strainRate()*dimensionedScalar("zero", dimMass/dimLength, Zero) //Just to ensure dimensions and BCs
     ),
     rho_(dimScalar(coeffDict(dict), "rho")),
     eta0_(dimScalar(coeffDict(dict), "eta0")),

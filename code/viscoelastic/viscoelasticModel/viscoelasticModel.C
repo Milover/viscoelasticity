@@ -60,6 +60,11 @@ viscoelasticModel::viscoelasticModel
 
 // * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * * //
 
+tmp<volScalarField> viscoelasticModel::eta() const
+{
+    return lawPtr_->eta();
+}
+
 
 tmp<volSymmTensorField> viscoelasticModel::tau() const
 {

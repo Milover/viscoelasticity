@@ -68,7 +68,33 @@ Foam::Newtonian::Newtonian
 
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
- 
+
+Foam::tmp<Foam::volScalarField> Foam::Newtonian::eta() const
+{
+    tmp<volScalarField> teta
+	(
+		new volScalarField
+		(
+			IOobject
+			(
+				"eta" + name(),
+				tau_.time().timeName(),
+				tau_.mesh(),
+				IOobject::NO_READ,
+				IOobject::NO_WRITE
+			),
+			tau_.mesh(),
+			eta_,
+			extrapolatedCalculatedFvPatchField<scalar>::typeName
+		)
+    );
+	volScalarField& eta = teta.ref();
+	eta.correctBoundaryConditions();
+
+    return teta;
+}
+
+
 Foam::tmp<Foam::fvVectorMatrix> Foam::Newtonian::divTau
 (
   const volVectorField& U

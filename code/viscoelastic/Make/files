@@ -13,4 +13,6 @@ functionObjects/field/UBar/UBar.C
 functionObjects/field/viscoelasticWallShearStress/viscoelasticWallShearStress.C
 functionObjects/forces/viscoelasticForces/viscoelasticForces.C
 
+targetRe/targetReFvPatchVectorField.C
+
 LIB = $(FOAM_USER_LIBBIN)/libviscoelasticTransportModels

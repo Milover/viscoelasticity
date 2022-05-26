@@ -68,6 +68,57 @@ Foam::LPTT::LPTT
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
+Foam::tmp<Foam::volScalarField> Foam::LPTT::eta() const
+{
+    tmp<volScalarField> teta
+	(
+		new volScalarField
+		(
+			IOobject
+			(
+				"eta" + name(),
+				tau_.time().timeName(),
+				tau_.mesh(),
+				IOobject::NO_READ,
+				IOobject::NO_WRITE
+			),
+			tau_.mesh(),
+			etaS_ + etaP_,
+			extrapolatedCalculatedFvPatchField<scalar>::typeName
+		)
+    );
+	volScalarField& eta = teta.ref();
+	eta.correctBoundaryConditions();
+
+    return teta;
+}
+
+Foam::tmp<Foam::volScalarField> Foam::LPTT::etaS() const
+{
+    tmp<volScalarField> tetaS
+	(
+		new volScalarField
+		(
+			IOobject
+			(
+				"etaS" + name(),
+				tau_.time().timeName(),
+				tau_.mesh(),
+				IOobject::NO_READ,
+				IOobject::NO_WRITE
+			),
+			tau_.mesh(),
+			etaS_,
+			extrapolatedCalculatedFvPatchField<scalar>::typeName
+		)
+    );
+	volScalarField& etaS = tetaS.ref();
+	etaS.correctBoundaryConditions();
+
+    return tetaS;
+}
+ 
+
 Foam::tmp<Foam::fvVectorMatrix> Foam::LPTT::divTau
 (
 	const volVectorField& U

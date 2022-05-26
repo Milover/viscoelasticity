@@ -120,6 +120,18 @@ public:
             return tau_;
         }
 
+        //- Return the viscosity
+        virtual tmp<volScalarField> eta() const
+		{
+			return eta_;
+		}
+
+        //- Return the solvent viscosity
+        virtual tmp<volScalarField> etaS() const
+		{
+			return eta();
+		}
+
         //- Return the coupling term for the momentum equation
         virtual tmp<fvVectorMatrix> divTau(const volVectorField& U) const;
 

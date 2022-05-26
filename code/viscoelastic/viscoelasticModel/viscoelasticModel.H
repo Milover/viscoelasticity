@@ -96,6 +96,9 @@ public:
 
     // Member Functions
 
+        //- Return the viscosity
+        virtual tmp<volScalarField> eta() const;
+
         //- Return the viscoelastic stress tensor
         virtual tmp<volSymmTensorField> tau() const;
 

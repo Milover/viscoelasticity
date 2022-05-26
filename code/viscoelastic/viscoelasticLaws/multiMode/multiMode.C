@@ -83,6 +83,56 @@ Foam::multiMode::multiMode
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
+Foam::tmp<Foam::volScalarField> Foam::multiMode::eta() const
+{
+	tmp<volScalarField> tetaP = etaS();
+	volScalarField& etaP = tetaP.ref();
+
+	etaP *= 0.0;
+	etaP.correctBoundaryConditions();
+
+	for (const auto& m : models_)
+    {
+        etaP += m.eta() - m.etaS();
+    }
+
+	return etaP + etaS();
+}
+
+
+Foam::tmp<Foam::volScalarField> Foam::multiMode::etaS() const
+{
+    tmp<volScalarField> tetaS
+	(
+		new volScalarField
+		(
+			IOobject
+			(
+				"etaS" + name(),
+				tau_.time().timeName(),
+				tau_.mesh(),
+				IOobject::NO_READ,
+				IOobject::NO_WRITE
+			),
+			tau_.mesh(),
+			dimensionedScalar("etaS", dimDynamicViscosity, Zero),
+			extrapolatedCalculatedFvPatchField<scalar>::typeName
+		)
+    );
+	volScalarField& etaS = tetaS.ref();
+	label n = Zero;
+
+	for (const auto& m : models_)
+    {
+		++n;
+        etaS += (m.etaS() - etaS) / static_cast<scalar>(n);
+    }
+	etaS.correctBoundaryConditions();
+
+    return tetaS;
+}
+
+
 Foam::tmp<Foam::fvVectorMatrix> Foam::multiMode::divTau
 (
 	const volVectorField& U

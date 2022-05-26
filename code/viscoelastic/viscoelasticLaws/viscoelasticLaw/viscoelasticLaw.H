@@ -183,6 +183,12 @@ public:
         //- Return the viscoelastic stress tensor
         virtual tmp<volSymmTensorField> tau() const = 0;
 
+        //- Return the viscosity
+        virtual tmp<volScalarField> eta() const = 0;
+
+        //- Return the solvent viscosity
+        virtual tmp<volScalarField> etaS() const = 0;
+
         //- Return the coupling term for the momentum equation
         virtual tmp<fvVectorMatrix> divTau(const volVectorField& U) const = 0;
 
