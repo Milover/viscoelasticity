@@ -85,8 +85,10 @@ viscosity	0.0;		// (effective) dynamic viscosity
 	viscosity	0.0035;				// generally used for blood, but undefined in the paper
 #endif
 #ifeq $rheo_model CarreauYasuda;
-	// TODO: compute
-	viscosity	0.0;				// effective viscosity (see test/simset.effective_viscosity.tar.xz)
+	// effective viscosity (see test/simset.effective_viscosity.tar.xz)
+	viscosity	#eval{ 2.416254086e-01
+					 - 2.328932332e-04*$Re
+					 + 1.995336941e-07*sqr($Re)};
 #endif
 #ifeq $rheo_model multiMode;
 	viscosity	0.0548;				// as per the paper
