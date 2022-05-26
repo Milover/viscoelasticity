@@ -17,7 +17,9 @@ FoamFile
 
 numberOfSubdomains	16;
 
-method				hierarchical;
+// BUG: fix for v2012, where certain decompositions crash the sim
+//method				hierarchical;
+method				scotch;
 
 hierarchicalCoeffs
 {
