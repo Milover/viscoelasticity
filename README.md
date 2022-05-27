@@ -13,7 +13,7 @@ More stuff to be added at a later point.
 
 - [ ] add links and references
 - [x] implement a transient solver
-	- [ ] set up transient case template
+	- [x] set up transient case template
 - [ ] finish 3D mesh
 	- [ ] 3D mesh independence test
 - [ ] extract data from the [paper][ChahuanSasmal]
