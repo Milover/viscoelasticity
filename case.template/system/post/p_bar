@@ -17,7 +17,7 @@ p_bar
 #endif
 	log				false;
 
-	URef			#eval{ mag($[(vector) u_max]) };
+	URef			#eval{ mag($[(vector) u_avg]) };
 }
 
 // ************************************************************************* //
