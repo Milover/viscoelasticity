@@ -15,10 +15,16 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+#include		"<constant>/caseSetup"
+
 ddtSchemes
 {
-	//default			CrankNicolson 0.9;
+#ifeq $:sim_type "steady";
 	default				steadyState;
+#endif
+#ifeq $:sim_type "transient";
+	default			CrankNicolson 0.9;
+#endif
 }
 
 gradSchemes

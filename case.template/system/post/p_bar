@@ -9,8 +9,12 @@
 p_bar
 {
 	type			pBar;
-	writeControl	onEnd;
-	//writeInterval	$long_write;
+#ifeq $:sim_type "steady";
+	writeControl    onEnd;
+#endif
+#ifeq $:sim_type "transient";
+	writeControl    writeTime;
+#endif
 	log				false;
 
 	URef			#eval{ mag($[(vector) u_max]) };

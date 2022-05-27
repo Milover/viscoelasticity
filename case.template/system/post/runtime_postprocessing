@@ -10,8 +10,12 @@ runtime_postprocessing.0
 {
 	type            runTimePostProcessing;
 	libs            ("$FOAM_USER_LIBBIN/sys-openmpi/librunTimePostProcessing.so");
+#ifeq $:sim_type "steady";
 	writeControl    onEnd;
-	//writeInterval   $long_write;
+#endif
+#ifeq $:sim_type "transient";
+	writeControl    writeTime;
+#endif
 	output
 	{
 		name        image;

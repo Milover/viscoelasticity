@@ -46,14 +46,31 @@ Re			200;					// 50/200, see the paper (1 seems boring)
 geo_config	"M2";					// M0/M1/M2, see the paper
 
 // set (stenosis) mesh cell count
-ncZ		240;						// No. cells in axial direction
-ncR		60;							// No. cells in radial direction
+ncZ			240;					// No. cells in axial direction
+ncR			60;						// No. cells in radial direction
 
 // set rheological model
 rheo_model	multiMode;				// Newtonian/CarreauYasuda/multiMode
 
 // set case type (axisymmetric/full geometry)
 case_type	"2D";					// 2D/3D
+
+// set sim type (steady/unsteady)
+sim_type	"steady";				// steady/transient
+
+// * * * * * * * * * * * * * * Transient Setup * * * * * * * * * * * * * * * //
+
+// set number of sim cycles
+nCyc		6;
+
+// set Womersley number
+Wo			10;						// see the paper
+
+// set 'unsteady ratio'
+Phi			1;						// see the paper
+
+// set CFL number
+CFL			1;						// could probably make this higher
 
 // * * * * * * * * * * * * * * * * * Logic * * * * * * * * * * * * * * * * * //
 
@@ -101,6 +118,12 @@ u_avg		#eval{ vector($Re*$viscosity / (2*$R*$density), 0, 0) };
 
 // peak velocity, as per Hagen-Poiseuille flow solution
 u_max		#eval{ 2*$[(vector) u_avg] };
+
+// amplitude
+amp			#eval{ mag($[(vector) u_avg]) * $Phi };
+
+// frequency
+freq		#eval{ $viscosity * sqr($Wo / $Re) * (2 * pi()) };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

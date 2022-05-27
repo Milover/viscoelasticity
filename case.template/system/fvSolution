@@ -156,8 +156,8 @@ PIMPLE
 	correctPhi			false;
 	momentumPredictor	true;
 
-	nOuterCorrectors	250;
-	nCorrectors			1;
+	nOuterCorrectors	1;
+	nCorrectors			3;
 	nNonOrthogonalCorrectors 0;
 
 	consistent			false;

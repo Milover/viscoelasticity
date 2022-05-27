@@ -6,7 +6,7 @@
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 
-convergence.field_min_max
+cont.field_min_max
 {
 	type			fieldMinMax;
 	libs			("libfieldFunctionObjects.so");

@@ -10,8 +10,12 @@ stream_line
 {
     type  streamLine;
     libs  (	"libfieldFunctionObjects.so" );
+#ifeq $:sim_type "steady";
 	writeControl    onEnd;
-	//writeInterval   $long_write;
+#endif
+#ifeq $:sim_type "transient";
+	writeControl    writeTime;
+#endif
 
     setFormat       vtk;
 

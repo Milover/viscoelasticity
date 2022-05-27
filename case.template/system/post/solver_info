@@ -6,7 +6,7 @@
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 
-convergence.solver_info
+cont.solver_info
 {
 	type			solverInfo;
 	libs			("libutilityFunctionObjects.so");
