@@ -10,8 +10,12 @@ single_graph.axial
 {
 	type			sets;
 	libs			( "libsampling.so" );
-	writeControl	onEnd;
-	//writeInterval   $short_write;
+#ifeq $:sim_type "steady";
+	writeControl    onEnd;
+#endif
+#ifeq $:sim_type "transient";
+	writeControl    writeTime;
+#endif
 	setFormat		csv;
 
 	interpolationScheme	cellPoint;
@@ -34,8 +38,12 @@ single_graph.radial
 {
 	type			sets;
 	libs			( "libsampling.so" );
-	writeControl	onEnd;
-	//writeInterval   $short_write;
+#ifeq $:sim_type "steady";
+	writeControl    onEnd;
+#endif
+#ifeq $:sim_type "transient";
+	writeControl    writeTime;
+#endif
 	setFormat		csv;
 
 	interpolationScheme	cellPoint;

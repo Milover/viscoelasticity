@@ -17,35 +17,56 @@ _viscoelastic_forces
 
 // * * * * * * * * * * * * * * * * Sampling  * * * * * * * * * * * * * * * * //
 
-convergence.viscoelastic_forces.stenosis
-{
-	${_viscoelastic_forces}
+#ifeq $:sim_type "steady";
+	cont.viscoelastic_forces.stenosis
+	{
+		${_viscoelastic_forces}
 
-	executeControl	timeStep;
-	executeInterval	$short_write;
+		executeControl	timeStep;
+		executeInterval	$short_write;
 
-	patches			( wall.stenosis );
-}
+		patches			( wall.stenosis );
+	}
 
-viscoelastic_forces.stenosis
-{
-	${_viscoelastic_forces}
+	end.viscoelastic_forces.stenosis
+	{
+		${_viscoelastic_forces}
 
-	executeControl	onEnd;
-	writeControl	onEnd;
+		executeControl	onEnd;
+		writeControl	onEnd;
 
-	patches			( wall.stenosis );
-}
+		patches			( wall.stenosis );
+	}
 
-viscoelastic_forces.wall
-{
-	${_viscoelastic_forces}
+	end.viscoelastic_forces.wall
+	{
+		${_viscoelastic_forces}
 
-	executeControl	onEnd;
-	writeControl	onEnd;
+		executeControl	onEnd;
+		writeControl	onEnd;
 
-	patches			( "wall.*" );
-}
+		patches			( "wall.*" );
+	}
+#endif
+#ifeq $:sim_type "transient";
+	cont.viscoelastic_forces.stenosis
+	{
+		${_viscoelastic_forces}
+
+		executeControl	writeTime;
+
+		patches			( wall.stenosis );
+	}
+
+	cont.viscoelastic_forces.wall
+	{
+		${_viscoelastic_forces}
+
+		executeControl	writeTime;
+
+		patches			( "wall.*" );
+	}
+#endif
 
 // * * * * * * * * * * * * * * * * Cleanup * * * * * * * * * * * * * * * * * //
 

@@ -9,8 +9,12 @@
 viscoelastic_wall_shear_stress
 {
 	type			viscoelasticWallShearStress;
-	writeControl	onEnd;
-	//writeInterval	$long_write;
+#ifeq $:sim_type "steady";
+	writeControl    onEnd;
+#endif
+#ifeq $:sim_type "transient";
+	writeControl    writeTime;
+#endif
 	log				false;
 
 	patches			( "wall.*" );

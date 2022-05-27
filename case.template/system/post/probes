@@ -26,7 +26,7 @@ _probes
 
 // * * * * * * * * * * * * * * * * Sampling  * * * * * * * * * * * * * * * * //
 
-convergence.probes
+cont.probes
 {
 	${_probes}
 
@@ -34,12 +34,14 @@ convergence.probes
 	writeInterval	$short_write;
 }
 
-probes
-{
-	${_probes}
+#ifeq $:sim_type "steady";
+	end.probes
+	{
+		${_probes}
 
-	writeControl	onEnd;
-}
+		writeControl	onEnd;
+	}
+#endif
 
 // * * * * * * * * * * * * * * * * Cleanup * * * * * * * * * * * * * * * * * //
 

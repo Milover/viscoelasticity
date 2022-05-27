@@ -20,7 +20,12 @@ FoamFile
 short_write		5;
 long_write		100;
 
-application		viscoelasticSimpleFoam;
+#ifeq $:sim_type "steady";
+	application		viscoelasticSimpleFoam;
+#endif
+#ifeq $:sim_type "transient";
+	application		viscoelasticPimpleFoam;
+#endif
 
 startFrom		startTime;
 
@@ -28,13 +33,24 @@ startTime		0;
 
 stopAt			endTime;
 
-endTime			5000;
+#ifeq $:sim_type "steady";
+	endTime			5000;
 
-deltaT			1;
+	deltaT			1;
 
-writeControl	timeStep;
+	writeControl	timeStep;
 
-writeInterval	$long_write;
+	writeInterval	$long_write;
+#endif
+#ifeq $:sim_type "transient";
+	endTime			#eval{ $:nCyc / $:freq };
+
+	deltaT			#eval{ $:CFL * (($:R-$:a)/$:ncZ) / mag($[(vector) u_max]) };
+
+	writeControl	adjustableRunTime;
+
+	writeInterval	#eval{ 0.25 / $:freq };
+#endif
 
 purgeWrite		5;
 
@@ -48,7 +64,11 @@ timeFormat		general;
 
 timePrecision	6;
 
-runTimeModifiable yes;
+runTimeModifiable true;
+
+adjustTimeStep	true;
+
+maxCo			0.5;
 
 functions
 {
