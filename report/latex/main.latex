@@ -417,7 +417,7 @@ from~\cite{Chauhan-S:Rheology:2021}.
 	\disregard{\item define flow rate variation for the transient cases} --- done
 	%
 	\disregard{\item fit Carreau-Yasuda model parameters to data
-	from~\cite{Chauhan-S:Rheology:2021}} --- done
+	from~\cite{Yeleswarapu-AKR:Blood:1998}} --- done
 	%
 	\disregard{\item add relevant literature for Carreau-Yasuda model (and stuff proving
 	common use in hemodynamics)}
