@@ -361,7 +361,7 @@ following setup:
 		%
 		\item Newtonian ($\mu = \const$)
 		%
-		\item generalized Newtonian (Carreau-Yasuda, see~\textbf{??})
+		\item generalized Newtonian (Carreau-Yasuda)
 		%
 		\item viscoelastic (multi-mode sPTT, see~\cite{Thien-T:Constitutive:1977})
 		%
@@ -381,14 +381,16 @@ and 3D cases:
 	%
 	\item perform simulations at $Re \in \{50, 200 \}$
 	%
-	\item using data from~\cite{Chauhan-S:Rheology:2021} for model parameter
-	fitting, include three different transport models for blood:
+	\item using data from~\cite{Yeleswarapu-AKR:Blood:1998} for model parameter
+	fitting (sPTT model parameters taken directly
+	from~\cite{Chauhan-S:Rheology:2021}), include three different transport
+	models for blood:
 	%
 	\begin{itemize}
 		%
 		\item Newtonian ($\mu = \const$)
 		%
-		\item generalized Newtonian (Carreau-Yasuda, see~\textbf{??})
+		\item generalized Newtonian (Carreau-Yasuda)
 		%
 		\item viscoelastic (multi-mode sPTT, see~\cite{Thien-T:Constitutive:1977})
 		%
@@ -408,17 +410,17 @@ from~\cite{Chauhan-S:Rheology:2021}.
 	%
 	\disregard{\item define how mesh independence will be determined} --- done
 	%
-	\item extract and provide comparison data from~\cite{Chauhan-S:Rheology:2021} --- partially done
+	\disregard{\item extract and provide comparison data from~\cite{Chauhan-S:Rheology:2021}} --- done
 	%
 	\disregard{\item define values to be monitored (sections, probe locations, graphs, etc.)} --- done
 	%
-	\item define flow rate variation for the transient cases
+	\disregard{\item define flow rate variation for the transient cases} --- done
 	%
 	\disregard{\item fit Carreau-Yasuda model parameters to data
 	from~\cite{Chauhan-S:Rheology:2021}} --- done
 	%
-	\item add relevant literature for Carreau-Yasuda model (and stuff proving
-	common use in hemodynamics)
+	\disregard{\item add relevant literature for Carreau-Yasuda model (and stuff proving
+	common use in hemodynamics)}
 	%
 \end{enumerate}
 

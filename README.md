@@ -11,12 +11,12 @@ More stuff to be added at a later point.
 
 ## TODO
 
-- [ ] add links and references
+- [x] add links and references
 - [x] implement a transient solver
 	- [x] set up transient case template
 - [ ] finish 3D mesh
 	- [ ] 3D mesh independence test
-- [ ] extract data from the [paper][ChahuanSasmal]
+- [x] extract data from the [paper][ChahuanSasmal]
 - [ ] set up automated testing for different versions
 
 [ChahuanSasmal]: https://doi.org/10.1016/j.ijengsci.2021.103565
