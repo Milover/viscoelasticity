@@ -25,7 +25,17 @@ decompose()
 
 mesh()
 {
-	runApplication -o blockMesh -dict "system/blockMeshDict"
+	# check the case type
+	case_type=$(foamDictionary -entry case_type -value constant/caseSetup)
+
+	if [ $case_type == '"3D"' ]; then
+		runApplication -o blockMesh -dict "system/blockMeshDict"
+
+		# mirror around yz-plane
+		# revolve
+	else
+		runApplication -o blockMesh -dict "system/blockMeshDict"
+	fi
 }
 
 make_paraview_file()
@@ -56,6 +66,10 @@ application=$(getApplication)
 
 # clean
 #./Allclean
+
+# NOTE: due to write precision issues
+# expand the controlDict
+foamDictionary -precision 12 -expand system/.controlDict > system/controlDict
 
 # reset
 restore0Dir
