@@ -15,7 +15,7 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains	16;
+numberOfSubdomains	4;
 
 // BUG: fix for v2012, where certain decompositions crash the sim
 //method				hierarchical;
@@ -23,7 +23,7 @@ method				scotch;
 
 hierarchicalCoeffs
 {
-	n				( 16 1 1 );
+	n				( 4 1 1 );
 	delta			0.001;
 	order			xyz;
 }

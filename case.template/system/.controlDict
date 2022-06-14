@@ -56,13 +56,13 @@ purgeWrite		5;
 
 writeFormat		binary;
 
-writePrecision	6;
+writePrecision	12;
 
 writeCompression false;
 
 timeFormat		general;
 
-timePrecision	6;
+timePrecision	12;
 
 runTimeModifiable true;
 

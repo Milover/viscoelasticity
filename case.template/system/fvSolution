@@ -90,6 +90,7 @@ solvers
 		tolerance				1e-07;
 		relTol					0;
 	}
+
 /*
 	"(U|tau.*)"
 	{
@@ -159,8 +160,8 @@ PIMPLE
 	momentumPredictor	true;
 
 	nOuterCorrectors	1;
-	nCorrectors			3;
-	nNonOrthogonalCorrectors 0;
+	nCorrectors			5;
+	nNonOrthogonalCorrectors 1;
 
 	consistent			false;
 
