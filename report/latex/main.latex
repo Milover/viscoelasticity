@@ -261,7 +261,7 @@ Chauhan-S:Rheology:2021}:
 %
 \begin{equation*}
 %
-\frac{r}{R_0} = 1 - \frac{a}{2R_0} \left[1 + \cos\left(\frac{\pi z}{b}\right) \right] -b, \quad -b \leq z \leq b
+\frac{r}{R_0} = 1 - \frac{a}{2R_0} \left[1 + \cos\left(\frac{\pi z}{b}\right) \right], \quad -b \leq z \leq b
 %
 \end{equation*}
 %
