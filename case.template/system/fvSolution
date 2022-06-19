@@ -90,7 +90,6 @@ solvers
 		tolerance				1e-07;
 		relTol					0;
 	}
-
 /*
 	"(U|tau.*)"
 	{
@@ -141,19 +140,6 @@ solvers
 	}
 }
 
-SIMPLE
-{
-	nNonOrthogonalCorrectors 0;
-	consistent			false;
-
-	residualControl
-	{
-		U				1e-4;
-		p				1e-4;
-		"tau.*"			1e-4;
-	}
-}
-
 PIMPLE
 {
 	correctPhi			false;
@@ -164,45 +150,7 @@ PIMPLE
 	nNonOrthogonalCorrectors 1;
 
 	consistent			false;
-
-	residualControl
-	{
-		U
-		{
-			tolerance	1e-4;
-			relTol		0;
-		}
-		p
-		{
-			tolerance	1e-3;
-			relTol		0;
-		}
-		tau
-		{
-			tolerance	1e-3;
-			relTol		0;
-		}
-	}
 }
-
-// NOTE: piso-mode for transient sims, so no under-relaxation
-#ifeq $:sim_type "steady";
-	relaxationFactors
-	{
-		fields
-		{
-			p			0.3;
-			".*Final"	1;
-		}
-
-		equations
-		{
-			U			0.6;
-			"tau.*"		0.3;
-			".*Final"	1;
-		}
-	}
-#endif
 
 cache
 {
