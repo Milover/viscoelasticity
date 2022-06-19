@@ -1,0 +1,62 @@
+#!/bin/bash
+
+# run from this directory
+cd ${0%/*} || exit 1
+
+# exit on error
+set -e
+
+#------------------------------------------------------------------------------
+
+SIM="steady"
+
+#------------------------------------------------------------------------------
+
+setup()
+{
+	sed -i -e "s/^Re.*/Re\t\t\t$2;/" \
+		   -e "s/^geo_config.*/geo_config\t\"$3\";/" \
+		   -e "s/^rheo_model.*/rheo_model\t$4;/" \
+		   -e "s/^sim_type.*/sim_type\t\"$SIM\";/" \
+		   "$1"
+}
+
+store()
+{
+	mkdir store
+
+	# move logs and directories
+	mv postProcessing \
+	   constant/polyMesh \
+	   log.* \
+	   store/
+
+	# move results
+	ls -1 | grep -e "[0-9]\+$" | xargs -I{} mv "{}" store/
+}
+
+#------------------------------------------------------------------------------
+
+reynolds=(50 200)
+geometry=("M0" "M1" "M2")
+rheology=("Newtonian" "CarreauYasuda" "multiMode")
+
+for re in ${reynolds[@]}; do
+	for geo in ${geometry[@]}; do
+		for rheo in ${rheology[@]}; do
+
+			g="$(echo "$geo" | tr [:upper:] [:lower:])"
+			r="$(echo "$rheo" | tr [:upper:] [:lower:])"
+			current="case.$g.re_$re.$r"
+
+			cp -r "../case.template" "./$current"
+
+			(cd "$current" && setup "constant/caseSetup" "$re" "$geo" "$rheo" && ./Allrun && store) &
+		done
+	done
+done
+
+
+
+
+#------------------------------------------------------------------------------

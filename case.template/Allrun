@@ -79,11 +79,13 @@ restore0Dir
 # preprocess
 make_paraview_file
 mesh
-decompose
-renumber
+runApplication -o renumberMesh -overwrite -latestTime
+runApplication -o $application
+#decompose
+#renumber
 
 # run
-runParallel -o $application
+#runParallel -o $application
 
 # reconstruct
 #runApplication -o reconstructPar -latestTime
