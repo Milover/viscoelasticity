@@ -498,7 +498,8 @@ void Foam::functionObjects::viscoelasticForces::calcForcesMoment()
 			rho()*Sfb[patchi]*(p.boundaryField()[patchi] - pRef)
 		);
 
-		vectorField fT(Sfb[patchi] & taub[patchi]);
+		// reverse the normal to get the force on the wall
+		vectorField fT(-Sfb[patchi] & taub[patchi]);
 
 		addToFields(patchi, Md, fN, fT);
 
