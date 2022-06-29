@@ -33,6 +33,7 @@ lnInclude
 **/cellDist
 *.foam
 log.*
+**/simset\.*/case\.*
 
 # random resources
 vagrant
